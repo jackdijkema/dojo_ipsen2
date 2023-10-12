@@ -19,10 +19,14 @@ public class UserDAO implements UserDetailsService {
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     public User save(User user) {
         return userRepository.save(user);
     }
+
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
