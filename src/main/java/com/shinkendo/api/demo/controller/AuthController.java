@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/api/v1/auth")
 @RequiredArgsConstructor
@@ -19,7 +21,14 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<ApiResponse<TokenResponse>> register(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(authenticationService.register(request)));
+        Optional<TokenResponse> tokenResponse = authenticationService.register(request);
+
+        // noinspection OptionalIsPresent
+        if (tokenResponse.isEmpty()) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>("User already exists"));
+        }
+
+        return ResponseEntity.ok(new ApiResponse<>(tokenResponse.get()));
     }
 
     @PostMapping(value = "/login")

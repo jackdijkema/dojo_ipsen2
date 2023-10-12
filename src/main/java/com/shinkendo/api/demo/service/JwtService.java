@@ -1,12 +1,11 @@
 package com.shinkendo.api.demo.service;
 
-import com.shinkendo.api.demo.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -17,7 +16,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "zNv0GDzxDcPqQSPd7wMfZkuHD6RxIiAOvbp6+JQMsUWC/QgmFm90mEFw1xhYX3vxbvzvRMOnUfLSkL+iU6eLeTQMYWuXnpyT4hUNIaOUW4wzmn1A5EZoCMrFiVEweAvEtoCawF9gXyAjDqyXa8kyIQ0MRc5ArzRHC9toEeFpYW4iOA6ZOMURB/m6wytUUlI+5UfCPgl/ZMNi7gM9b3v3SN1kla+Ra50I69f5p3YyZ3jmwOxlr/pMdyl0VRZPePZ3uA6N8XOdtws12Jmw/bQAJgB6xQEtHONDqrlYyRoDU4NgcJDsE+5xVygcPAzhQnOzOpVNSuOsZMKvnTQiPwyWNg==";
+    @Value("${jwt.secret-key}")
+    private String secretKey;
 
     public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -62,7 +62,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

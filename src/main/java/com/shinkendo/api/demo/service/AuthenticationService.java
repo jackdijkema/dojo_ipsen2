@@ -21,10 +21,10 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public TokenResponse register(AuthenticationRequest request) {
+    public Optional<TokenResponse> register(AuthenticationRequest request) {
         Optional<User> foundUser = userDAO.findByUsername(request.getUsername());
         if (foundUser.isPresent()) {
-
+            return Optional.empty();
         }
 
         User user = User.builder()
@@ -34,7 +34,7 @@ public class AuthenticationService {
                 .build();
         userDAO.save(user);
         String token = jwtService.generateToken(user.getId());
-        return new TokenResponse(token);
+        return Optional.of(new TokenResponse(token));
     }
 
     public TokenResponse login(AuthenticationRequest request) {

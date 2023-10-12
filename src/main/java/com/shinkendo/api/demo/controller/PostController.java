@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/v1/ posts")
+@RequestMapping(value = "/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostDAO postDAO;
