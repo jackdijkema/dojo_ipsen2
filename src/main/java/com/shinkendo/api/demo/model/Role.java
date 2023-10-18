@@ -1,7 +1,8 @@
 package com.shinkendo.api.demo.model;
 
 public enum Role {
-    USER,
-    ADMIN,
-    SUPERADMIN
+    STUDENT,
+    SUPERADMIN,
+    SENSEI,
+    USER // ik denk dat dit weg kan
 }
