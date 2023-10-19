@@ -37,6 +37,7 @@ public class PostController {
         return new ApiResponse<>(post.get());
     }
 
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     @ResponseBody
     public ApiResponse<Post> insert(@RequestBody Post newPost) {
