@@ -1,10 +1,13 @@
 package com.shinkendo.api.demo.dto;
 
 import com.shinkendo.api.demo.model.Role;
+import com.shinkendo.api.demo.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Optional;
 
 
@@ -15,12 +18,4 @@ import java.util.Optional;
 public class UserDTO {
     private Optional<String> username = Optional.empty();
     private Optional<Role> role = Optional.empty();
-
-    public Optional<String> getUsername() {
-        return username;
-    }
-
-    public Optional<Role> getRole() {
-        return role;
-    }
 }

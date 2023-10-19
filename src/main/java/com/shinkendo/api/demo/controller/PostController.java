@@ -6,6 +6,7 @@ import com.shinkendo.api.demo.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,31 +15,32 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/api/v1/posts")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('SENSEI')")
 public class PostController {
     private final PostDAO postDAO;
 
-    @GetMapping()
+    @GetMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse<List<Post>>> all() {
-        return new ResponseEntity<>(new ApiResponse<>(postDAO.findAll()), HttpStatus.OK);
+    public ApiResponse<List<Post>> all() {
+        return new ApiResponse<>(postDAO.findAll());
     }
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<ApiResponse<Post>> findById(@PathVariable UUID id) {
+    public ApiResponse<Post> findById(@PathVariable UUID id) {
         var post = postDAO.findById(id);
 
         // noinspection OptionalIsPresent
         if (post.isEmpty()) {
-            return new ResponseEntity<>(new ApiResponse<>("Post not found"), HttpStatus.NOT_FOUND);
+            return new ApiResponse<>("Post not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new ApiResponse<>(post.get()), HttpStatus.OK);
+        return new ApiResponse<>(post.get());
     }
 
-    @PostMapping()
+    @PostMapping
     @ResponseBody
-    public ResponseEntity<ApiResponse<Post>> insert(@RequestBody Post newPost) {
-        return new ResponseEntity<>(new ApiResponse<>(postDAO.insert(newPost)), HttpStatus.ACCEPTED);
+    public ApiResponse<Post> insert(@RequestBody Post newPost) {
+        return new ApiResponse<>(postDAO.insert(newPost), HttpStatus.ACCEPTED);
     }
 
 }
