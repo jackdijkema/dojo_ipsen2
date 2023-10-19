@@ -6,7 +6,6 @@ import com.shinkendo.api.demo.dto.UserResponse;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +19,7 @@ import java.util.UUID;
 public class UserController {
     private final UserDAO userDAO;
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PatchMapping(path = {"/{id}"})
     public void editStudent(@PathVariable("id") UUID id, @RequestBody UserDTO user) {
         // TODO: Zorg er voor dat alleen een admin dit kan oproepen

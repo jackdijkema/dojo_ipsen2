@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -44,15 +45,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        User user = userDAO.findById(UUID.fromString(userId)).orElseThrow(() -> new ServletException("User not found"));
-
-        if (!jwtService.isTokenValid(jwt, user.getId())) {
+        Optional<User> user = userDAO.findById(UUID.fromString(userId));
+        if (user.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        if (!jwtService.isTokenValid(jwt, user.get().getId())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.get().getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
