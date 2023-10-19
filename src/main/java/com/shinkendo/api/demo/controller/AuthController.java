@@ -5,6 +5,7 @@ import com.shinkendo.api.demo.dto.AuthenticationRequest;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +18,15 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<ApiResponse<TokenResponse>> register(@RequestBody AuthenticationRequest request) {
+    public ApiResponse<TokenResponse> register(@RequestBody AuthenticationRequest request) {
         Optional<TokenResponse> tokenResponse = authenticationService.register(request);
 
         // noinspection OptionalIsPresent
         if (tokenResponse.isEmpty()) {
-            return ResponseEntity.badRequest().body(new ApiResponse<>("User already exists"));
+            return new ApiResponse<>("User already exists", HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok(new ApiResponse<>(tokenResponse.get()));
+        return new ApiResponse<>(tokenResponse.get());
     }
 
     @PostMapping(value = "/login")

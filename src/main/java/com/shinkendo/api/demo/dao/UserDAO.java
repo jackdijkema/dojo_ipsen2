@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,6 +17,9 @@ import java.util.UUID;
 public class UserDAO implements UserDetailsService {
     private final UserRepository userRepository;
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
