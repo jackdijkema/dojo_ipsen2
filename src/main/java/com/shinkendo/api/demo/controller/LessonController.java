@@ -47,4 +47,15 @@ public class LessonController {
             return new ApiResponse<>("Failed to remove users", HttpStatus.BAD_REQUEST);
         }
     }
+
+    // Voegt een user toe aan een al bestaande les
+    @PostMapping("/add/{id}")
+    public ApiResponse<String> addUsersToLesson(@PathVariable UUID id, @RequestBody List<UUID> users) {
+        boolean success = lessonDao.addUsers(id, users);
+        if (success) {
+            return new ApiResponse<>("Users added successfully", HttpStatus.OK);
+        } else {
+            return new ApiResponse<>("Failed to add users", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

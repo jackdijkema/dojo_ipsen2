@@ -41,5 +41,22 @@ public class LessonDao extends Lesson {
         return true;
     }
 
+    public boolean addUsers(UUID lessonId, List<UUID> userIds) {
+        Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
+        if (optionalLesson.isEmpty()) {
+            return false;
+        }
+
+        Lesson lesson = optionalLesson.get();
+        Set<User> students = lesson.getStudents();
+        for (UUID userId : userIds) {
+            Optional<User> optionalUser = userDAO.findById(userId);
+            optionalUser.ifPresent(students::add);
+        }
+
+        lessonRepository.save(lesson);
+        return true;
+    }
+
 
 }
