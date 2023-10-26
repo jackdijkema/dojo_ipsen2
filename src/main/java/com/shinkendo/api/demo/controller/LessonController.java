@@ -4,6 +4,7 @@ import com.shinkendo.api.demo.dao.LessonDao;
 import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Lesson;
+import com.shinkendo.api.demo.model.LessonCreationRequest;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,18 +23,20 @@ public class LessonController {
     private final UserDAO userDAO;
 
     @PostMapping
-    private ApiResponse<Lesson> lessonController(@RequestBody List<UUID> users) {
-        List<User> usersList =  new ArrayList<>();
-        for (UUID i : users) {
+    private ApiResponse<Lesson> lessonController(@RequestBody LessonCreationRequest request) {
+        List<User> usersList = new ArrayList<>();
+        for (UUID i : request.getUsers()) {
             usersList.add(userDAO.findById(i).get());
         }
 
         Lesson newLesson = new Lesson();
+        newLesson.setName(request.getName());  // Set the name here
         newLesson.setStudents(new HashSet<>(usersList));
-        // Set other fields for newLesson
 
         return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
     }
+
+
     @DeleteMapping("/remove/{id}")
     public ApiResponse<String> removeUsersFromLesson(@PathVariable UUID id, @RequestBody List<UUID> users) {
         boolean success = lessonDao.removeUsers(id, users);

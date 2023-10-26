@@ -20,7 +20,6 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private int exerciseId; // Dit staat ook zo in Note.java, denk niet dat dit optimaal is tho
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
