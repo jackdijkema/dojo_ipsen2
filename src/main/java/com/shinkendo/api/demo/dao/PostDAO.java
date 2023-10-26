@@ -14,16 +14,13 @@ import java.util.UUID;
 public class PostDAO {
     private final PostRepository postRepository;
 
-
     public Optional<Post> findById(UUID id) {
         return postRepository.findById(id);
     }
-
     public List<Post> findAll() {
         return postRepository.findAll();
     }
-
-    public Post insert(Post newPost) {
+    public Post create(Post newPost) {
         return postRepository.save(newPost);
     }
 }

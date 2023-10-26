@@ -26,11 +26,9 @@ public class UserDAO implements UserDetailsService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
-    public User save(User user) {
+    public User create(User user) {
         return userRepository.save(user);
     }
-
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
