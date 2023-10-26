@@ -43,6 +43,6 @@ public class CurriculumController {
     @PostMapping
     @ResponseBody
     public ApiResponse<Curriculum> update(@RequestBody Curriculum updateCurriculum) {
-        return new ApiResponse<>(curriculumDAO.create(updateCurriculum), HttpStatus.ACCEPTED);
+        return new ApiResponse<>(curriculumDAO.update(updateCurriculum), HttpStatus.ACCEPTED);
     }
 }
