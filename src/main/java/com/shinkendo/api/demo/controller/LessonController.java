@@ -7,10 +7,7 @@ import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,5 +33,15 @@ public class LessonController {
         // Set other fields for newLesson
 
         return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
+    }
+    @DeleteMapping("/remove/{id}")
+    public ApiResponse<String> removeUsersFromLesson(@PathVariable UUID id, @RequestBody List<UUID> users) {
+        boolean success = lessonDao.removeUsers(id, users);
+        if (success) {
+            return new ApiResponse<>("Users removed successfully", HttpStatus.OK);
+        }
+        else {
+            return new ApiResponse<>("Failed to remove users", HttpStatus.BAD_REQUEST);
+        }
     }
 }
