@@ -38,7 +38,7 @@ public class TechniqueController {
     @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     @ResponseBody
-    public ApiResponse<Technique> insert(@RequestBody Technique technique) {
-        return new ApiResponse<>(techniqueDAO.save(technique), HttpStatus.ACCEPTED);
+    public ApiResponse<Technique> create(@RequestBody Technique technique) {
+        return new ApiResponse<>(techniqueDAO.create(technique), HttpStatus.ACCEPTED);
     }
 }
