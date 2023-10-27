@@ -12,7 +12,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NoteDAO {
 
-    private StudentNoteRepository studentNoteRepository;
+    private final StudentNoteRepository studentNoteRepository;
 
     public Note create(Note note) {
         note.setTimestamp(LocalDateTime.now());
@@ -30,7 +30,7 @@ public class NoteDAO {
         Note existingNote = studentNoteRepository.findById(id).orElse(null);
         if (existingNote != null) {
             existingNote.setTimestamp(edit.getTimestamp());
-            existingNote.setNoteContent(existingNote.getNoteContent());
+            existingNote.setNoteContent(edit.getNoteContent());
 
             return studentNoteRepository.save(existingNote);
         }

@@ -17,11 +17,13 @@ public class NoteController {
     private final NoteDAO noteDao;
 
     @PostMapping()
-    private ApiResponse<Note> studentNoteController(@RequestBody Note studentnote) {
+    @ResponseBody
+    private ApiResponse<Note> createNoteController(@RequestBody Note studentnote) {
         return new ApiResponse<>(noteDao.create(studentnote), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Note> getNoteById(@PathVariable UUID id) {
         Note note = noteDao.getNoteById(id);
 
@@ -31,6 +33,9 @@ public class NoteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping()
-    private ApiResponse<Note> student
+    @PutMapping("/{id}")
+    @ResponseBody
+    private ApiResponse<Note> editNoteController(@PathVariable UUID id, @RequestBody Note studentnote){
+        return new ApiResponse<>(noteDao.edit(id, studentnote), HttpStatus.OK);
+    }
 }
