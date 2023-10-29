@@ -23,6 +23,5 @@ public class Settings {
     private UUID studentId;
 
     private String newUsername;
-//    private boolean darkMode;
     private boolean emailNotifications;
 }

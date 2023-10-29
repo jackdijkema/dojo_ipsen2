@@ -2,20 +2,28 @@ package com.shinkendo.api.demo.dao;
 
 
 import com.shinkendo.api.demo.model.Settings;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shinkendo.api.demo.repository.SettingsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class SettingsDAO {
-    @Autowired
-    private SettingsDAO settingsDAO;
 
-    public Settings save(Settings settings) {
-        settings.setId(UUID.randomUUID());
+    private SettingsRepository settingsRepository;
 
-        return settingsDAO.save(settings);
+
+    public Optional<Settings> findByStudentId(UUID id){
+        return settingsRepository.findById(id);
     }
+
+    public Settings save(Settings settings){
+        return settingsRepository.save(settings);
+    }
+
+
 }
