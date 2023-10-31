@@ -1,11 +1,14 @@
 package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.UserDAO;
-import com.shinkendo.api.demo.dto.UserDTO;
-import com.shinkendo.api.demo.dto.UserResponse;
+import com.shinkendo.api.demo.dto.UserCreateDTO;
+import com.shinkendo.api.demo.dto.UserResponseDTO;
+import com.shinkendo.api.demo.mapper.UserMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
+import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,35 +21,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserDAO userDAO;
+    private final UserMapper userMapper;
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PatchMapping(path = {"/{id}"})
-    public void editStudent(@PathVariable("id") UUID id, @RequestBody UserDTO user) {
-        // TODO: Zorg er voor dat alleen een admin dit kan oproepen
+    public ApiResponse<UserResponseDTO> editUser(@PathVariable("id") UUID id, @RequestBody UserCreateDTO userRequestDTO) {
+        Optional<User> foundUser = userDAO.findById(id);
+        if(foundUser.isEmpty()) {
+            return new ApiResponse<>("User not found", HttpStatus.NOT_FOUND);
+        }
+        User user = foundUser.get();
 
-        User myUser = userDAO.findById(id).orElseThrow();
-        if (Optional.ofNullable(user.getUsername()).orElse(Optional.empty()).isPresent()) {
-            myUser.setUsername(user.getUsername().get());
+        if (userRequestDTO.getUsername() != null) {
+            user.setUsername(userRequestDTO.getUsername());
         }
-        if (Optional.ofNullable(user.getRole()).orElse(Optional.empty()).isPresent()) {
-            myUser.setRole(user.getRole().get());
+        if (userRequestDTO.getRole() != null) {
+            user.setRole(Role.valueOf(userRequestDTO.getRole()));
         }
-        userDAO.save(myUser);
+
+        User createdUser = userDAO.create(user);
+        return new ApiResponse<>(userMapper.fromEntity(createdUser));
     }
 
     @GetMapping
     @ResponseBody
-    public ApiResponse<List<UserResponse>> getUsers() {
-        List<UserResponse> res = userDAO
+    public ApiResponse<List<UserResponseDTO>> getUsers() {
+        List<UserResponseDTO> res = userDAO
             .findAll()
             .stream()
-            .map(s -> UserResponse
-                    .builder()
-                    .role(s.getRole())
-                    .username(s.getUsername())
-                    .id(s.getId())
-                    .build()
-            ).toList();
+            .map(userMapper::fromEntity)
+            .toList();
 
         return new ApiResponse<>(res);
     }

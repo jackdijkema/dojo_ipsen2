@@ -2,15 +2,15 @@ package com.shinkendo.api.demo.dao;
 
 import com.shinkendo.api.demo.model.Note;
 import com.shinkendo.api.demo.repository.StudentNoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
-public class NoteDao {
-    @Autowired
+@RequiredArgsConstructor
+public class NoteDAO {
     private StudentNoteRepository studentNoteRepository;
 
     public Note save(Note note) {

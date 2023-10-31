@@ -19,8 +19,10 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID studentId;
-    private int exerciseId;
+    //relation
+    private UUID userId;
+    //relation
+    private UUID lessonId;
 
     private String noteContent;
     private LocalDateTime timestamp;
