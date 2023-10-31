@@ -16,7 +16,6 @@ public class SettingsDAO {
 
     private SettingsRepository settingsRepository;
 
-
     public Optional<Settings> findByStudentId(UUID id){
         return settingsRepository.findById(id);
     }

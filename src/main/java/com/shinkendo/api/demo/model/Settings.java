@@ -18,8 +18,6 @@ import java.util.UUID;
 @Table(name = "settings")
 public class Settings {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
     private UUID studentId;
 
     private String newUsername;
