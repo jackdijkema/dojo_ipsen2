@@ -40,7 +40,7 @@ public class CurriculumController {
     }
 
     @PreAuthorize("hasAnyAuthority('SENSEI')")
-    @PostMapping
+    @PutMapping
     @ResponseBody
     public ApiResponse<Curriculum> update(@RequestBody Curriculum updateCurriculum) {
         return new ApiResponse<>(curriculumDAO.update(updateCurriculum), HttpStatus.ACCEPTED);
