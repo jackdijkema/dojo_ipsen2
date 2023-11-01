@@ -5,7 +5,6 @@ import com.shinkendo.api.demo.dto.CurriculumCreateDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.model.Curriculum;
 import com.shinkendo.api.demo.model.Technique;
-import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

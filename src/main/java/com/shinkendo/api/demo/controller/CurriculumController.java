@@ -6,7 +6,6 @@ import com.shinkendo.api.demo.mapper.CurriculumMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Curriculum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +29,7 @@ public class CurriculumController {
     public ApiResponse<Curriculum> findById(@PathVariable UUID id) {
         var curriculum = curriculumDAO.findById(id);
 
+        //noinspection OptionalIsPresent
         if (curriculum.isEmpty()) {
             return new ApiResponse<>("Curriculum not found", HttpStatus.NOT_FOUND);
         }
