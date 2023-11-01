@@ -23,4 +23,6 @@ public class Technique {
     private String japName;
     private String description;
     private String difficulty;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Curriculum curriculum;
 }

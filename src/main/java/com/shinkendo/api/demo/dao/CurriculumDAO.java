@@ -19,6 +19,5 @@ public class CurriculumDAO {
 
     public List<Curriculum> findAll() { return  curriculumRepository.findAll();}
 
-    public Curriculum create(Curriculum createCurriculum) { return curriculumRepository.save(createCurriculum);}
-    public Curriculum update(Curriculum updateCurriculum) { return curriculumRepository.save(updateCurriculum);}
+    public Curriculum save(Curriculum createCurriculum) { return curriculumRepository.save(createCurriculum);}
 }

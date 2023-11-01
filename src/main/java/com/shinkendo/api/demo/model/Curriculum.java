@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,8 +21,9 @@ public class Curriculum {
 
     private UUID id;
     private String name;
-    private String title;
     private String subTitle;
     private String body;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Technique> techniques;
 
 }

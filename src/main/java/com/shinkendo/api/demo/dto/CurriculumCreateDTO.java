@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -12,7 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class CurriculumCreateDTO {
-    private UUID curriculumId;
-    private String curriculumName;
-    private String curriculumJpName;
+    private String name;
+    private String sub;
+    private Set<UUID> techniqueIds;
+    private String body;
 }
