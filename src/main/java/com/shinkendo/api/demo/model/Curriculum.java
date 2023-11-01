@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -13,16 +14,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "technique")
-public class Technique {
-
+@Table(name = "curriculum")
+public class Curriculum {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID id;
     private String name;
-    private String japName;
-    private String description;
-    private String difficulty;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Curriculum curriculum;
+    private String subTitle;
+    private String body;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Technique> techniques;
+
 }
