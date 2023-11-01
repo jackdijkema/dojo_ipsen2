@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -14,16 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "note")
-public class Note {
+@Table(name = "technique")
+public class Technique {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    //relation
-    private UUID userId;
-    //relation
-    private UUID lessonId;
-
-    private String noteContent;
-    private LocalDateTime timestamp;
+    private String name;
+    private String japName;
+    private String description;
+    private String difficulty;
 }
