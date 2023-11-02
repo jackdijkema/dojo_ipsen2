@@ -7,7 +7,6 @@ import com.shinkendo.api.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -22,8 +21,11 @@ public class LessonDAO extends Lesson {
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
     }
+    public Optional<Lesson> findById(UUID id) {
+        return lessonRepository.findById(id);
+    }
 
-    public boolean removeUser(UUID lessonId, UUID userId) throws NotFoundException {
+    public void removeUser(UUID lessonId, UUID userId) throws NotFoundException {
         Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
         if (optionalLesson.isEmpty()) throw new NotFoundException("Lesson " + lessonId + ", Not found.");
 
@@ -40,10 +42,9 @@ public class LessonDAO extends Lesson {
         lesson.setStudents(newStudents);
 
         lessonRepository.save(lesson);
-        return true;
     }
 
-    public boolean addUser(UUID lessonId, UUID userId) throws NotFoundException {
+    public void addUser(UUID lessonId, UUID userId) throws NotFoundException {
         Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
         if (optionalLesson.isEmpty()) throw new NotFoundException("Lesson " + lessonId + ", Not found.");
 
@@ -56,7 +57,6 @@ public class LessonDAO extends Lesson {
         lesson.setStudents(students);
 
         lessonRepository.save(lesson);
-        return true;
     }
 
 

@@ -33,6 +33,12 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Lesson> lessons;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Lesson> teaches;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Note> notes;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

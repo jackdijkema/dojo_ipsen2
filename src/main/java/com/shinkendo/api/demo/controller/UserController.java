@@ -39,7 +39,7 @@ public class UserController {
             user.setRole(Role.valueOf(userRequestDTO.getRole()));
         }
 
-        User createdUser = userDAO.create(user);
+        User createdUser = userDAO.save(user);
         return new ApiResponse<>(userMapper.fromEntity(createdUser));
     }
 

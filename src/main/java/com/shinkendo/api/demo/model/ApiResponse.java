@@ -38,7 +38,6 @@ class ResponsePayload<T> {
     public ResponsePayload(T payload) {
         this.payload = payload;
     }
-
     public ResponsePayload(String message) {
         this.message = message;
     }

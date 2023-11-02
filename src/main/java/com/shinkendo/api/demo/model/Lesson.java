@@ -28,5 +28,6 @@ public class Lesson {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     Set<User> students;
 
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    User sensei;
 }

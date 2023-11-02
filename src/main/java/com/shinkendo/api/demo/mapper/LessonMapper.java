@@ -17,7 +17,7 @@ public class LessonMapper {
 
     public Lesson toEntity(LessonCreateDTO lessonCreateDTO) throws NotFoundException {
         HashSet<User> usersList = new HashSet<>();
-        for (UUID id : lessonCreateDTO.getUsers()) {
+        for (UUID id : lessonCreateDTO.getStudents()) {
             Optional<User> user = userDao.findById(id);
             if (user.isEmpty()) throw new NotFoundException("User" + id + ", Not found");
             usersList.add(user.get());

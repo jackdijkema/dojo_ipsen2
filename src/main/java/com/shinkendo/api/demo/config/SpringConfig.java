@@ -2,7 +2,6 @@ package com.shinkendo.api.demo.config;
 
 import com.shinkendo.api.demo.dao.UserDAO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,11 +25,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDAO userDAO;
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
