@@ -33,12 +33,8 @@ public class NoteDAO {
             existingNote.setNoteContent(edit.getNoteContent());
 
             return studentNoteRepository.save(existingNote);
-        }
-        else{
+        } else {
             return null;
+        }
     }
-}
-
-
-
 }

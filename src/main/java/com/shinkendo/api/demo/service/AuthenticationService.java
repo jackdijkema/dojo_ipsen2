@@ -1,8 +1,6 @@
 package com.shinkendo.api.demo.service;
 
 import com.shinkendo.api.demo.dao.UserDAO;
-import com.shinkendo.api.demo.dto.TokenResponse;
-import com.shinkendo.api.demo.dto.AuthenticationRequest;
 import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
@@ -21,27 +19,27 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public Optional<TokenResponse> register(AuthenticationRequest request) {
-        Optional<User> foundUser = userDAO.findByUsername(request.getUsername());
+    public Optional<String> register(String username, String password) {
+        Optional<User> foundUser = userDAO.findByUsername(username);
         if (foundUser.isPresent()) {
             return Optional.empty();
         }
 
         User user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .username(username)
+                .password(passwordEncoder.encode(password))
                 .role(Role.STUDENT)
                 .build();
-        userDAO.save(user);
+
+        userDAO.create(user);
         String token = jwtService.generateToken(user.getId());
-        return Optional.of(new TokenResponse(token));
+        return Optional.of(token);
     }
 
-    public TokenResponse login(AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    public String login(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        User user = userDAO.loadUserByUsername(request.getUsername());
-        String token = jwtService.generateToken(user.getId());
-        return new TokenResponse(token);
+        User user = userDAO.loadUserByUsername(username);
+        return jwtService.generateToken(user.getId());
     }
 }

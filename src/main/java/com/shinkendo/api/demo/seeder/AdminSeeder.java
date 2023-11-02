@@ -21,7 +21,7 @@ public class AdminSeeder {
     private String superAdminPassword;
 
     public void seed() {
-        this.userDAO.save(User.builder()
+        this.userDAO.create(User.builder()
                 .username(superAdminName)
                 .password(passwordEncoder.encode(superAdminPassword))
                 .role(Role.SUPERADMIN)

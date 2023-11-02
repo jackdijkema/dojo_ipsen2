@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -14,16 +14,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "note")
-public class Note {
+@Table(name = "lesson")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    //relation
-    private UUID userId;
-    //relation
-    private UUID lessonId;
+    private String name;
 
-    private String noteContent;
-    private LocalDateTime timestamp;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "lesson_user",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    Set<User> students;
+
+
 }

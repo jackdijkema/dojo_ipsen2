@@ -1,12 +1,12 @@
 package com.shinkendo.api.demo.controller;
 
-import com.shinkendo.api.demo.dto.TokenResponse;
-import com.shinkendo.api.demo.dto.AuthenticationRequest;
+import com.shinkendo.api.demo.dto.AuthRequestDTO;
+import com.shinkendo.api.demo.dto.AuthResponseDTO;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,20 +17,22 @@ import java.util.Optional;
 public class AuthController {
     private final AuthenticationService authenticationService;
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping(value = "/register")
-    public ApiResponse<TokenResponse> register(@RequestBody AuthenticationRequest request) {
-        Optional<TokenResponse> tokenResponse = authenticationService.register(request);
+    public ApiResponse<AuthResponseDTO> register(@RequestBody AuthRequestDTO loginDTO) {
+        Optional<String> tokenResponse = authenticationService.register(loginDTO.getUsername(), loginDTO.getPassword());
 
-        // noinspection OptionalIsPresent
         if (tokenResponse.isEmpty()) {
             return new ApiResponse<>("User already exists", HttpStatus.BAD_REQUEST);
         }
 
-        return new ApiResponse<>(tokenResponse.get());
+        String token = tokenResponse.get();
+        return new ApiResponse<>(new AuthResponseDTO(token));
     }
 
     @PostMapping(value = "/login")
-    public ApiResponse<TokenResponse> login(@RequestBody AuthenticationRequest request) {
-        return new ApiResponse<>(authenticationService.login(request));
+    public ApiResponse<AuthResponseDTO> login(@RequestBody AuthRequestDTO loginDTO) {
+        String token = authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        return new ApiResponse<>(new AuthResponseDTO(token));
     }
 }
