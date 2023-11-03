@@ -1,6 +1,8 @@
 package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.CurriculumDAO;
+import com.shinkendo.api.demo.dto.CurriculumCreateDTO;
+import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.CurriculumMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Curriculum;
@@ -71,5 +73,22 @@ public class CurriculumControllerTest {
         ApiResponse<Curriculum> responseInvalidId = curriculumController.findById(invalidId);
 
         assertEquals(HttpStatus.NOT_FOUND, responseInvalidId.getStatusCode());
+    }
+
+    @Test
+    public void testCreateCurriculum() throws NotFoundException {
+        // Mock data
+        CurriculumCreateDTO createDTO = new CurriculumCreateDTO("New Curriculum", "New Sub", new HashSet<>(), "New Body");
+        Curriculum createdCurriculum = new Curriculum(UUID.randomUUID(), "New Curriculum", "New Sub", "New Body", new HashSet<>());
+
+        when(curriculumMapper.toEntity(createDTO)).thenReturn(createdCurriculum);
+        when(curriculumDAO.save(createdCurriculum)).thenReturn(createdCurriculum);
+
+        // Test the API
+        ApiResponse<Curriculum> response = curriculumController.create(createDTO);
+        ApiResponse<Curriculum> expected = new ApiResponse<>(createdCurriculum, HttpStatus.ACCEPTED);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals(expected, response);
     }
 }
