@@ -5,11 +5,13 @@ import com.shinkendo.api.demo.dto.ProgressReviewDTO;
 import com.shinkendo.api.demo.mapper.ProgressReviewMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.ProgressReview;
+import com.shinkendo.api.demo.model.Technique;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +33,10 @@ public class ProgressReviewController {
             return new ApiResponse<>("Progress review not found", HttpStatus.NOT_FOUND);
         }
         return new ApiResponse<>(progressReview.get());
+    }
+
+    public ApiResponse<List<ProgressReview>> findAll() {
+        return new ApiResponse<>(progressReviewDAO.findAll());
     }
 
 
