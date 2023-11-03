@@ -5,6 +5,7 @@ import com.shinkendo.api.demo.repository.ProgressReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ import java.util.UUID;
 public class ProgressReviewDAO {
 
     ProgressReviewRepository progressReviewRepository;
+
+    public List<ProgressReview> findAll() {return progressReviewRepository.findAll();}
 
     public Optional<ProgressReview> findById(UUID id){
         return progressReviewRepository.findById(id);
