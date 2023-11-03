@@ -1,5 +1,6 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,13 @@ public class Curriculum {
     private String name;
     private String subTitle;
     private String body;
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("techniques")
     private Set<Technique> techniques;
+
+    @OneToOne
+    @JsonIgnoreProperties("techniques")
+    private Rank rank;
 
 }

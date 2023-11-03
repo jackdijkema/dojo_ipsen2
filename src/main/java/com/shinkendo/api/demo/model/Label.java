@@ -15,26 +15,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "technique")
-public class Technique {
+@Table(name = "label")
+public class Label {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private String japName;
-    private String description;
-    private String difficulty;
-
-    @ManyToMany
-    @JsonIgnoreProperties("techniques")
-    private Set<Lesson> lessons;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Curriculum curriculum;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Set<Label> labels;
+    @JoinTable(
+            name = "technique_label",
+            joinColumns = @JoinColumn(name = "technique_id"),
+            inverseJoinColumns = @JoinColumn(name = "label_id"))
+    @JsonIgnoreProperties("labels")
+    private Set<Technique> techniques;
 }

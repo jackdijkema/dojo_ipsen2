@@ -31,7 +31,7 @@ public class NoteMapper {
         return Note.builder()
                 .body(createNoteDTO.getBody())
                 .user(user.get())
-                .lesson(lesson.get())
+//                .lesson(lesson.get())
                 .build();
     }
 }
