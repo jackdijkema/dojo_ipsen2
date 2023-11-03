@@ -47,4 +47,29 @@ public class CurriculumControllerTest {
 
         assertEquals(response, expected);
     }
+
+    @Test
+    public void testRetrieveCurriculumById() {
+        // Mock data
+        UUID curriculumId = UUID.randomUUID();
+        Curriculum curriculum = new Curriculum(curriculumId, "Curriculum 1", "Sub 1", "Body 1", new HashSet());
+
+        when(curriculumDAO.findById(curriculumId)).thenReturn(Optional.of(curriculum));
+
+        // Test the API with a valid ID
+        ApiResponse<Curriculum> responseValidId = curriculumController.findById(curriculumId);
+
+
+        assertEquals(HttpStatus.OK, responseValidId.getStatusCode());
+        ApiResponse<Curriculum> expected = new ApiResponse<>(curriculum, HttpStatus.OK);
+        assertEquals(expected, responseValidId);
+
+        // Test the API with an invalid ID
+        UUID invalidId = UUID.randomUUID();
+        when(curriculumDAO.findById(invalidId)).thenReturn(Optional.empty());
+
+        ApiResponse<Curriculum> responseInvalidId = curriculumController.findById(invalidId);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseInvalidId.getStatusCode());
+    }
 }
