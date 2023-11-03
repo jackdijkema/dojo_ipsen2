@@ -1,8 +1,6 @@
 package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.CurriculumDAO;
-import com.shinkendo.api.demo.dto.CurriculumCreateDTO;
-import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.CurriculumMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Curriculum;
@@ -45,9 +43,8 @@ public class CurriculumControllerTest {
 
         // Test the API
         ApiResponse<List<Curriculum>> response = curriculumController.all();
-        ApiResponse<List<Curriculum>> returns = new ApiResponse<>(curriculumList, HttpStatus.OK);
+        ApiResponse<List<Curriculum>> expected = new ApiResponse<>(curriculumList, HttpStatus.OK);
 
-        assertEquals(response, returns);
+        assertEquals(response, expected);
     }
-
 }
