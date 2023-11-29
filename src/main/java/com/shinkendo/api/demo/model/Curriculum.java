@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,5 +33,6 @@ public class Curriculum {
     @OneToOne
     @JsonIgnoreProperties("techniques")
     private Rank rank;
+
 
 }
