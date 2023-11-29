@@ -39,6 +39,7 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("students")
     private Set<Lesson> lessons;
 
+
  /*   @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("teacher")
     private Set<Lesson> teaches;*/
@@ -50,6 +51,10 @@ public class User implements UserDetails {
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JsonIgnoreProperties("user")
 //    private Rank rank;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<ProgressReview> progressReviews;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
