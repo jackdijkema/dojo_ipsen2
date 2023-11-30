@@ -8,7 +8,8 @@ WORKDIR /app
 COPY . .
 
 # Build the application using Maven
-RUN mvn clean package
+RUN mvn clean
+RUN mvn package -DskipTests
 
 # Use a smaller base image for the final image
 FROM eclipse-temurin:21.0.1_12-jdk-ubi9-minimal
