@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,8 +32,8 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        userDAO.save(user);
-        String token = jwtService.generateToken(user.getId());
+        userDAO.create(user);
+        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId() );
         return Optional.of(token);
     }
 
@@ -40,6 +41,6 @@ public class AuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userDAO.loadUserByUsername(username);
-        return jwtService.generateToken(user.getId());
+        return jwtService.generateToken(Map.of("role", user.getRole()), user.getId());
     }
 }

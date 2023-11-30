@@ -20,6 +20,7 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ApiResponse<AuthResponseDTO> login(@RequestBody AuthRequestDTO loginDTO) {
         String token = authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+
         return new ApiResponse<>(new AuthResponseDTO(token));
     }
 }
