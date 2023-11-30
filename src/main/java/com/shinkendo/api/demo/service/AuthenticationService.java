@@ -32,7 +32,7 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        userDAO.create(user);
+        userDAO.save(user);
         String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId() );
         return Optional.of(token);
     }
