@@ -19,5 +19,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Column(length = 65535,columnDefinition="Text")
     private String body;
 }
