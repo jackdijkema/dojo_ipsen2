@@ -20,7 +20,7 @@ public class PostDAO {
     public List<Post> findAll() {
         return postRepository.findAll();
     }
-    public Post create(Post newPost) {
+    public Post save(Post newPost) {
         return postRepository.save(newPost);
     }
 }

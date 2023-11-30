@@ -37,8 +37,9 @@ public class CurriculumControllerTest {
     @Test
     public void testRetrieveAllCurriculums() {
         // Mock data
-        Curriculum curriculum1 = new Curriculum(UUID.randomUUID(), "Curriculum 1", "Sub 1", "Body 1", new HashSet<>());
-        Curriculum curriculum2 = new Curriculum(UUID.randomUUID(), "Curriculum 2", "Sub 2", "Body 2", new HashSet<>());
+        Curriculum curriculum1 = Curriculum.builder().id(UUID.randomUUID()).name("Curriculum 1").subTitle( "Sub 1").body("Body 1").techniques(new HashSet<>()).build();
+        Curriculum curriculum2 = Curriculum.builder().id(UUID.randomUUID()).name("Curriculum 2").subTitle( "Sub 2").body("Body 2").techniques(new HashSet<>()).build();
+
         List<Curriculum> curriculumList = Arrays.asList(curriculum1, curriculum2);
 
         when(curriculumDAO.findAll()).thenReturn(curriculumList);
@@ -54,7 +55,7 @@ public class CurriculumControllerTest {
     public void testRetrieveCurriculumById() {
         // Mock data
         UUID curriculumId = UUID.randomUUID();
-        Curriculum curriculum = new Curriculum(curriculumId, "Curriculum 1", "Sub 1", "Body 1", new HashSet());
+        Curriculum curriculum = Curriculum.builder().id(UUID.randomUUID()).name("Curriculum 1").subTitle( "Sub 1").body("Body 1").techniques(new HashSet<>()).build();
 
         when(curriculumDAO.findById(curriculumId)).thenReturn(Optional.of(curriculum));
 
@@ -79,7 +80,7 @@ public class CurriculumControllerTest {
     public void testCreateCurriculum() throws NotFoundException {
         // Mock data
         CurriculumCreateDTO createDTO = new CurriculumCreateDTO("New Curriculum", "New Sub", new HashSet<>(), "New Body");
-        Curriculum createdCurriculum = new Curriculum(UUID.randomUUID(), "New Curriculum", "New Sub", "New Body", new HashSet<>());
+        Curriculum createdCurriculum = Curriculum.builder().id(UUID.randomUUID()).name("New Curriculum").subTitle( "New Sub").body("New Body").techniques(new HashSet<>()).build();
 
         when(curriculumMapper.toEntity(createDTO)).thenReturn(createdCurriculum);
         when(curriculumDAO.save(createdCurriculum)).thenReturn(createdCurriculum);

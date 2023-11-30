@@ -38,7 +38,7 @@ public class SettingsController {
 
         setPassword(user, newpasswordDTO.getPassword());
 
-        User createdUser = userDAO.create(user);
+        User createdUser = userDAO.save(user);
         return new ApiResponse<>(userMapper.fromEntity(createdUser));
     }
 

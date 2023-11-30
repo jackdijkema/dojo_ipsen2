@@ -20,7 +20,7 @@ public class TechniqueDAO {
     public Optional<Technique> findById(UUID id) {
         return techniqueRepository.findById(id);
     }
-    public Technique create(Technique technique) {
+    public Technique save(Technique technique) {
         return techniqueRepository.save(technique);
     }
 }

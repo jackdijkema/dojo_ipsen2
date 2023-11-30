@@ -1,5 +1,7 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,20 +23,38 @@ import java.util.UUID;
 @Entity
 @Table(name = "_user")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(unique=true)
     private String username;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("students")
     private Set<Lesson> lessons;
+
+
+ /*   @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("teacher")
+    private Set<Lesson> teaches;*/
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    private Set<Note> notes;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JsonIgnoreProperties("user")
+//    private Rank rank;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ProgressReview> progressReviews;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
