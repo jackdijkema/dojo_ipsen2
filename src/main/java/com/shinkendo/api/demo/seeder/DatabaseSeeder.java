@@ -17,6 +17,8 @@ public class DatabaseSeeder {
             return;
         }
 
+        System.out.println("Starting database seed.");
+
         this.adminSeeder.seed();
 
         this.alreadySeeded = true;
