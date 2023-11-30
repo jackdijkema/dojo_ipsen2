@@ -39,6 +39,6 @@ public class TechniqueController {
     @PostMapping
     @ResponseBody
     public ApiResponse<Technique> create(@RequestBody Technique technique) {
-        return new ApiResponse<>(techniqueDAO.create(technique), HttpStatus.ACCEPTED);
+        return new ApiResponse<>(techniqueDAO.save(technique), HttpStatus.ACCEPTED);
     }
 }

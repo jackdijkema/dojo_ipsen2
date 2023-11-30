@@ -1,5 +1,7 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +21,13 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    //relation
-    private UUID userId;
-    //relation
-    private UUID lessonId;
 
-    private String noteContent;
-    private LocalDateTime timestamp;
+    @ManyToOne()
+    @JsonIgnoreProperties("notes")
+    private User user;
+
+//    @ManyToOne()
+//    private Lesson lesson;
+
+    private String body;
 }

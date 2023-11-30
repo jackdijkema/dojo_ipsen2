@@ -41,7 +41,7 @@ public class PostController {
     @ResponseBody
     public ApiResponse<Post> insert(@RequestBody PostCreateDTO newPost) {
         Post post = postMapper.toEntity(newPost);
-        return new ApiResponse<>(postDAO.create(post), HttpStatus.ACCEPTED);
+        return new ApiResponse<>(postDAO.save(post), HttpStatus.ACCEPTED);
     }
 
 }

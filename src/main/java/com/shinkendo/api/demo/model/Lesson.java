@@ -1,5 +1,7 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,12 +23,24 @@ public class Lesson {
     private UUID id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("lessons")
     @JoinTable(
             name = "lesson_user",
             joinColumns = @JoinColumn(name = "lesson_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    Set<User> students;
+    private Set<User> students;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("teaches")
+    private User teacher;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "lesson_technique",
+            joinColumns = @JoinColumn(name = "lesson_id"),
+            inverseJoinColumns = @JoinColumn(name = "technique_id")
+    )
+    @JsonIgnoreProperties("lessons")
+    private Set<Technique> techniques;
 }

@@ -14,5 +14,5 @@ import java.util.UUID;
 @Builder
 public class LessonCreateDTO {
     private String name;
-    private List<UUID> users;
+    private List<UUID> students;
 }

@@ -6,17 +6,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class NoteDAO {
-    private StudentNoteRepository studentNoteRepository;
+
+    private final StudentNoteRepository studentNoteRepository;
 
     public Note save(Note note) {
-        note.setTimestamp(LocalDateTime.now());
-        note.setId(UUID.randomUUID());
-
         return studentNoteRepository.save(note);
     }
+
+    public Optional<Note> getNoteById(UUID id) {
+        return studentNoteRepository.findById(id);
+    }
 }
+
