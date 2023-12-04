@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,6 +21,11 @@ public class LessonController {
     private final LessonDAO lessonDao;
     private final LessonMapper lessonMapper;
 
+    @GetMapping
+    public ApiResponse<List<Lesson>> getAllLessons() {
+        List<Lesson> lessons = lessonDao.findAll();
+        return new ApiResponse<>(lessons, HttpStatus.OK);
+    }
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {

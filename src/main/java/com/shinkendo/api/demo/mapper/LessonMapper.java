@@ -27,6 +27,7 @@ public class LessonMapper {
                 .builder()
                 .name(lessonCreateDTO.getName())
                 .students(usersList)
+                .lessonDate(lessonCreateDTO.getLessonDate())
                 .build();
     }
 }
