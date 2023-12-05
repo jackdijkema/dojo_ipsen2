@@ -25,6 +25,9 @@ public class Lesson {
     private UUID id;
     private String name;
     private LocalDate lessonDate;
+    private LocalDate recurringEndDate;
+    private boolean recurring;
+    private String recurringFrequency;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("lessons")

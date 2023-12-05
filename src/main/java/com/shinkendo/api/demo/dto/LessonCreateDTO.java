@@ -18,4 +18,8 @@ public class LessonCreateDTO {
     private String name;
     private List<UUID> students;
     private LocalDate lessonDate;
+
+    private String recurringFrequency;
+    private boolean recurring;
+    private LocalDate recurringEndDate;
 }
