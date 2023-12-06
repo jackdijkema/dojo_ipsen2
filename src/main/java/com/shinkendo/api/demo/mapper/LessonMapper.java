@@ -27,6 +27,10 @@ public class LessonMapper {
                 .builder()
                 .name(lessonCreateDTO.getName())
                 .students(usersList)
+                .lessonDate(lessonCreateDTO.getLessonDate())
+                .recurringEndDate(lessonCreateDTO.getRecurringEndDate())
+                .recurring(lessonCreateDTO.isRecurring())
+                .recurringFrequency(lessonCreateDTO.getRecurringFrequency())
                 .build();
     }
 }
