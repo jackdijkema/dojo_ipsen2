@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProgressReviewDAO {
 
-    ProgressReviewRepository progressReviewRepository;
+    private final ProgressReviewRepository progressReviewRepository;
 
     public List<ProgressReview> findAll() {return progressReviewRepository.findAll();}
 
