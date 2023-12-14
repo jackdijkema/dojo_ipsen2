@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,19 +20,11 @@ import java.util.UUID;
 public class Curriculum {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     private UUID id;
-    private String name;
-    private String subTitle;
-    private String body;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Set<Technique> techniques;
 
     @OneToOne
-    @JsonIgnoreProperties("techniques")
     private Rank rank;
 
-
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Technique> techniques;
 }

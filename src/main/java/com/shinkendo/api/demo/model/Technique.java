@@ -17,24 +17,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "technique")
 public class Technique {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    private String japName;
+    @ManyToOne
+    private Curriculum curriculumId;
+
+    private String japaneseName;
+    private String englishName;
+    private String category;
     private String description;
-    private String difficulty;
-
-    @ManyToMany
-    @JsonIgnoreProperties("techniques")
-    private Set<Lesson> lessons;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Curriculum curriculum;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Set<Label> labels;
 }

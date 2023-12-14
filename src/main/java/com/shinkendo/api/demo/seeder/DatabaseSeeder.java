@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DatabaseSeeder {
     private final AdminSeeder adminSeeder;
+    private final RankSeeder rankSeeder;
+
     private boolean alreadySeeded = false;
 
     @EventListener
@@ -20,6 +22,7 @@ public class DatabaseSeeder {
         System.out.println("Starting database seed.");
 
         this.adminSeeder.seed();
+//        this.rankSeeder.seed();
 
         this.alreadySeeded = true;
     }
