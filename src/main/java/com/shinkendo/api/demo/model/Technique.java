@@ -27,4 +27,5 @@ public class Technique {
     private String englishName;
     private String category;
     private String description;
+    private int orderId;
 }

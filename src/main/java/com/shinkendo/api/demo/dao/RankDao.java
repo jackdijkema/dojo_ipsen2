@@ -5,6 +5,9 @@ import com.shinkendo.api.demo.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class RankDao {
@@ -13,4 +16,9 @@ public class RankDao {
     public Rank save(Rank rank) {
         return this.rankRepository.save(rank);
     }
+
+    public List<Rank> findAll() {
+        return this.rankRepository.findAll();
+    }
+
 }
