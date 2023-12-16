@@ -18,19 +18,37 @@ public class CurriculumSeeder {
     private final CurriculumDAO curriculumDao;
     private final RankDao rankDao;
     private final TechniqueDAO techniqueDAO;
+    private boolean hasSeeded = false;
 
     public void seedEmpty() {
         List<Rank> ranks = this.rankDao.findAll();
+
+        if (this.curriculumDao.findAll().stream()
+                .anyMatch(curriculum -> curriculum.getTechniques() == null)) {
+            hasSeeded = true;
+            System.out.println("Curriculums have already been seeded");
+            return;
+        }
 
         for (int i = 1; i < 11; i++) {
             Curriculum curriculum = new Curriculum();
             curriculum.setRank(ranks.get(i-1));
             curriculum.setTechniques(null);
-            this.curriculumDao.save(curriculum);
+            try {
+                this.curriculumDao.save(curriculum);
+            }
+            catch (Exception e) {
+                System.out.println("Couldn't seed: " + e);
+            }
         }
     }
 
     public void seedFull() {
+        if (this.hasSeeded) {
+            System.out.println("Curriculums have already been seeded");
+            return;
+        }
+
         List<Curriculum> curriculumList = this.curriculumDao.findAll();
         List<Technique> techniques = this.techniqueDAO.findAll();
 
@@ -42,7 +60,13 @@ public class CurriculumSeeder {
                 }
             }
             i.setTechniques(references);
-            this.curriculumDao.save(i);
+
+            try {
+                this.curriculumDao.save(i);
+            }
+            catch (Exception e) {
+                System.out.println("Couldn't seed: " + e);
+            }
         }
 
     }

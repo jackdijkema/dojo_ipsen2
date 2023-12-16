@@ -24,6 +24,11 @@ public class TechniqueSeeder {
         List<Technique> techniques = new ArrayList<>();
         List<Curriculum> curriculumList = this.curriculumDAO.findAll();
 
+        if (techniqueDAO.findAll().size() > 0) {
+            System.out.println("Techniques have already been seeded");
+            return;
+        }
+
         boolean shouldSkip = true;
         BufferedReader reader;
         try {
@@ -67,7 +72,12 @@ public class TechniqueSeeder {
         }
 
         for (Technique i : techniques) {
-            this.techniqueDAO.save(i);
+            try {
+                this.techniqueDAO.save(i);
+            }
+            catch (Exception e) {
+                System.out.println("Couldn't seed: " + e);
+            }
         }
     }
 

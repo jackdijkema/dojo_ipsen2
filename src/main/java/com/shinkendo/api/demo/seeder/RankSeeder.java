@@ -15,25 +15,51 @@ import java.util.List;
 public class RankSeeder {
     private final RankDao rankDao;
     private final CurriculumDAO curriculumDAO;
+    private boolean hasSeeded = false;
 
     public void seedEmpty() {
+        List<Rank> ranks = this.rankDao.findAll();
+        if (ranks.stream()
+                .anyMatch(rank -> rank.getCurriculum() != null)) {
+            System.out.println("Ranks have already been seeded");
+            this.hasSeeded = true;
+            return;
+        }
+
+
         for (int i = 1; i < 11; i++) {
             Rank rank = new Rank();
             rank.setUsers(new ArrayList<>());
             rank.setOrderId(i);
             rank.setCurriculum(null);
-            this.rankDao.save(rank);
+
+            try {
+                this.rankDao.save(rank);
+            }
+            catch (Exception e) {
+                System.out.println("Couldn't seed: " + e);
+            }
         }
 
     }
 
     public void seedFull() {
+        if (this.hasSeeded) {
+            System.out.println("Ranks have already been seeded");
+            return;
+        }
+
         List<Curriculum> curriculumList = this.curriculumDAO.findAll();
         List<Rank> ranks = this.rankDao.findAll();
 
         for (Rank i : ranks) {
             i.setCurriculum(curriculumList.get(i.getOrderId() - 1));
-            this.rankDao.save(i);
+            try {
+                this.rankDao.save(i);
+            }
+            catch (Exception e) {
+                System.out.println("Couldn't seed: " + e);
+            }
         }
 
     }
