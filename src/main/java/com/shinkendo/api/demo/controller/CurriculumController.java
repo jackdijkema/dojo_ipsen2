@@ -18,7 +18,11 @@ public class CurriculumController {
     private final CurriculumDAO curriculumDAO;
     @GetMapping
     @ResponseBody
-    public ApiResponse<List<Curriculum>> all() { return new ApiResponse<>(curriculumDAO.findAll()); }
+    public ApiResponse<List<Curriculum>> all() {
+
+        System.out.println("Hallo wereld");
+        return new ApiResponse<>(curriculumDAO.findAll());
+    }
 
     @GetMapping(value = "/{id}")
     @ResponseBody
