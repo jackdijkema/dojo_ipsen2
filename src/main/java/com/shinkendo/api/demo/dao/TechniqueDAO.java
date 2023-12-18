@@ -12,7 +12,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class TechniqueDAO {
-    TechniqueRepository techniqueRepository;
+    private final TechniqueRepository techniqueRepository;
 
     public List<Technique> findAll() {
         return techniqueRepository.findAll();

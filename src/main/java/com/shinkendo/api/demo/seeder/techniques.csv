@@ -1,0 +1,261 @@
+japanese_name,englishName,category,description,orderId
+基本礼法,Kihon reiho,Kyougi - Riron,basic etiquette,1
+真武道館,Shinbudoukan,Kyougi - Riron,school of divine valor true spiritual/martial power,1
+道場,Doujou,Kyougi - Riron,hall (temple) for martial arts training - place of enlightenment,1
+技,Waza,Kyougi - Riron,technique,1
+稽古,Keiko,Kyougi - Riron,practice training study,1
+武道 - 武術,Budou - bujutsu,Kyougi - Riron,null,1
+null,Musubidachi,Kamae,null,1
+null,Shizentai,Kamae,null,1
+null,Jigotai,Kamae,null,1
+null,Hanmi migi/hidari,Kamae,null,1
+null,Tagai no kamae ai/gyaku hanmi,Kamae,null,1
+null,Hanmi handachi (kneeling),Kamae,null,1
+null,Taiso ichi,Taiso - ashisabaki - taisabaki,null,1
+null,Taisabaki ichi,Taiso - ashisabaki - taisabaki,null,1
+null,Mae mawari ichi ni san,Taiso - ashisabaki - taisabaki,null,1
+null,Mae / ushiro mawari kaiten,Taiso - ashisabaki - taisabaki,null,1
+null,Ichinotachi migi/hidari,Suburi,null,1
+null,Ichinotachi kesa migi/hidari,Suburi,null,1
+null,Ichimonji suburi,Suburi,null,1
+null,Ichimonji suburi kesa,Suburi,null,1
+null,Shiho suburi,Suburi,null,1
+null,Shiho kesa,Suburi,null,1
+null,Gohou no kamae,Tanrengata,null,1
+null,Happogiri,Tanrengata,null,1
+null,Happo ura,Tanrengata,null,1
+null,Gohou battohou kihon ichi,Battohou,null,1
+null,Gohou battohou kihon ni,Battohou,null,1
+null,Tsukigaeshi,Tachiuchi,null,1
+null,Kirigaeshi 90°,Tachiuchi,null,1
+見蕩稽古,Mitorigeiko,Kyougi - Riron,training through observation (to watch in fascination),2
+五輪五法五行,Gorin gohou gogyo,Kyougi - Riron,five rings five methods / laws five lines,2
+打ち太刀 - 仕太刀,Uchidachi – shidachi,Kyougi - Riron,initiator of a technique – receiver and retaliator of a technique,2
+打ち手 - 受け手,Uchite – Ukete,Kyougi - Riron,striker – receiver,2
+武士道,Bushido,Kyougi - Riron,null,2
+侍,Samurai,Kyougi - Riron,null,2
+禅,Zen,Kyougi - Riron,null,2
+null,Taiso ichi ni,Ashisabaki-Taisabaki,null,2
+null,Taisabaki ichi,Ashisabaki-Taisabaki,null,2
+null,Ushiro mawari ichi ni san,Ashisabaki-Taisabaki,null,2
+null,Mae / ushiro mawari kaiten tobi,Ashisabaki-Taisabaki,null,2
+null,Ichinotachi zengo,Suburi,null,2
+null,Ichinotachi zengo kesa,Suburi,null,2
+null,Ichinotachi zengo kesa makuri,Suburi,null,2
+null,Kesa-kaeshi,Suburi,null,2
+null,Kirikaeshi zengo,Suburi,null,2
+null,Kirikaeshi zengo kesa,Suburi,null,2
+null,Happo no kamae,Tanrengata,null,2
+null,Happogiri ura,Tanrengata,null,2
+null,Shoden no kata,Tanrengata,null,2
+null,Gohou battohou santen,Battohou,null,2
+null,Gohou battohou santen ura,Battohou,null,2
+null,Rokudo tachiuchi,Tachiuchi,null,2
+null,Uchikomi ichi,Tachiuchi,null,2
+null,Tsukikomi ichi,Tachiuchi,null,2
+null,Shizan kihon ichi,Tameshigiri,null,2
+null,Techniques selected by examiners,Shite waza,null,2
+残心,Zanshin,Kyougi – Riron,lingering awareness,3
+柔よく剛を制す,Ju yoku go o seishi,Kyougi – Riron,soft controls hard,3
+剛よく柔を断つ,Go yoku ju o tatsu,Kyougi – Riron,hard cuts soft,3
+引けば押せ,Hike ba ose,Kyougi – Riron,when pulled push,3
+押せば回れ,Ose ba maware,Kyougi – Riron,when pushed turn,3
+null,Taisabaki ni,Ashisabaki-Taisabaki,null,3
+null,Fumikae – juushin no ido,Ashisabaki-Taisabaki,null,3
+null,Fumikae – uchikomi ichi ni san,Ashisabaki-Taisabaki,null,3
+null,Kihon dosa,Suburi,null,3
+null,Rokudo,Suburi,null,3
+null,Happogiri ura,Tanrengata,null,3
+null,Shoden no kata,Tanrengata,null,3
+null,Juni ni kamae,Tanrengata,null,3
+null,Kagamiishi usen,Tanrengata,null,3
+null,Kagamiishi sasen,Tanrengata,null,3
+null,Gohou battohou shiho,Battohou,null,3
+null,Ippondachi,Tachiuchi,null,3
+null,Santen dachi,Tachiuchi,null,3
+null,Battohou soutai,Tachiuchi,null,3
+null,Shizan shi,Tameshigiri,null,3
+null,Techniques selected by examiners,Shite waza,null,3
+刀の礼法,Katana no reiho,Kyougi – Riron,sword examination,4
+初心,Sho shin,Kyougi – Riron,beginners mind (original intention initial resolution),4
+力,Chikara (riki),Kyougi – Riron,power strength,4
+拍子,Hyoushi,Kyougi – Riron,rhythm,4
+速度,Sokudo,Kyougi – Riron,speed,4
+胆力,Tanryoku,Kyougi – Riron,courage/nerve,4
+null,Mae hineri ichi ni san,Ashisabaki,null,4
+null,Ushiro hineri ichi ni,Ashisabaki,null,4
+null,Makiuchi zengo,Suburi,null,4
+null,Makiuchi sayu,Suburi,null,4
+null,Makiuchi kaeshiuchi,Suburi,null,4
+null,Makiuchi migi mawari,Suburi,null,4
+null,Kaeshiuchi hidari mawari,Suburi,null,4
+null,Kirikaeshi 1,Suburi,null,4
+null,Kirikaeshi 2,Suburi,null,4
+null,Kirikaeshi 3,Suburi,null,4
+null,Kagamiishi usen,Tanrengata,null,4
+null,Kagamiishi sasen,Tanrengata,null,4
+null,Chuden sei,Tanrengata,null,4
+null,Gohou battohou shiho ura,Battohou,null,4
+null,Gohou battohou makiuchi ichi/ni,Battohou,null,4
+null,Uchikomi ni,Tachiuchi,null,4
+null,Tsukikomi ni,Tachiuchi,null,4
+null,Uchitsuki ichi-ni,Tachiuchi,null,4
+null,Kirigaeshi 180° + 90°,Tachiuchi,null,4
+null,Battohou sanbondachi,Tachiuchi,null,4
+null,Makiuchi basic,Tachiuchi,null,4
+null,Shizan kihon san,Tameshigiri,null,4
+null,Techniques selected by examiners,Shite waza,null,4
+刀の手入れ,Katana no teire,Kyougi – Riron,sword cleaning care and maintenance,5
+真剣道九曜紋,Shinkendo kuyomon,Kyougi – Riron,null,5
+無心,Mushin,Kyougi – Riron,no (empty) mind,5
+不動心,Fudoushin,Kyougi – Riron,immovable mind,5
+見切り,Mikiri,Kyougi – Riron,exactly evading an attack by the smallest amount possible,5
+目線,Mesen,Kyougi – Riron,gaze (enzan no me -遠山 – distant mountain gaze),5
+目附,Metsuke,Kyougi – Riron,reference of view,5
+null,Tsuriashi – tsugiashi – sashiashi,Ashisabaki,null,5
+null,a. Kagigata,Ashisabaki,null,5
+null,b. Jujigata,Ashisabaki,null,5
+null,c. Masugata,Ashisabaki,null,5
+null,d. Sotai tsuriashi – tsugiashi – sashiashi,Ashisabaki,null,5
+null,Shizan suburi 1,Suburi,null,5
+null,Shizan suburi 2,Suburi,null,5
+null,Nami ichi ni san,Suburi,null,5
+null,Namigaeshi ichi ni san,Suburi,null,5
+null,Chuden sei,Tanrengata,null,5
+null,Chuden do,Tanrengata,null,5
+null,Hangetsu ura,Battohou,null,5
+null,Mangetsu,Battohou,null,5
+null,Kasumi kirigaeshi,Tachiuchi,null,5
+null,Juppondachi,Tachiuchi,null,5
+null,Ryusui,Tachiuchi,null,5
+null,Isonami,Tachiuchi,null,5
+null,Shizan go,Tameshigiri,null,5
+null,Toyama ryu gunto soho,Gaiden,null,5
+null,Techniques selected by examiners,Shite waza,null,5
+基本四根,Kihon Shikon,Kyougi – Riron,basic four fundamentals,6
+自他共栄,Ji ta kyo ei,Kyougi – Riron,co-prosperity mutual welfare and benefit (Judo),6
+精力善用,Sei ryoku zenyo,Kyougi – Riron,maximum-efficient use of power (Judo),6
+null,Taisabaki san,Taiso-Ashisabaki-Taisabaki,null,6
+null,Shiho kesa kiriage,Suburi,null,6
+null,Ichimonji kesa kiriage,Suburi,null,6
+null,Ichimonji santen,Suburi,null,6
+null,Ichimonji goten,Suburi,null,6
+null,Chuden sei,Tanrengata,null,6
+null,Chuden do,Tanrengata,null,6
+null,Hangetsu gaeshi,Battohou,null,6
+null,Mangetsu gaeshi,Battohou,null,6
+null,Kasumi kirigaeshi,Tachiuchi,null,6
+null,Juppondachi,Tachiuchi,null,6
+null,Ryusui,Tachiuchi,null,6
+null,Isonami,Tachiuchi,null,6
+null,Shizan roku,Tameshigiri,null,6
+null,Gohou battohou santen giri mayoko,Tameshigiri,null,6
+null,Toyama ryu gunto soho,Gaiden,null,6
+null,Techniques selected by examiners,Shite waza,null,6
+九曜十二訓,Kuyojunikun,Kyougi – Riron,null,7
+兵法,Heihou,Kyougi – Riron,art of war / strategy,7
+軍法,Gunpou,Kyougi – Riron,tactics,7
+剣禅一如,Kenzenichi,Kyougi – Riron,meaning of the ken and Zen is one (in battle / sitting without thought),7
+null,Hishigata,Ashisabaki,null,7
+null,a. Tatebishi,Ashisabaki,null,7
+null,b. Yokobishi,Ashisabaki,null,7
+null,c. Sotobishi,Ashisabaki,null,7
+null,d. Tatebishi henka,Ashisabaki,null,7
+null,e. Sotai hishigata,Ashisabaki,null,7
+null,Oogi (happo kirigaeshi),Suburi,null,7
+null,Oogi hyakusanjugo,Suburi,null,7
+null,Oogi gaeshi (juroppo kirigaeshi),Suburi,null,7
+null,Oogi gaeshi hyakusanjugo,Suburi,null,7
+null,Kasumi gaeshi,Suburi,null,7
+null,Kasumi-gaeshi sotai,Suburi,null,7
+null,Jugo,Tanrengata,null,7
+null,Jugo Shiho,Tanrengata,null,7
+null,Goshiki,Battohou,null,7
+null,Goshiki santen giri,Battohou,null,7
+null,Goshiki santen,Battohou,null,7
+null,Santen ura,Battohou,null,7
+null,Kasumi kirigaeshi,Tachiuchi,null,7
+null,Juppondachi,Tachiuchi,null,7
+null,Ryusui,Tachiuchi,null,7
+null,Isonami,Tachiuchi,null,7
+null,Makiuchi advanced,Tachiuchi,null,7
+null,Ichimonji,Tachiuchi,null,7
+null,Tomoe ichi-ni,Tachiuchi,null,7
+null,Shizan Shichi,Tameshigiri,null,7
+null,Toyama ryu battojutsu,Gaiden,null,7
+null,Techniques selected by examiners,Shite waza,null,7
+八道,Hachido,Kyougi – Riron,eight fold path,8
+武産,Takemusu,Kyougi – Riron,martial movement spontaneously created without active thought resulting in pure technique,8
+null,Shido ho,Shido ho,Ability to teach classes and respond well to students questions,8
+null,Ronbun,Ronbun,“What is Shinkendo?”,8
+null,Shitsumon,Shitsumon,Open questions from examiners,8
+null,Kensabaki,Suburi,null,8
+null,Tombo,Suburi,null,8
+null,Tombo gaeshi,Suburi,null,8
+null,Rokuten giri,Suburi,null,8
+null,Tanrengata,Tanrengata,null,8
+null,Battohou,Battohou,null,8
+null,Ichimonji,Tachiuchi,null,8
+null,Tomoe ichi-ni,Tachiuchi,null,8
+null,Tomoe henka,Tachiuchi,null,8
+null,Juppondachi jyuichi,Tachiuchi,null,8
+null,Ippondachi henka,Tachiuchi,null,8
+null,Shizan hachi,Tameshigiri,null,8
+null,Shizan kyu,Tameshigiri,null,8
+null,Toyama ryu battojutsu,Gaiden,null,8
+null,Techniques selected by examiners,Shite waza,null,8
+五育,Goiku,Kyougi – Riron,five basis points of education,9
+身心の鍛錬,Shin-shin no Tanren,Kyougi – Riron,training body mind and spirit,9
+自力 他力 自然力 神通力,Jiriki tariki shizen ryoku jintsuuriki,Kyougi – Riron,self power other power power of nature supernatural/divine power,9
+null,Shido ho,Shido ho,Ability to lead class (plan curriculum run classes and respond well to students questions),9
+null,Ronbun,Ronbun,“What are the requirements for an instructor?”,9
+null,Shitsumon,Shitsumon,Open questions from examiners,9
+null,TEN,Suburi,null,9
+null,CHI,Suburi,null,9
+null,JIN,Suburi,null,9
+null,TEN,Tanrengata,null,9
+null,CHI,Tanrengata,null,9
+null,JIN,Tanrengata,null,9
+null,Goshiki santen ura,Battohou,null,9
+null,Gohou battohou gotengiri,Battohou,null,9
+null,Shiho,Tachiuchi,null,9
+null,Juppon omote,Tachiuchi,null,9
+null,Ichimonji santen,Tachiuchi,null,9
+null,Uchitsuki random,Tachiuchi,null,9
+null,Shizan jyu,Tameshigiri,null,9
+null,Shizan sotai,Tameshigiri,null,9
+null,Dotangiri,Tameshigiri,null,9
+null,Karatakewari,Tameshigiri,null,9
+null,lnazumagiri,Tameshigiri,null,9
+null,Thrown target,Tameshigiri,null,9
+null,Henka / Jyu-Waza,Tameshigiri,null,9
+null,Toyama ryu battodo-iaido,Gaiden,null,9
+null,Techniques selected by examiners,Shite waza,null,9
+力愛不二,Riki Ai Funi,Kyougi – Riron,strength and love stand together (Shorinji Kempo),10
+陰陽,In-you,Kyougi – Riron,cosmic dual forces yin and yang sun and moon (shade negative female secret dark VS. sunshine positive male light),10
+気剣体一致,Ki-ken-tai-ichi,Kyougi – Riron,spirit sword & body as one (all three elements as unite in perfect movement; the ideal which all practice should strive for as a goal),10
+null,Shido ho,Shido ho,Ability to lead own classes teach any technique plan curriculum and respond well to student’s questions and input,10
+null,Ronbun,Ronbun,“The relationship between teacher and student in budo.”,10
+null,Shitsumon,Shitsumon,Open questions from examiners,10
+null,TEN,Suburi,null,10
+null,CHI,Suburi,null,10
+null,JIN,Suburi,null,10
+null,TEN,Tanrengata,null,10
+null,CHI,Tanrengata,null,10
+null,JIN,Tanrengata,null,10
+null,Jiyuu waza,Tanrengata,null,10
+null,TEN,Battohou,null,10
+null,CHI,Battohou,null,10
+null,JIN,Battohou,null,10
+null,Hiki ashi noto,Battohou,null,10
+null,Jiyuu waza,Battohou,null,10
+null,Shin Gyo So,Tachiuchi,null,10
+null,Chushinken,Tachiuchi,null,10
+null,Toyama ryu Kumitachi,Tachiuchi,null,10
+null,Gashiuchi,Tachiuchi,null,10
+null,Jiyuu waza,Tachiuchi,null,10
+null,lnazumagiri,Tameshigiri,null,10
+null,Katategiri,Tameshigiri,null,10
+null,Jiyuu waza,Tameshigiri,null,10
+null,Toyama ryu battodo-iaido,Gaiden,null,10
+null,Techniques selected by examiners,Shite waza,null,10

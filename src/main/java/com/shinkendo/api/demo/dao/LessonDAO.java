@@ -7,6 +7,7 @@ import com.shinkendo.api.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +21,9 @@ public class LessonDAO extends Lesson {
 
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
+    }
+    public List<Lesson> findAll() {
+        return lessonRepository.findAll();
     }
     public Optional<Lesson> findById(UUID id) {
         return lessonRepository.findById(id);

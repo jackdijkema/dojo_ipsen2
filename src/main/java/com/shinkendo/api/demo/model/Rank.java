@@ -1,8 +1,11 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,12 +19,13 @@ public class Rank {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<User> users;
-
+    @JsonBackReference
     @OneToOne
     private Curriculum curriculum;
 
+    private int orderId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<User> users;
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,4 +17,5 @@ import java.util.UUID;
 public class LessonCreateDTO {
     private String name;
     private List<UUID> students;
+    private LocalDate lessonDate;
 }

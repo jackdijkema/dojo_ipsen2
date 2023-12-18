@@ -37,6 +37,23 @@ public class PostController {
                 );
     }
 
+    @PatchMapping(value = "/{id}")
+    @ResponseBody
+    public ApiResponse<Post> update(@PathVariable UUID id, @RequestBody PostCreateDTO post) {
+        var foundPost = postDAO.findById(id);
+
+        if (foundPost.isEmpty()) {
+            return new ApiResponse<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+
+        var postToUpdate = foundPost.get();
+        postToUpdate.setName(post.getName());
+        postToUpdate.setBody(post.getBody());
+        postToUpdate.setId(id);
+
+        return new ApiResponse<>(postDAO.save(postToUpdate));
+    }
+
     @PostMapping
     @ResponseBody
     public ApiResponse<Post> insert(@RequestBody PostCreateDTO newPost) {

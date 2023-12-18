@@ -1,5 +1,6 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,24 +18,17 @@ import java.util.UUID;
 @Entity
 @Table(name = "technique")
 public class Technique {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    private String japName;
+
+    @JsonBackReference
+    @ManyToOne
+    private Curriculum curriculumId;
+
+    private String japaneseName;
+    private String englishName;
+    private String category;
     private String description;
-    private String difficulty;
-
-    @ManyToMany
-    @JsonIgnoreProperties("techniques")
-    private Set<Lesson> lessons;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Curriculum curriculum;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("techniques")
-    private Set<Label> labels;
+    private int orderId;
 }

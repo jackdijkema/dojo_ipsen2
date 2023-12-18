@@ -16,5 +16,5 @@ public class UserCreateDTO {
     private String username;
     private String password;
     private Role role;
-    private UUID rank;
+//    private UUID rank;
 }

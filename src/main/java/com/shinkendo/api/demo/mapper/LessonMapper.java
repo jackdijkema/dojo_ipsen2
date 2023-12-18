@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +28,23 @@ public class LessonMapper {
                 .builder()
                 .name(lessonCreateDTO.getName())
                 .students(usersList)
+                .lessonDate(lessonCreateDTO.getLessonDate())
+                .build();
+    }
+
+    public LessonCreateDTO fromLesson(Lesson lesson) {
+        List<UUID> studentIds = new ArrayList<>();
+        if (lesson.getStudents() != null) {
+            studentIds = lesson.getStudents().stream()
+                    .map(User::getId)
+                    .collect(Collectors.toList());
+        }
+
+        return LessonCreateDTO
+                .builder()
+                .name(lesson.getName())
+                .students(studentIds)
+                .lessonDate(lesson.getLessonDate())
                 .build();
     }
 }

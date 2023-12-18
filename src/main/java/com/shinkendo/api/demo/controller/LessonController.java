@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -20,12 +22,37 @@ public class LessonController {
     private final LessonDAO lessonDao;
     private final LessonMapper lessonMapper;
 
+    @GetMapping
+    public ApiResponse<List<Lesson>> getAllLessons() {
+        List<Lesson> lessons = lessonDao.findAll();
+        return new ApiResponse<>(lessons, HttpStatus.OK);
+    }
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
             Lesson newLesson = lessonMapper.toEntity(lessonCreateDTO);
             return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
         } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<LessonCreateDTO> getLessonById(@PathVariable UUID id) {
+        try {
+            Optional<Lesson> lessonOption = lessonDao.findById(id);
+            if (lessonOption.isEmpty()) {
+                throw new NotFoundException("Lesson " + id + ", Not found.");
+            }
+
+            Lesson lesson = new Lesson();
+            lesson.setName(lessonOption.get().getName());
+            lesson.setLessonDate(lessonOption.get().getLessonDate());
+            lesson.setStudents(lessonOption.get().getStudents());
+
+            return new ApiResponse<>(this.lessonMapper.fromLesson(lesson), HttpStatus.OK);
+        }
+        catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

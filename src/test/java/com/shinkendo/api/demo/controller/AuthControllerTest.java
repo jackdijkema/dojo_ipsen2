@@ -29,10 +29,13 @@ public class AuthControllerTest {
     @InjectMocks
     private AuthController authController;
 
+    @InjectMocks
+    private UserController userController;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(authController, userController).build();
     }
 
     @Test
@@ -42,7 +45,7 @@ public class AuthControllerTest {
 
         String jsonRequestBody = "{\"username\": \"testuser\", \"password\": \"testpass\"}";
 
-        mockMvc.perform(post("/api/v1/auth/register")
+        mockMvc.perform(post("/api/v1/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequestBody))
                 .andExpect(status().isOk())
