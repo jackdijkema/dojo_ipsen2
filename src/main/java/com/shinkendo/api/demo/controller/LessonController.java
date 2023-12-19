@@ -25,7 +25,7 @@ import java.util.UUID;
 public class LessonController {
     private final LessonDAO lessonDao;
     private final LessonMapper lessonMapper;
-    RecurringService lessonService = new RecurringService();
+    private final RecurringService lessonService = new RecurringService();
 
     @GetMapping
     public ApiResponse<List<Lesson>> getAllLessons() {
