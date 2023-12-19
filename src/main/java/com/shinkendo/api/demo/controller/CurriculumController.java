@@ -19,8 +19,6 @@ public class CurriculumController {
     @GetMapping
     @ResponseBody
     public ApiResponse<List<Curriculum>> all() {
-
-        System.out.println("Hallo wereld");
         return new ApiResponse<>(curriculumDAO.findAll());
     }
 
@@ -35,8 +33,4 @@ public class CurriculumController {
         }
         return new ApiResponse<>(curriculum.get());
     }
-
-
-
-
 }

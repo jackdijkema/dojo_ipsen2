@@ -1,6 +1,5 @@
 package com.shinkendo.api.demo.seeder;
 
-import com.shinkendo.api.demo.repository.TechniqueSeeder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;

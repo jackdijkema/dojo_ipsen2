@@ -1,5 +1,6 @@
 package com.shinkendo.api.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -23,11 +24,17 @@ public class Curriculum {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @JsonManagedReference
     @OneToOne
+    @JoinColumn(name = "rank_id", unique = true)
     private Rank rank;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Technique> techniques;
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
 }

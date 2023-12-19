@@ -1,9 +1,11 @@
 package com.shinkendo.api.demo.mapper;
 
+import com.shinkendo.api.demo.dao.TechniqueDAO;
 import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.model.Lesson;
+import com.shinkendo.api.demo.model.Technique;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LessonMapper {
     private final UserDAO userDao;
+    private final TechniqueDAO techniqueDao;
 
     public Lesson toEntity(LessonCreateDTO lessonCreateDTO) throws NotFoundException {
         HashSet<User> usersList = new HashSet<>();
@@ -24,11 +27,19 @@ public class LessonMapper {
             usersList.add(user.get());
         }
 
+        HashSet<Technique> techniques = new HashSet<>();
+        for (UUID id: lessonCreateDTO.getTechniques()) {
+            Optional<Technique> technique = techniqueDao.findById(id);
+            if (technique.isEmpty()) throw new NotFoundException("Technique" + id + ", Not found");
+            techniques.add(technique.get());
+        }
+
         return Lesson
                 .builder()
                 .name(lessonCreateDTO.getName())
                 .students(usersList)
                 .lessonDate(lessonCreateDTO.getLessonDate())
+                .techniques(techniques)
                 .build();
     }
 

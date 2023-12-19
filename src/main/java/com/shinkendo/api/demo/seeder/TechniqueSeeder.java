@@ -1,4 +1,4 @@
-package com.shinkendo.api.demo.repository;
+package com.shinkendo.api.demo.seeder;
 
 
 import com.shinkendo.api.demo.dao.CurriculumDAO;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class TechniqueSeeder {
         List<Technique> techniques = new ArrayList<>();
         List<Curriculum> curriculumList = this.curriculumDAO.findAll();
 
-        if (techniqueDAO.findAll().size() > 0) {
+        if (!techniqueDAO.findAll().isEmpty()) {
             System.out.println("Techniques have already been seeded");
             return;
         }
@@ -32,7 +33,10 @@ public class TechniqueSeeder {
         boolean shouldSkip = true;
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("src/main/java/com/shinkendo/api/demo/seeder/techniques.csv"));
+            URL resource = getClass().getClassLoader().getResource("techniques.csv");
+
+            assert resource != null;
+            reader = new BufferedReader(new FileReader(resource.getFile()));
             String line = reader.readLine();
 
             while (line != null) {
