@@ -12,6 +12,7 @@ public class DatabaseSeeder {
     private final RankSeeder rankSeeder;
     private final CurriculumSeeder curriculumSeeder;
     private final TechniqueSeeder techniqueSeeder;
+    private final UserSeeder userSeeder;
 
 
     private boolean alreadySeeded = false;
@@ -31,6 +32,7 @@ public class DatabaseSeeder {
         this.rankSeeder.seedFull();
         this.techniqueSeeder.seed();
         this.curriculumSeeder.seedFull();
+        this.userSeeder.seedUsers();
 
 
         this.alreadySeeded = true;
