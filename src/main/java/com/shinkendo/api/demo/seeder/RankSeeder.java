@@ -26,12 +26,25 @@ public class RankSeeder {
             return;
         }
 
+        String[] rankNames = {
+                "Ichimonhji"
+                , "Jiho"
+                , "Santen"
+                , "Shiho"
+                , "Kirigami"
+                , "Gohou"
+                , "Gohoumokuroku"
+                , "Hyaku-e"
+                , "Ren-e"
+                , "Ji-e"
+        };
 
-        for (int i = 1; i < 11; i++) {
+        for (int i = 0; i < rankNames.length; i++) {
             Rank rank = new Rank();
             rank.setUsers(new ArrayList<>());
-            rank.setOrderId(i);
+            rank.setOrderId(i + 1);
             rank.setCurriculum(null);
+            rank.setRankName(rankNames[i]);
 
             try {
                 this.rankDao.save(rank);
