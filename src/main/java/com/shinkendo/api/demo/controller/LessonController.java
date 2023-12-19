@@ -39,19 +39,14 @@ public class LessonController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<LessonCreateDTO> getLessonById(@PathVariable UUID id) {
+    public ApiResponse<Lesson> getLessonById(@PathVariable UUID id) {
         try {
-            Optional<Lesson> lessonOption = lessonDao.findById(id);
-            if (lessonOption.isEmpty()) {
+            Optional<Lesson> lesson = lessonDao.findById(id);
+            if (lesson.isEmpty()) {
                 throw new NotFoundException("Lesson " + id + ", Not found.");
             }
 
-            Lesson lesson = new Lesson();
-            lesson.setName(lessonOption.get().getName());
-            lesson.setLessonDate(lessonOption.get().getLessonDate());
-            lesson.setStudents(lessonOption.get().getStudents());
-
-            return new ApiResponse<>(this.lessonMapper.fromLesson(lesson), HttpStatus.OK);
+            return new ApiResponse<>(lesson.get(), HttpStatus.OK);
         }
         catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -44,17 +44,26 @@ public class LessonMapper {
     }
 
     public LessonCreateDTO fromLesson(Lesson lesson) {
+        System.out.println(lesson);
         List<UUID> studentIds = new ArrayList<>();
         if (lesson.getStudents() != null) {
             studentIds = lesson.getStudents().stream()
                     .map(User::getId)
-                    .collect(Collectors.toList());
+                    .toList();
+        }
+
+        List<UUID> techniqueIds = new ArrayList<>();
+        if (lesson.getTechniques() != null) {
+            techniqueIds = lesson.getTechniques().stream()
+                    .map(Technique::getId)
+                    .toList();
         }
 
         return LessonCreateDTO
                 .builder()
                 .name(lesson.getName())
                 .students(studentIds)
+                .techniques(techniqueIds)
                 .lessonDate(lesson.getLessonDate())
                 .build();
     }
