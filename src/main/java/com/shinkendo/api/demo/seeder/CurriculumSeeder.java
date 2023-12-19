@@ -7,6 +7,7 @@ import com.shinkendo.api.demo.model.Curriculum;
 import com.shinkendo.api.demo.model.Rank;
 import com.shinkendo.api.demo.model.Technique;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class CurriculumSeeder {
     private final CurriculumDAO curriculumDao;
     private final RankDao rankDao;
     private final TechniqueDAO techniqueDAO;
+    private final Logger logger;
+
+
     private boolean hasSeeded = false;
 
     public void seedEmpty() {
@@ -26,26 +30,25 @@ public class CurriculumSeeder {
         if (this.curriculumDao.findAll().stream()
                 .anyMatch(curriculum -> curriculum.getTechniques() == null)) {
             hasSeeded = true;
-            System.out.println("Curriculums have already been seeded");
+            logger.info("Curriculums have already been seeded");
             return;
         }
 
         for (int i = 1; i < 11; i++) {
             Curriculum curriculum = new Curriculum();
-            curriculum.setRank(ranks.get(i-1));
+            curriculum.setRank(ranks.get(i - 1));
             curriculum.setTechniques(null);
             try {
                 this.curriculumDao.save(curriculum);
-            }
-            catch (Exception e) {
-                System.out.println("Couldn't seed: " + e);
+            } catch (Exception e) {
+                logger.warn("Couldn't seed: " + e);
             }
         }
     }
 
     public void seedFull() {
         if (this.hasSeeded) {
-            System.out.println("Curriculums have already been seeded");
+            logger.info("Curriculums have already been seeded");
             return;
         }
 
@@ -63,9 +66,8 @@ public class CurriculumSeeder {
 
             try {
                 this.curriculumDao.save(i);
-            }
-            catch (Exception e) {
-                System.out.println("Couldn't seed: " + e);
+            } catch (Exception e) {
+                logger.warn("Couldn't seed: " + e);
             }
         }
 

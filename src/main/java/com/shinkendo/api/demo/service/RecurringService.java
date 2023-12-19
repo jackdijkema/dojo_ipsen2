@@ -20,9 +20,7 @@ public class RecurringService {
         long weeksUntil = calculateWeeksUntil(endOfRecurring);
 
         final int oneWeek = 7;
-        System.out.println(weeksUntil);
         LocalDate lessonDate = lessonDTO.getLessonDate();
-        System.out.println("Lesson Date: " + lessonDTO.getLessonDate());
         ArrayList<Lesson> lessonList = new ArrayList<>();
 
         for (int i = 0; i < weeksUntil; i++) {

@@ -1,8 +1,9 @@
 package com.shinkendo.api.demo.config;
 
 import com.shinkendo.api.demo.dao.UserDAO;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +28,11 @@ import org.springframework.web.filter.CorsFilter;
 public class SpringConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDAO userDAO;
+
+    @Bean
+    public Logger logger() {
+        return LoggerFactory.getLogger(SpringConfig.class);
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
