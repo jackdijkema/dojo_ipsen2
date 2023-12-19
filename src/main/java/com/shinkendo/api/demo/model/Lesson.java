@@ -2,6 +2,8 @@ package com.shinkendo.api.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.shinkendo.api.demo.dao.LessonDAO;
+import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

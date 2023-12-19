@@ -19,4 +19,7 @@ public class LessonCreateDTO {
     private List<UUID> students;
     private List<UUID> techniques;
     private LocalDate lessonDate;
+
+    private boolean isRecurring;
+    private LocalDate endOfRecurring;
 }
