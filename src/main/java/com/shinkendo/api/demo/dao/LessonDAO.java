@@ -1,5 +1,6 @@
 package com.shinkendo.api.demo.dao;
 
+import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.model.User;
@@ -7,10 +8,9 @@ import com.shinkendo.api.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,11 +22,19 @@ public class LessonDAO extends Lesson {
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
     }
+
     public List<Lesson> findAll() {
         return lessonRepository.findAll();
     }
+
     public Optional<Lesson> findById(UUID id) {
         return lessonRepository.findById(id);
+    }
+
+    public void saveLessons(List<Lesson> lessons) {
+        for (Lesson lesson : lessons) {
+            save(lesson);
+        }
     }
 
     public void removeUser(UUID lessonId, UUID userId) throws NotFoundException {
@@ -62,6 +70,4 @@ public class LessonDAO extends Lesson {
 
         lessonRepository.save(lesson);
     }
-
-
 }
