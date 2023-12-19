@@ -23,6 +23,7 @@ public class Rank {
     private UUID id;
 
     @OneToOne(mappedBy = "rank", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Curriculum curriculum;
 
     private int orderId;

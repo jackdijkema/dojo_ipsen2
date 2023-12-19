@@ -25,7 +25,7 @@ public class Curriculum {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "rank_id", unique = true)
+    @JsonBackReference
     private Rank rank;
 
     @OneToMany(fetch = FetchType.LAZY)
