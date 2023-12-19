@@ -24,7 +24,7 @@ public class ProgressReviewController {
     private final ProgressReviewDAO progressReviewDAO;
     private final ProgressReviewMapper progressReviewMapper;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "{id}")
     @ResponseBody
     public ApiResponse<ProgressReview> findById(@PathVariable UUID id) {
         Optional<ProgressReview> progressReview = progressReviewDAO.findById(id);
@@ -32,17 +32,10 @@ public class ProgressReviewController {
         if (progressReview.isEmpty()) {
             return new ApiResponse<>("Progress review not found", HttpStatus.NOT_FOUND);
         }
-        return new ApiResponse<>(progressReview.get(), HttpStatus.OK);
+        return new ApiResponse<>(progressReview.get());
     }
 
-    @GetMapping
-    @ResponseBody
-    @PreAuthorize("hasAnyAuthority('SUPERADMIN')")
     public ApiResponse<List<ProgressReview>> findAll() {
-        List<ProgressReview> progressReviewList = progressReviewDAO.findAll();
-        if (progressReviewList.isEmpty()) {
-            return new ApiResponse<>("No progress reviews", HttpStatus.NOT_FOUND);
-        }
         return new ApiResponse<>(progressReviewDAO.findAll());
     }
 
