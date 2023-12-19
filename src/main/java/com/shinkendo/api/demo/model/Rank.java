@@ -1,6 +1,8 @@
 package com.shinkendo.api.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,12 +22,16 @@ public class Rank {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @JsonBackReference
-    @OneToOne
+    @OneToOne(mappedBy = "rank", cascade = CascadeType.ALL)
     private Curriculum curriculum;
 
     private int orderId;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<User> users;
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
