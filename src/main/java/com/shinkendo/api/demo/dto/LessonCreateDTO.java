@@ -19,6 +19,5 @@ public class LessonCreateDTO {
     private List<UUID> students;
     private LocalDate lessonDate;
 
-    private boolean isRecurring;
     private LocalDate endOfRecurring;
 }
