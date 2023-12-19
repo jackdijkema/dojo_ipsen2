@@ -17,5 +17,6 @@ import java.util.UUID;
 public class LessonCreateDTO {
     private String name;
     private List<UUID> students;
+    private List<UUID> techniques;
     private LocalDate lessonDate;
 }

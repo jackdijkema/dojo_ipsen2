@@ -27,6 +27,7 @@ public class LessonController {
         List<Lesson> lessons = lessonDao.findAll();
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
+
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
