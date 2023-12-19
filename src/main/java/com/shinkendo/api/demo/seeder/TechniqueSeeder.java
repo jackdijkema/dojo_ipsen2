@@ -6,6 +6,7 @@ import com.shinkendo.api.demo.dao.TechniqueDAO;
 import com.shinkendo.api.demo.model.Curriculum;
 import com.shinkendo.api.demo.model.Technique;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -20,13 +22,14 @@ import java.util.List;
 public class TechniqueSeeder {
     private final TechniqueDAO techniqueDAO;
     private final CurriculumDAO curriculumDAO;
+    private final Logger logger;
 
     public void seed() {
         List<Technique> techniques = new ArrayList<>();
         List<Curriculum> curriculumList = this.curriculumDAO.findAll();
 
         if (!techniqueDAO.findAll().isEmpty()) {
-            System.out.println("Techniques have already been seeded");
+            logger.info("Techniques have already been seeded");
             return;
         }
 
@@ -64,23 +67,19 @@ public class TechniqueSeeder {
 
 
                 techniques.add(technique);
-
-                System.out.println(line);
                 line = reader.readLine();
             }
 
             reader.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.error(Arrays.toString(e.getStackTrace()));
         }
 
         for (Technique i : techniques) {
             try {
                 this.techniqueDAO.save(i);
-            }
-            catch (Exception e) {
-                System.out.println("Couldn't seed: " + e);
+            } catch (Exception e) {
+                logger.warn("Couldn't seed: " + e);
             }
         }
     }
