@@ -19,11 +19,10 @@ public class LessonService {
         LocalDate endOfRecurring = lessonDTO.getEndOfRecurring();
         long weeksUntil = calculateWeeksUntil(endOfRecurring);
 
-        System.out.println(endOfRecurring);
-
         final int oneWeek = 7;
         System.out.println(weeksUntil);
         LocalDate lessonDate = lessonDTO.getLessonDate();
+        System.out.println("Lesson Date: " + lessonDTO.getLessonDate());
         ArrayList<Lesson> lessonList = new ArrayList<>();
 
         for (int i = 0; i < weeksUntil; i++) {
@@ -32,6 +31,8 @@ public class LessonService {
 
             lessonDate = lessonDate.plusDays(oneWeek);
             lessonDTO.setLessonDate(lessonDate);
+            newLesson.setLessonDate(lessonDate);
+            System.out.println("Lesson Date loop: " + lessonDTO.getLessonDate());
             lessonList.add(newLesson);
         }
         return lessonList;

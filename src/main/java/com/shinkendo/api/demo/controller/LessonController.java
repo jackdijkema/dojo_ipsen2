@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +36,16 @@ public class LessonController {
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
+
+            LocalDate endOfRecurring = lessonCreateDTO.getEndOfRecurring();
+
+            if(endOfRecurring != null) {
+                lessonDao.saveLessons(lessonService.createRecurringLesson(lessonCreateDTO));
+                return new ApiResponse<>("Created recurring lesson succesfully...", HttpStatus.OK);
+            }
+
             Lesson newLesson = lessonMapper.toEntity(lessonCreateDTO);
+
             return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -84,7 +94,7 @@ public class LessonController {
 
     @PostMapping("/recurring")
     public  ApiResponse<String> createRecurringLesson(@RequestBody LessonCreateDTO lessonCreateDTO) {
-        lessonDao.saveLessons(lessonService.createRecurringLesson(lessonCreateDTO));
+
         return new ApiResponse<>("Recurring lesson(s) added successfully", HttpStatus.OK);
     }
 }
