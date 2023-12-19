@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class LessonService {
+public class RecurringService {
 
     public long calculateWeeksUntil(LocalDate endOfRecurring) {
         LocalDate currentDate = LocalDate.now();

@@ -7,7 +7,7 @@ import com.shinkendo.api.demo.mapper.LessonMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.dto.LessonCreateDTO;
-import com.shinkendo.api.demo.service.LessonService;
+import com.shinkendo.api.demo.service.RecurringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class LessonController {
     private final LessonDAO lessonDao;
     private final LessonMapper lessonMapper;
-    LessonService lessonService = new LessonService();
+    RecurringService lessonService = new RecurringService();
 
     @GetMapping
     public ApiResponse<List<Lesson>> getAllLessons() {
