@@ -35,4 +35,6 @@ public class Rank {
     public int hashCode() {
         return id.hashCode();
     }
+
+    private String rankName;
 }

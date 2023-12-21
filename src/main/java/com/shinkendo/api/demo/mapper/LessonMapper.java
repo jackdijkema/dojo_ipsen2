@@ -10,8 +10,9 @@ import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class LessonMapper {
         }
 
         HashSet<Technique> techniques = new HashSet<>();
-        for (UUID id: lessonCreateDTO.getTechniques()) {
+        for (UUID id : lessonCreateDTO.getTechniques()) {
             Optional<Technique> technique = techniqueDao.findById(id);
             if (technique.isEmpty()) throw new NotFoundException("Technique" + id + ", Not found");
             techniques.add(technique.get());
@@ -40,22 +41,6 @@ public class LessonMapper {
                 .students(usersList)
                 .lessonDate(lessonCreateDTO.getLessonDate())
                 .techniques(techniques)
-                .build();
-    }
-
-    public LessonCreateDTO fromLesson(Lesson lesson) {
-        List<UUID> studentIds = new ArrayList<>();
-        if (lesson.getStudents() != null) {
-            studentIds = lesson.getStudents().stream()
-                    .map(User::getId)
-                    .collect(Collectors.toList());
-        }
-
-        return LessonCreateDTO
-                .builder()
-                .name(lesson.getName())
-                .students(studentIds)
-                .lessonDate(lesson.getLessonDate())
                 .build();
     }
 }

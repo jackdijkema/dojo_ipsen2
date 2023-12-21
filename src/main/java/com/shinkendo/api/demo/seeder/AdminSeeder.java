@@ -4,19 +4,17 @@ import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
 public class AdminSeeder {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
+    private final Logger logger;
 
     @Value("${super-admin.name}")
     private String superAdminName;
@@ -33,7 +31,7 @@ public class AdminSeeder {
         try {
             this.userDAO.save(admin);
         } catch (Exception e) {
-            System.out.println("couldn't create admin account: " + e.getMessage());
+            logger.warn("couldn't create admin account: " + e.getMessage());
         }
     }
 }
