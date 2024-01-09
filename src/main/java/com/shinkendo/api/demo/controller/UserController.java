@@ -1,7 +1,6 @@
 package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.UserDAO;
-import com.shinkendo.api.demo.dto.AuthRequestDTO;
 import com.shinkendo.api.demo.dto.AuthResponseDTO;
 import com.shinkendo.api.demo.dto.UserCreateDTO;
 import com.shinkendo.api.demo.dto.UserResponseDTO;
@@ -31,22 +30,45 @@ public class UserController {
     @ResponseBody
     public ApiResponse<List<UserResponseDTO>> getUsers() {
         List<UserResponseDTO> res = userDAO
-            .findAll()
-            .stream()
-            .map(userMapper::fromEntity)
-            .toList();
+                .findAll()
+                .stream()
+                .map(userMapper::fromEntity)
+                .toList();
 
         return new ApiResponse<>(res);
     }
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
-    public ApiResponse<AuthResponseDTO> register(@RequestBody AuthRequestDTO loginDTO) {
-        Optional<String> tokenResponse = authenticationService.register(loginDTO.getUsername(), loginDTO.getPassword());
+    public ApiResponse<AuthResponseDTO> register(@RequestBody UserCreateDTO userCreateDTO) {
+        Optional<User> foundUser = userDAO.findByUsername(userCreateDTO.getUsername());
+        if (foundUser.isPresent()) {
+            return new ApiResponse<>("User already exists", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userMapper.toEntity(userCreateDTO);
+        if (user.getUsername() == null || user.getPassword() == null) {
+            return new ApiResponse<>("Username or password is empty", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<String> tokenResponse = authenticationService.register(user.getUsername(), user.getPassword());
 
         if (tokenResponse.isEmpty()) {
             return new ApiResponse<>("User already exists", HttpStatus.BAD_REQUEST);
         }
+
+        User createdUser = userDAO.findByUsername(user.getUsername()).orElseThrow();
+
+        User userWithoutPassword = User.builder()
+                .id(createdUser.getId())
+                .password(createdUser.getPassword())
+                .username(createdUser.getUsername())
+                .role(user.getRole())
+                .rank(user.getRank())
+                .build();
+
+        userDAO.save(userWithoutPassword);
+
 
         String token = tokenResponse.get();
         return new ApiResponse<>(new AuthResponseDTO(token));
@@ -56,7 +78,7 @@ public class UserController {
     @PutMapping(path = {"/{id}"})
     public ApiResponse<UserResponseDTO> editUser(@PathVariable("id") UUID id, @RequestBody UserCreateDTO userCreateDTO) {
         Optional<User> foundUser = userDAO.findById(id);
-        if(foundUser.isEmpty()) {
+        if (foundUser.isEmpty()) {
             return new ApiResponse<>("User not found", HttpStatus.NOT_FOUND);
         }
 
@@ -67,7 +89,7 @@ public class UserController {
         }
 
         if (userCreateDTO.getRole() != null) {
-            user.setRole(userCreateDTO.getRole());
+            user.setRole(Role.valueOf(userCreateDTO.getRole()));
         }
 
         User createdUser = userDAO.save(user);

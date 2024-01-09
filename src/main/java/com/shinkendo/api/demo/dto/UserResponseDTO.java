@@ -16,4 +16,5 @@ public class UserResponseDTO {
     private UUID id;
     private String username;
     private Role role;
+    private String rankName;
 }
