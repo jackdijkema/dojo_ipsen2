@@ -2,11 +2,11 @@ package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.LessonDAO;
 import com.shinkendo.api.demo.dto.LessonAddUserDTO;
+import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.LessonMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Lesson;
-import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.service.RecurringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class LessonController {
     private final LessonDAO lessonDao;
     private final LessonMapper lessonMapper;
-    private final RecurringService lessonService = new RecurringService();
+    private final RecurringService lessonService;
 
     @GetMapping
     public ApiResponse<List<Lesson>> getAllLessons() {
@@ -39,8 +39,8 @@ public class LessonController {
 
             LocalDate endOfRecurring = lessonCreateDTO.getEndOfRecurring();
 
-            if(endOfRecurring != null) {
-                lessonDao.saveLessons(lessonService.createRecurringLesson(lessonCreateDTO));
+            if (endOfRecurring != null) {
+                lessonService.createRecurringLesson(lessonCreateDTO);
                 return new ApiResponse<>("Created recurring lesson succesfully...", HttpStatus.OK);
             }
 
@@ -61,8 +61,7 @@ public class LessonController {
             }
 
             return new ApiResponse<>(lesson.get(), HttpStatus.OK);
-        }
-        catch (NotFoundException e) {
+        } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -72,7 +71,7 @@ public class LessonController {
         try {
             lessonDao.removeUser(id, userid);
             return new ApiResponse<>("Users removed successfully", HttpStatus.OK);
-        } catch(NotFoundException e) {
+        } catch (NotFoundException e) {
             return new ApiResponse<>("Failed to remove users", HttpStatus.BAD_REQUEST);
         }
     }
@@ -82,14 +81,8 @@ public class LessonController {
         try {
             lessonDao.addUser(id, lessonAddUserDTO.getId());
             return new ApiResponse<>("Users added successfully", HttpStatus.OK);
-        } catch(NotFoundException e) {
+        } catch (NotFoundException e) {
             return new ApiResponse<>("Failed to add users", HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @PostMapping("/recurring")
-    public  ApiResponse<String> createRecurringLesson(@RequestBody LessonCreateDTO lessonCreateDTO) {
-
-        return new ApiResponse<>("Recurring lesson(s) added successfully", HttpStatus.OK);
     }
 }
