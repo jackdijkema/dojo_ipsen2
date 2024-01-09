@@ -34,6 +34,7 @@ public class DatabaseSeeder {
         this.rankSeeder.seedFull();
         this.techniqueSeeder.seed();
         this.curriculumSeeder.seedFull();
+        this.userSeeder.seedUsers();
 
 
         this.alreadySeeded = true;
