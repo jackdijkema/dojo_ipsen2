@@ -28,12 +28,7 @@ public class LessonMapper {
             usersList.add(user.get());
         }
 
-        HashSet<Technique> techniques = new HashSet<>();
-        for (UUID id : lessonCreateDTO.getTechniques()) {
-            Optional<Technique> technique = techniqueDao.findById(id);
-            if (technique.isEmpty()) throw new NotFoundException("Technique" + id + ", Not found");
-            techniques.add(technique.get());
-        }
+        HashSet<Technique> techniques = getTechniques(lessonCreateDTO);
 
         return Lesson
                 .builder()
@@ -42,5 +37,15 @@ public class LessonMapper {
                 .lessonDate(lessonCreateDTO.getLessonDate())
                 .techniques(techniques)
                 .build();
+    }
+
+    public HashSet<Technique> getTechniques(LessonCreateDTO lessonCreateDTO) throws NotFoundException {
+        HashSet<Technique> techniques = new HashSet<>();
+        for (UUID id : lessonCreateDTO.getTechniques()) {
+            Optional<Technique> technique = techniqueDao.findById(id);
+            if (technique.isEmpty()) throw new NotFoundException("Technique" + id + ", Not found");
+            techniques.add(technique.get());
+        }
+        return techniques;
     }
 }
