@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateDTO {
-    private String username;
-    private String password;
-    private String role;
-    private String rank;
+@NoArgsConstructor
+public class RankResponseDTO {
+    private UUID id;
+    private String rankName;
+    private int orderId;
 }

@@ -5,8 +5,8 @@ import com.shinkendo.api.demo.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +19,10 @@ public class RankDao {
 
     public List<Rank> findAll() {
         return this.rankRepository.findAll();
+    }
+
+    public Rank findById(UUID id) {
+        return this.rankRepository.findById(id).orElse(null);
     }
 
 }
