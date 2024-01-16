@@ -1,14 +1,13 @@
 package com.shinkendo.api.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -29,12 +28,13 @@ public class Rank {
     private int orderId;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("rank")
     private List<User> users;
+    
+    private String rankName;
 
     @Override
     public int hashCode() {
         return id.hashCode();
     }
-
-    private String rankName;
 }

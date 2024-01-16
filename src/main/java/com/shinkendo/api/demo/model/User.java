@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private Set<Lesson> lessons;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("users")
+    @JsonIgnoreProperties({"users"})
     private Rank rank;
 
 

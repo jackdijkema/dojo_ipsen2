@@ -7,7 +7,10 @@ import com.shinkendo.api.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,17 +22,18 @@ public class LessonDAO extends Lesson {
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
     }
-    public Lesson update(UUID id, Lesson lesson){
+
+    public void update(UUID id, Lesson lesson) {
         Optional<Lesson> optionalLesson = lessonRepository.findById(id);
-        if (optionalLesson.isEmpty()) return null;
+        if (optionalLesson.isEmpty()) return;
         Lesson lessonToUpdate = optionalLesson.get();
-        lessonToUpdate.setName(lesson.getName());
         lessonToUpdate.setLessonDate(lesson.getLessonDate());
         lessonToUpdate.setStudents(lesson.getStudents());
         lessonToUpdate.setTechniques(lesson.getTechniques());
-        return lessonRepository.save(lessonToUpdate);
+        lessonRepository.save(lessonToUpdate);
     }
-    public void delete(UUID id){
+
+    public void delete(UUID id) {
         Optional<Lesson> optionalLesson = lessonRepository.findById(id);
         if (optionalLesson.isEmpty()) return;
         Lesson lessonToDelete = optionalLesson.get();
@@ -42,12 +46,6 @@ public class LessonDAO extends Lesson {
 
     public Optional<Lesson> findById(UUID id) {
         return lessonRepository.findById(id);
-    }
-
-    public void saveLessons(List<Lesson> lessons) {
-        for (Lesson lesson : lessons) {
-            save(lesson);
-        }
     }
 
     public void removeUser(UUID lessonId, UUID userId) throws NotFoundException {
