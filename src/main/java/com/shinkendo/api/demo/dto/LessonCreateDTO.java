@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class LessonCreateDTO {
-    private String name;
     private List<UUID> students;
     private List<UUID> techniques;
     private LocalDate lessonDate;

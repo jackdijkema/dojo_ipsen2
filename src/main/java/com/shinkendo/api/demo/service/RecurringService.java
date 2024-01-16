@@ -35,7 +35,6 @@ public class RecurringService {
 
         for (int i = 0; i < weeksUntil; i++) {
             Lesson newLesson = new Lesson();
-            newLesson.setName(lessonDTO.getName());
             lessonDate = lessonDate.plusDays(oneWeek);
             newLesson.setLessonDate(lessonDate);
             newLesson.setTechniques(techniques);
