@@ -25,7 +25,6 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
     private LocalDate lessonDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
