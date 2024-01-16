@@ -85,4 +85,26 @@ public class LessonController {
             return new ApiResponse<>("Failed to add users", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/{id}")
+    public ApiResponse<Lesson> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
+    try {
+        Lesson lesson = lessonDao.findById(id).orElseThrow(() -> new NotFoundException("Lesson " + id + ", Not found."));
+        lessonDao.update(id, lessonMapper.toEntity(lessonCreateDTO));
+        return new ApiResponse<>(lesson, HttpStatus.OK);
+    } catch (NotFoundException e) {
+        return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    }
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteLesson(@PathVariable UUID id) {
+        try {
+            Lesson lesson = lessonDao.findById(id).orElseThrow(() -> new NotFoundException("Lesson " + id + ", Not found."));
+            lessonDao.delete(id);
+            return new ApiResponse<>("Lesson deleted", HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

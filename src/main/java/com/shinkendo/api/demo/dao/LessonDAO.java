@@ -1,6 +1,5 @@
 package com.shinkendo.api.demo.dao;
 
-import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.model.User;
@@ -8,8 +7,6 @@ import com.shinkendo.api.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +18,22 @@ public class LessonDAO extends Lesson {
 
     public Lesson save(Lesson lesson) {
         return lessonRepository.save(lesson);
+    }
+    public Lesson update(UUID id, Lesson lesson){
+        Optional<Lesson> optionalLesson = lessonRepository.findById(id);
+        if (optionalLesson.isEmpty()) return null;
+        Lesson lessonToUpdate = optionalLesson.get();
+        lessonToUpdate.setName(lesson.getName());
+        lessonToUpdate.setLessonDate(lesson.getLessonDate());
+        lessonToUpdate.setStudents(lesson.getStudents());
+        lessonToUpdate.setTechniques(lesson.getTechniques());
+        return lessonRepository.save(lessonToUpdate);
+    }
+    public void delete(UUID id){
+        Optional<Lesson> optionalLesson = lessonRepository.findById(id);
+        if (optionalLesson.isEmpty()) return;
+        Lesson lessonToDelete = optionalLesson.get();
+        lessonRepository.delete(lessonToDelete);
     }
 
     public List<Lesson> findAll() {
