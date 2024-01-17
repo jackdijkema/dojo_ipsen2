@@ -12,6 +12,7 @@ import com.shinkendo.api.demo.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class UserController {
     private final UserDAO userDAO;
     private final UserMapper userMapper;
     private final AuthenticationService authenticationService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     @ResponseBody
@@ -86,6 +88,10 @@ public class UserController {
 
         if (userCreateDTO.getUsername() != null) {
             user.setUsername(userCreateDTO.getUsername());
+        }
+
+        if (userCreateDTO.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
         }
 
         if (userCreateDTO.getRole() != null) {
