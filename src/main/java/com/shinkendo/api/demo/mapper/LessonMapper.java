@@ -32,7 +32,6 @@ public class LessonMapper {
 
         return Lesson
                 .builder()
-                .name(lessonCreateDTO.getName())
                 .students(usersList)
                 .lessonDate(lessonCreateDTO.getLessonDate())
                 .techniques(techniques)
