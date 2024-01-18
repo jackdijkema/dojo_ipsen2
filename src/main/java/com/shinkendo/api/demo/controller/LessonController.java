@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +30,21 @@ public class LessonController {
     public ApiResponse<List<Lesson>> getAllLessons() {
         List<Lesson> lessons = lessonDao.findAll();
         return new ApiResponse<>(lessons, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @GetMapping("/{id}")
+    public ApiResponse<Lesson> getLessonById(@PathVariable UUID id) {
+        try {
+            Optional<Lesson> lesson = lessonDao.findById(id);
+            if (lesson.isEmpty()) {
+                throw new NotFoundException("Lesson " + id + ", Not found.");
+            }
+
+            return new ApiResponse<>(lesson.get(), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
