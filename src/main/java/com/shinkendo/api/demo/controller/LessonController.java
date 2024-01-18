@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@ComponentScan
 @RestController
 @RequestMapping(value = "/api/v1/lesson")
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class LessonController {
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
