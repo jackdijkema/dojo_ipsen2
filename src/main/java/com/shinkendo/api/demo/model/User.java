@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("students")
     private Set<Lesson> lessons;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"users"})
     private Rank rank;
 

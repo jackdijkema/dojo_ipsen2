@@ -77,12 +77,12 @@ public class UserController {
         return new ApiResponse<>(new AuthResponseDTO(token));
     }
 
-    @PreAuthorize("hasAuthorty('SUPERADMIN')")
-    @PutMapping(path = {"/{id}"})
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @DeleteMapping(path = {"/{id}"})
     public ApiResponse<String> deleteUser(@PathVariable UUID id) {
         try {
             User user = userDAO.findById(id).orElseThrow(() -> new NotFoundException("User " + id + ", Not found."));
-//            userDAO.delete(id);
+            userDAO.delete(id);
             return new ApiResponse<>("User deleted", HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
