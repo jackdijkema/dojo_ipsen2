@@ -7,7 +7,6 @@ import com.shinkendo.api.demo.dto.UserResponseDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.UserMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
-import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import com.shinkendo.api.demo.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,7 @@ public class UserController {
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @GetMapping
     @ResponseBody
     public ApiResponse<List<UserResponseDTO>> getUsers() {
@@ -40,6 +40,7 @@ public class UserController {
 
         return new ApiResponse<>(res);
     }
+
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
@@ -97,18 +98,11 @@ public class UserController {
             return new ApiResponse<>("User not found", HttpStatus.NOT_FOUND);
         }
 
-        User user = foundUser.get();
-
-        if (userCreateDTO.getUsername() != null) {
-            user.setUsername(userCreateDTO.getUsername());
-        }
-
-        if (userCreateDTO.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
-        }
-
-        if (userCreateDTO.getRole() != null) {
-            user.setRole(Role.valueOf(userCreateDTO.getRole()));
+        User user = userMapper.toEntity(userCreateDTO);
+        user.setId(id);
+        System.out.println(user.getPassword());
+        if (user.getPassword() == null) {
+            user.setPassword(foundUser.get().getPassword());
         }
 
         User createdUser = userDAO.save(user);

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 @Data
@@ -26,15 +26,14 @@ public class Rank {
     private Curriculum curriculum;
 
     private int orderId;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("rank")
-    private List<User> users;
-    
     private String rankName;
+
+    @OneToMany(mappedBy = "rank")
+    private Collection<User> users;
 
     @Override
     public int hashCode() {
         return id.hashCode();
     }
+
 }

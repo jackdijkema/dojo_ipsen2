@@ -9,7 +9,6 @@ import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.service.RecurringService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +32,20 @@ public class LessonController {
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<Lesson> getLessonById(@PathVariable UUID id) {
+        try {
+            Optional<Lesson> lesson = lessonDao.findById(id);
+            if (lesson.isEmpty()) {
+                throw new NotFoundException("Lesson " + id + ", Not found.");
+            }
+
+            return new ApiResponse<>(lesson.get(), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
     private ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
@@ -48,20 +61,6 @@ public class LessonController {
             Lesson newLesson = lessonMapper.toEntity(lessonCreateDTO);
 
             return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
-        } catch (NotFoundException e) {
-            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ApiResponse<Lesson> getLessonById(@PathVariable UUID id) {
-        try {
-            Optional<Lesson> lesson = lessonDao.findById(id);
-            if (lesson.isEmpty()) {
-                throw new NotFoundException("Lesson " + id + ", Not found.");
-            }
-
-            return new ApiResponse<>(lesson.get(), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -92,14 +91,15 @@ public class LessonController {
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PutMapping("/{id}")
     public ApiResponse<Lesson> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
-    try {
-        Lesson lesson = lessonDao.findById(id).orElseThrow(() -> new NotFoundException("Lesson " + id + ", Not found."));
-        lessonDao.update(id, lessonMapper.toEntity(lessonCreateDTO));
-        return new ApiResponse<>(lesson, HttpStatus.OK);
-    } catch (NotFoundException e) {
-        return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        try {
+            Lesson lesson = lessonDao.findById(id).orElseThrow(() -> new NotFoundException("Lesson " + id + ", Not found."));
+            lessonDao.update(id, lessonMapper.toEntity(lessonCreateDTO));
+            return new ApiResponse<>(lesson, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
-    }
+
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteLesson(@PathVariable UUID id) {

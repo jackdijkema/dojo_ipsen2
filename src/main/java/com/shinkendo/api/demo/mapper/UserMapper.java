@@ -7,6 +7,7 @@ import com.shinkendo.api.demo.model.Rank;
 import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -15,18 +16,31 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserMapper {
     private final RankDao rankDao;
+    private final PasswordEncoder passwordEncoder;
 
     public User toEntity(UserCreateDTO userCreateDTO) {
-        Rank rank = rankDao.findById(UUID.fromString(userCreateDTO.getRank()));
-        System.out.println(rank.getRankName());
-        Role role = Role.valueOf(userCreateDTO.getRole());
+        User.UserBuilder newUser = User.builder()
+                .username(userCreateDTO.getUsername());
 
-        return User.builder()
-                .username(userCreateDTO.getUsername())
-                .password(userCreateDTO.getPassword())
-                .role(role)
-                .rank(rank)
-                .build();
+        if (userCreateDTO.getPassword() != null && !userCreateDTO.getPassword().isEmpty()) {
+            newUser.password(passwordEncoder.encode(userCreateDTO.getPassword()));
+        }
+
+        try {
+            Rank rank = rankDao.findById(UUID.fromString(userCreateDTO.getRank()));
+            newUser.rank(rank);
+        } catch (Exception e) {
+            newUser.rank(null);
+        }
+
+        try {
+            Role role = Role.valueOf(userCreateDTO.getRole());
+            newUser.role(role);
+        } catch (Exception e) {
+            newUser.role(Role.STUDENT);
+        }
+
+        return newUser.build();
     }
 
     public UserResponseDTO fromEntity(User user) {
@@ -37,10 +51,12 @@ public class UserMapper {
                 .username(user.getUsername())
                 .id(user.getId())
                 .role(user.getRole())
+                .rankId("")
                 .rankName("No Rank");
 
 
         if (rank != null) {
+            res.rankId(rank.getId().toString());
             res.rankName(rank.getRankName());
         }
 
