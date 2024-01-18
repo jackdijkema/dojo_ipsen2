@@ -11,6 +11,7 @@ import com.shinkendo.api.demo.service.RecurringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -66,6 +67,7 @@ public class LessonController {
         }
     }
 
+    @PreAuthorize("hasAuthorty('SUPERADMIN')")
     @DeleteMapping("/{id}/user/{userid}")
     public ApiResponse<String> removeUseFromLesson(@PathVariable UUID id, @PathVariable UUID userid) {
         try {
@@ -76,6 +78,7 @@ public class LessonController {
         }
     }
 
+    @PreAuthorize("hasAuthorty('SUPERADMIN')")
     @PostMapping("/{id}/user")
     public ApiResponse<String> addUserToLesson(@PathVariable UUID id, @RequestBody LessonAddUserDTO lessonAddUserDTO) {
         try {
@@ -86,6 +89,7 @@ public class LessonController {
         }
     }
 
+    @PreAuthorize("hasAuthorty('SUPERADMIN')")
     @PutMapping("/{id}")
     public ApiResponse<Lesson> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
     try {
@@ -96,6 +100,7 @@ public class LessonController {
         return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
     }
+    @PreAuthorize("hasAuthorty('SUPERADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteLesson(@PathVariable UUID id) {
         try {

@@ -4,6 +4,7 @@ import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.dto.AuthResponseDTO;
 import com.shinkendo.api.demo.dto.UserCreateDTO;
 import com.shinkendo.api.demo.dto.UserResponseDTO;
+import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.UserMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Role;
@@ -74,6 +75,18 @@ public class UserController {
 
         String token = tokenResponse.get();
         return new ApiResponse<>(new AuthResponseDTO(token));
+    }
+
+    @PreAuthorize("hasAuthorty('SUPERADMIN')")
+    @PutMapping(path = {"/{id}"})
+    public ApiResponse<String> deleteUser(@PathVariable UUID id) {
+        try {
+            User user = userDAO.findById(id).orElseThrow(() -> new NotFoundException("User " + id + ", Not found."));
+//            userDAO.delete(id);
+            return new ApiResponse<>("User deleted", HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
