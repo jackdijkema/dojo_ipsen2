@@ -3,6 +3,7 @@ package com.shinkendo.api.demo.controller;
 import com.shinkendo.api.demo.dao.LessonDAO;
 import com.shinkendo.api.demo.dto.LessonAddUserDTO;
 import com.shinkendo.api.demo.dto.LessonCreateDTO;
+import com.shinkendo.api.demo.dto.LessonResponseDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.mapper.LessonMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
@@ -27,21 +28,21 @@ public class LessonController {
     private final RecurringService lessonService;
 
     @GetMapping
-    public ApiResponse<List<Lesson>> getAllLessons() {
-        List<Lesson> lessons = lessonDao.findAll();
+    public ApiResponse<List<LessonResponseDTO>> getAllLessons() {
+        List<LessonResponseDTO> lessons = lessonDao.findAll().stream().map(lessonMapper::fromEntity).toList();
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @GetMapping("/{id}")
-    public ApiResponse<Lesson> getLessonById(@PathVariable UUID id) {
+    public ApiResponse<LessonResponseDTO> getLessonById(@PathVariable UUID id) {
         try {
             Optional<Lesson> lesson = lessonDao.findById(id);
             if (lesson.isEmpty()) {
                 throw new NotFoundException("Lesson " + id + ", Not found.");
             }
 
-            return new ApiResponse<>(lesson.get(), HttpStatus.OK);
+            return new ApiResponse<>(lessonMapper.fromEntity(lesson.get()), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +50,7 @@ public class LessonController {
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
-    public ApiResponse<Lesson> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
+    public ApiResponse<LessonResponseDTO> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
 
             LocalDate endOfRecurring = lessonCreateDTO.getEndOfRecurring();
@@ -59,9 +60,8 @@ public class LessonController {
                 return new ApiResponse<>("Created recurring lesson succesfully...", HttpStatus.OK);
             }
 
-            Lesson newLesson = lessonMapper.toEntity(lessonCreateDTO);
-
-            return new ApiResponse<>(lessonDao.save(newLesson), HttpStatus.OK);
+            Lesson newLesson = lessonDao.save(lessonMapper.toEntity(lessonCreateDTO));
+            return new ApiResponse<>(lessonMapper.fromEntity(newLesson), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -91,11 +91,14 @@ public class LessonController {
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PutMapping("/{id}")
-    public ApiResponse<Lesson> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
+    public ApiResponse<LessonResponseDTO> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
         try {
             Lesson lesson = lessonDao.findById(id).orElseThrow(() -> new NotFoundException("Lesson " + id + ", Not found."));
-            lessonDao.update(id, lessonMapper.toEntity(lessonCreateDTO));
-            return new ApiResponse<>(lesson, HttpStatus.OK);
+            Lesson newLesson = lessonMapper.toEntity(lessonCreateDTO);
+            newLesson.setId(lesson.getId());
+            lessonDao.save(newLesson);
+
+            return new ApiResponse<>(lessonMapper.fromEntity(newLesson), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ApiResponse<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

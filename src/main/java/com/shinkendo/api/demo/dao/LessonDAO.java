@@ -23,16 +23,6 @@ public class LessonDAO extends Lesson {
         return lessonRepository.save(lesson);
     }
 
-    public void update(UUID id, Lesson lesson) {
-        Optional<Lesson> optionalLesson = lessonRepository.findById(id);
-        if (optionalLesson.isEmpty()) return;
-        Lesson lessonToUpdate = optionalLesson.get();
-        lessonToUpdate.setLessonDate(lesson.getLessonDate());
-        lessonToUpdate.setStudents(lesson.getStudents());
-        lessonToUpdate.setTechniques(lesson.getTechniques());
-        lessonRepository.save(lessonToUpdate);
-    }
-
     public void delete(UUID id) {
         Optional<Lesson> optionalLesson = lessonRepository.findById(id);
         if (optionalLesson.isEmpty()) return;
