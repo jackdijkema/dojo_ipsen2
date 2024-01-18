@@ -39,6 +39,7 @@ public class User implements UserDetails {
     private Set<Lesson> lessons;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rank_id")
     @JsonIgnoreProperties({"users"})
     private Rank rank;
 

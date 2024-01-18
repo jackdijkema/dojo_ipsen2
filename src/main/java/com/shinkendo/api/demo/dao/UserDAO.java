@@ -33,10 +33,12 @@ public class UserDAO implements UserDetailsService {
     public User save(User user) {
         return userRepository.save(user);
     }
-    public void delete(User user) {
-        userRepository.delete(user);
+    public void delete(UUID id) {
+        Optional<User>  optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) return;
+        User userToDelete = optionalUser.get();
+        userRepository.delete(userToDelete);
     }
-
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow();

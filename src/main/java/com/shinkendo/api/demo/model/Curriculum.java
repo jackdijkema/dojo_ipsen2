@@ -26,7 +26,7 @@ public class Curriculum {
     @JsonIgnoreProperties("curriculum")
     private Rank rank;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Technique> techniques;
 
