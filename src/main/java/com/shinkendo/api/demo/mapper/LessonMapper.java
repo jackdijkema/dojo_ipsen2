@@ -12,6 +12,7 @@ import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class LessonMapper {
         return Lesson
                 .builder()
                 .students(usersList)
-                .lessonDate(lessonCreateDTO.getLessonDate())
+                .lessonDate(LocalDate.parse(lessonCreateDTO.getLessonDate()))
                 .techniques(techniques)
                 .note(lessonCreateDTO.getNote())
                 .teacher(teacher)
