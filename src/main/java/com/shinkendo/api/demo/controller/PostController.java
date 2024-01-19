@@ -7,6 +7,7 @@ import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class PostController {
                 );
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PatchMapping(value = "/{id}")
     @ResponseBody
     public ApiResponse<Post> update(@PathVariable UUID id, @RequestBody PostCreateDTO post) {
@@ -54,6 +56,7 @@ public class PostController {
         return new ApiResponse<>(postDAO.save(postToUpdate));
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping
     @ResponseBody
     public ApiResponse<Post> insert(@RequestBody PostCreateDTO newPost) {
@@ -61,6 +64,7 @@ public class PostController {
         return new ApiResponse<>(postDAO.save(post), HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @DeleteMapping(value = "/{id}")
     public ApiResponse<String> deletePost(@PathVariable UUID id) {
         try {
