@@ -79,10 +79,9 @@ public class LessonControllerTest {
                         .content(new ObjectMapper().writeValueAsString(initialLessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        // Maak de bijgewerkte les
         LessonCreateDTO updatedLessonCreateDTO = new LessonCreateDTO();
         updatedLessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
-        updatedLessonCreateDTO.setLessonDate("2025-10-10"); // Verander de datum
+        updatedLessonCreateDTO.setLessonDate("2025-10-10");
         updatedLessonCreateDTO.setTeacherId(UUID.randomUUID());
 
         Lesson updatedLesson = new Lesson();
