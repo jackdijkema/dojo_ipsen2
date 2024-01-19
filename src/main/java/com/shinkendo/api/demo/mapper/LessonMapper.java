@@ -5,6 +5,7 @@ import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.dto.LessonResponseDTO;
 import com.shinkendo.api.demo.dto.TechniqueResponseDTO;
+import com.shinkendo.api.demo.dto.UserResponseDTO;
 import com.shinkendo.api.demo.exception.NotFoundException;
 import com.shinkendo.api.demo.model.Lesson;
 import com.shinkendo.api.demo.model.Technique;
@@ -12,10 +13,7 @@ import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,6 +22,7 @@ public class LessonMapper {
     private final UserDAO userDao;
     private final TechniqueDAO techniqueDao;
     private final TechniqueMapper techniqueMapper;
+    private final UserMapper userMapper;
 
     public Lesson toEntity(LessonCreateDTO lessonCreateDTO) throws NotFoundException {
         HashSet<User> usersList = new HashSet<>();
@@ -64,6 +63,8 @@ public class LessonMapper {
         String teacherName = "No Teacher Assigned";
         String teacherId = "No Teacher Assigned";
 
+        Set<UserResponseDTO> students = lesson.getStudents().stream().map(userMapper::fromEntity).collect(Collectors.toSet());
+
         if (lesson.getTeacher() != null) {
             teacherName = lesson.getTeacher().getUsername();
             teacherId = lesson.getTeacher().getId().toString();
@@ -82,6 +83,7 @@ public class LessonMapper {
                 .teacherName(teacherName)
                 .teacherId(teacherId)
                 .techniques(techniques)
+                .students(students)
                 .build();
     }
 }
