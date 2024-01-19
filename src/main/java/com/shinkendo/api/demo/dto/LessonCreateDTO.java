@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +17,7 @@ public class LessonCreateDTO {
     private List<UUID> students;
     private List<UUID> techniques;
     private LocalDate lessonDate;
-
+    private String note;
+    private UUID teacherId;
     private LocalDate endOfRecurring;
 }
