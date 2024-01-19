@@ -36,6 +36,10 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("students")
+    @JoinTable(
+            name = "lesson_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -46,9 +50,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     private Set<Note> notes;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<ProgressReview> progressReviews;
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("teacher")
