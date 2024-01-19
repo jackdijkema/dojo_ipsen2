@@ -61,4 +61,14 @@ public class PostController {
         return new ApiResponse<>(postDAO.save(post), HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ApiResponse<String> deletePost(@PathVariable UUID id) {
+        try {
+            Post post = postDAO.findById(id).orElseThrow();
+            postDAO.delete(post.getId());
+            return new ApiResponse<>("Post deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ApiResponse<>("Post not found", HttpStatus.NOT_FOUND);
+        }
+    }
 }
