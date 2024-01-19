@@ -23,4 +23,11 @@ public class PostDAO {
     public Post save(Post newPost) {
         return postRepository.save(newPost);
     }
+
+    public void delete (UUID id) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalPost.isEmpty()) return;
+        Post postToDelete = optionalPost.get();
+        postRepository.delete(postToDelete);
+    }
 }
