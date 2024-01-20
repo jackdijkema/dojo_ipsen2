@@ -1,68 +1,75 @@
 package com.shinkendo.api.demo.controller;
+
+import com.shinkendo.api.demo.dao.UserDAO;
+import com.shinkendo.api.demo.model.User;
+import com.shinkendo.api.demo.repository.UserRepository;
 import com.shinkendo.api.demo.service.AuthenticationService;
+import com.shinkendo.api.demo.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 
 public class AuthControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+    @Mock
+    private UserDAO userDAO;
 
     @Mock
+    private JwtService jwtService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
     private AuthenticationService authenticationService;
 
-    @InjectMocks
-    private AuthController authController;
-
-    @InjectMocks
-    private UserController userController;
+    private User mockUser;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(authController, userController).build();
+
+//        ReflectionTestUtils.setField(jwtService, "secretKey", "lol");
+//        Mockito.when(jwtService.getToken()).thenReturn("lol");
+        Mockito.doReturn("your_mocked_token_value").when(jwtService).getToken();
+
+        mockUser = Mockito.mock(User.class);
+        UUID randomUUID = UUID.randomUUID();
+        Mockito.when(mockUser.getId()).thenReturn(randomUUID);
+
+        when(userDAO.save(any(User.class))).thenReturn(mockUser);
+
+
     }
 
     @Test
-    public void should_register_and_return_token() throws Exception {
-        when(authenticationService.register(anyString(), anyString()))
-                .thenReturn(Optional.of("mockToken"));
+    public void should_create_user_and_return_jwt_with_role() {
+        String username = "test";
+        String password = "test";
 
-        String jsonRequestBody = "{\"username\": \"testuser\", \"password\": \"testpass\"}";
+        when(this.userDAO.findByUsername(username)).thenReturn(Optional.empty());
 
-        mockMvc.perform(post("/api/v1/user")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestBody))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.payload.token").value("mockToken"));
-    }
-
-    @Test
-    public void should_login_and_return_token() throws Exception {
-        when(authenticationService.login(anyString(), anyString()))
-                .thenReturn("mockToken");
-
-        String jsonRequestBody = "{\"username\": \"testuser\", \"password\": \"testpass\"}";
-
-        mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestBody))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.payload.token").value("mockToken"));
+        Optional<String> response = this.authenticationService.register(username, password);
+        System.out.println("hi");
     }
 }

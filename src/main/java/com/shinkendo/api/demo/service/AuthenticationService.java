@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtService jwtService = new JwtService(); // Dit is nodig voor de mock
+//    private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
 
     public Optional<String> register(String username, String password) {
@@ -32,8 +35,8 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        userDAO.save(user);
-        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId() );
+        user.setId(userDAO.save(user).getId()); // Dit is nodig voor de mock
+        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId());
         return Optional.of(token);
     }
 

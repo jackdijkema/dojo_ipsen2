@@ -17,7 +17,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     @Value("${jwt.secret-key}")
-    private String secretKey;
+//    private String secretKey;
+
+    // Todo: zorg er voor dat dit gemocked word
+    private String secretKey = "plak hier de secret key";
 
     public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -62,7 +65,12 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        String token = getToken();
+        byte[] keyBytes = Decoders.BASE64.decode(token);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String getToken() {
+        return this.secretKey;
     }
 }
