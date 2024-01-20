@@ -20,7 +20,7 @@ public class ProgressReviewMapper {
 
     public ProgressResponseDTO fromEntity(User user) {
         RankResponseDTO rank = rankMapper.fromEntity(user.getRank());
-        
+
         Set<Lesson> lessons = user.getLessons();
         System.out.println(lessons);
 
@@ -29,7 +29,7 @@ public class ProgressReviewMapper {
                 .map(Lesson::getTechniques).reduce((a, b) -> {
                     a.addAll(b);
                     return a;
-                }).orElseThrow();
+                }).orElse(Set.of());
         System.out.println(techniques);
 
 
