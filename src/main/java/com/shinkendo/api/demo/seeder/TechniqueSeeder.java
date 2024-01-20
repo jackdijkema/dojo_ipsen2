@@ -60,7 +60,7 @@ public class TechniqueSeeder {
 
                 for (Curriculum i : curriculumList) {
                     if (i.getRank().getOrderId() == technique.getOrderId()) {
-                        technique.setCurriculumId(i);
+                        technique.setCurriculum(i);
                         break;
                     }
                 }
