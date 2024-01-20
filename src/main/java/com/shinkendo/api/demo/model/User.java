@@ -2,10 +2,7 @@ package com.shinkendo.api.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@EqualsAndHashCode(exclude = {"lessons", "rank", "notes", "teaches"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,6 +34,10 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("students")
+    @JoinTable(
+            name = "lesson_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
     private Set<Lesson> lessons;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -46,9 +48,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     private Set<Note> notes;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<ProgressReview> progressReviews;
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("teacher")
