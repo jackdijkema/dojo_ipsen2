@@ -112,7 +112,7 @@ public class LessonControllerTest {
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
         lessonCreateDTO.setLessonDate("2024-10-10");
         lessonCreateDTO.setTeacherId(null);
-2
+
 
         Mockito.when(lessonDao.save(expectedLesson)).thenReturn(expectedLesson);
         Mockito.when(techniqueDAO.findById(lessonCreateDTO.getTechniques().get(0))).thenReturn(Optional.empty());
