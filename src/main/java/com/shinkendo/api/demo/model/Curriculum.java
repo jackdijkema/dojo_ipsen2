@@ -27,4 +27,18 @@ public class Curriculum {
     @JoinColumn(name = "curriculum_id")
     @JsonIgnoreProperties("curriculum")
     private List<Technique> techniques;
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Curriculum{" +
+                "id=" + id +
+                ", rank=" + (rank != null ? rank.getId() : null) + // Extracting only the ID to avoid circular reference
+                ", techniques=" + techniques +
+                '}';
+    }
 }
