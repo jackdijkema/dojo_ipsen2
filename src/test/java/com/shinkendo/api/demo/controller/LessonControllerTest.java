@@ -105,17 +105,13 @@ public class LessonControllerTest {
 
         LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
-        lessonCreateDTO.setLessonDate("2024-10-10");
+        lessonCreateDTO.setLessonDate(null);
         lessonCreateDTO.setTeacherId(null);
 
         Lesson expectedLesson = new Lesson();
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
-        lessonCreateDTO.setLessonDate("2024-10-10");
+        lessonCreateDTO.setLessonDate(null);
         lessonCreateDTO.setTeacherId(null);
-
-
-        Mockito.when(lessonDao.save(expectedLesson)).thenReturn(expectedLesson);
-        Mockito.when(techniqueDAO.findById(lessonCreateDTO.getTechniques().get(0))).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/lesson")
                         .contentType(MediaType.APPLICATION_JSON)
