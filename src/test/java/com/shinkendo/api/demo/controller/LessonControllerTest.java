@@ -118,5 +118,4 @@ public class LessonControllerTest {
                         .content(new ObjectMapper().writeValueAsString(lessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
-
 }
