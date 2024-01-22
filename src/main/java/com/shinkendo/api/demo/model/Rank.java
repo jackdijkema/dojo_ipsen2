@@ -37,4 +37,12 @@ public class Rank {
         return id.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Rank{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", rankName='" + rankName + '\'' +
+                '}';
+    }
 }
