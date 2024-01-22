@@ -57,7 +57,11 @@ public class LessonMapper {
     }
 
     public LessonResponseDTO fromEntity(Lesson lesson) {
-        Collection<TechniqueResponseDTO> techniques = lesson.getTechniques().stream().map(techniqueMapper::fromEntity).collect(Collectors.toSet());
+        Collection<TechniqueResponseDTO> techniques = lesson
+                .getTechniques()
+                .stream()
+                .map(techniqueMapper::fromEntity)
+                .collect(Collectors.toSet());
 
 
         String teacherName = "No Teacher Assigned";

@@ -1,7 +1,6 @@
 package com.shinkendo.api.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "curriculum")
+@ToString(exclude = {"rank", "techniques"})
 public class Curriculum {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,7 +24,8 @@ public class Curriculum {
     private Rank rank;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JoinColumn(name = "curriculum_id")
+    @JsonIgnoreProperties("curriculum")
     private List<Technique> techniques;
 
     @Override

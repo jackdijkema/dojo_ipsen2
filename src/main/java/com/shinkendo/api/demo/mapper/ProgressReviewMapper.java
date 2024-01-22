@@ -1,32 +1,43 @@
 package com.shinkendo.api.demo.mapper;
 
-
-import com.shinkendo.api.demo.dao.UserDAO;
-import com.shinkendo.api.demo.dto.ProgressReviewDTO;
-import com.shinkendo.api.demo.exception.NotFoundException;
-import com.shinkendo.api.demo.model.ProgressReview;
+import com.shinkendo.api.demo.dto.ProgressResponseDTO;
+import com.shinkendo.api.demo.dto.RankResponseDTO;
+import com.shinkendo.api.demo.dto.TechniqueResponseDTO;
+import com.shinkendo.api.demo.model.Lesson;
+import com.shinkendo.api.demo.model.Technique;
 import com.shinkendo.api.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class ProgressReviewMapper {
+    private final TechniqueMapper techniqueMapper;
+    private final RankMapper rankMapper;
 
-    private final UserDAO userDao;
+    public ProgressResponseDTO fromEntity(User user) {
+        RankResponseDTO rank = rankMapper.fromEntity(user.getRank());
 
-    public ProgressReview toEntity(ProgressReviewDTO progressReviewDTO) throws NotFoundException {
-        Optional<User> user = userDao.findById(progressReviewDTO.getStudentId());
-        if (user.isEmpty()) {
-            throw new NotFoundException("User with ID" + progressReviewDTO.getStudentId() + "was not found");
-        }
-        return ProgressReview.builder()
-                .body(progressReviewDTO.getBody())
-                .student(user.get())
-                .readyToPromote(progressReviewDTO.isReadyToPromote())
-                .build();
+        Set<Lesson> lessons = user.getLessons();
+        System.out.println(lessons);
 
+        Set<Technique> techniques = lessons
+                .stream()
+                .map(Lesson::getTechniques).reduce((a, b) -> {
+                    a.addAll(b);
+                    return a;
+                }).orElse(Set.of());
+        System.out.println(techniques);
+
+
+        List<TechniqueResponseDTO> techniquesDto = techniques
+                .stream()
+                .map(techniqueMapper::fromEntity)
+                .toList();
+
+        return ProgressResponseDTO.builder().techniques(techniquesDto).rank(rank).build();
     }
 }

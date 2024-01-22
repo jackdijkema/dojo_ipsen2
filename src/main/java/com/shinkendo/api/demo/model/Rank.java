@@ -29,6 +29,7 @@ public class Rank {
     private String rankName;
 
     @OneToMany(mappedBy = "rank")
+    @JsonIgnoreProperties("rank")
     private Collection<User> users;
 
     @Override
