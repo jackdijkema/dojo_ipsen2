@@ -6,6 +6,7 @@ import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.mapper.LessonMapper;
 import com.shinkendo.api.demo.model.Lesson;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,8 @@ public class LessonControllerTest {
 
     @MockBean
     private TechniqueDAO techniqueDAO;
+
+
 
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
@@ -95,6 +98,29 @@ public class LessonControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updatedLessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    @Test
+    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    public void should_fail_with_incorrect_inputs() throws Exception{
+
+        LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
+        lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
+        lessonCreateDTO.setLessonDate("2024-10-10");
+        lessonCreateDTO.setTeacherId(null);
+
+        Lesson expectedLesson = new Lesson();
+        lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
+        lessonCreateDTO.setLessonDate("2024-10-10");
+        lessonCreateDTO.setTeacherId(null);
+2
+
+        Mockito.when(lessonDao.save(expectedLesson)).thenReturn(expectedLesson);
+        Mockito.when(techniqueDAO.findById(lessonCreateDTO.getTechniques().get(0))).thenReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/lesson")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(lessonCreateDTO)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
 }
