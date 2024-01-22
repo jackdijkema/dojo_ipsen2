@@ -33,7 +33,6 @@ public class LessonController {
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @GetMapping("/{id}")
     public ApiResponse<LessonResponseDTO> getLessonById(@PathVariable UUID id) {
         try {
