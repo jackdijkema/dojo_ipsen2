@@ -58,7 +58,7 @@ public class CurriculumSeeder {
         for (Curriculum i : curriculumList) {
             List<Technique> references = new ArrayList<>();
             for (Technique j : techniques) {
-                if (j.getCurriculumId().getRank().getOrderId() == i.getRank().getOrderId()) {
+                if (j.getCurriculum().getRank().getOrderId() == i.getRank().getOrderId()) {
                     references.add(j);
                 }
             }

@@ -41,6 +41,14 @@ public class UserController {
         return new ApiResponse<>(res);
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @GetMapping(path = {"/{id}"})
+    @ResponseBody
+    public ApiResponse<UserResponseDTO> getUserById(@PathVariable UUID id) {
+        UserResponseDTO res = userMapper.fromEntity(userDAO.findById(id).orElseThrow());
+        return new ApiResponse<>(res);
+    }
+
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping

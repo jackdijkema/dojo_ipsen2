@@ -16,4 +16,5 @@ public class LessonResponseDTO {
     private String teacherId;
     private String note;
     private Collection<TechniqueResponseDTO> techniques;
+    private Collection<UserResponseDTO> students;
 }
