@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -24,19 +25,23 @@ public class CurriculumController {
     @ResponseBody
     public ApiResponse<List<CurriculumResponseDTO>> all() {
 
-        List<CurriculumResponseDTO> curriculumResponseDTOS = curriculumDAO.findAll().stream().map(curriculumMapper::fromEntity).toList();
+        List<CurriculumResponseDTO> curriculumResponseDTOS = curriculumDAO
+                .findAll()
+                .stream()
+                .map(curriculumMapper::fromEntity)
+                .toList();
+
         return new ApiResponse<>(curriculumResponseDTOS);
     }
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public ApiResponse<Curriculum> findById(@PathVariable UUID id) {
-        var curriculum = curriculumDAO.findById(id);
+    public ApiResponse<CurriculumResponseDTO> findById(@PathVariable UUID id) {
+        Optional<Curriculum> curriculum = curriculumDAO.findById(id);
 
-        //noinspection OptionalIsPresent
-        if (curriculum.isEmpty()) {
-            return new ApiResponse<>("Curriculum not found", HttpStatus.NOT_FOUND);
-        }
-        return new ApiResponse<>(curriculum.get());
+        return curriculum
+                .map(value -> new ApiResponse<>(curriculumMapper.fromEntity(value)))
+                .orElseGet(() -> new ApiResponse<>("Curriculum not found", HttpStatus.NOT_FOUND));
+
     }
 }
