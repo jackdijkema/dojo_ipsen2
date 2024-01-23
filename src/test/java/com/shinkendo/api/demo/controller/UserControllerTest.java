@@ -1,36 +1,24 @@
 package com.shinkendo.api.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shinkendo.api.demo.controller.UserController;
 import com.shinkendo.api.demo.dao.UserDAO;
 import com.shinkendo.api.demo.dto.UserCreateDTO;
 import com.shinkendo.api.demo.dto.UserResponseDTO;
 import com.shinkendo.api.demo.mapper.UserMapper;
-import com.shinkendo.api.demo.model.Curriculum;
-import com.shinkendo.api.demo.model.Rank;
 import com.shinkendo.api.demo.model.Role;
 import com.shinkendo.api.demo.model.User;
 import com.shinkendo.api.demo.service.AuthenticationService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -47,16 +35,10 @@ public class UserControllerTest {
     private AuthenticationService authenticationService;
 
     @MockBean
-    private PasswordEncoder passwordEncoder;
-
-    @MockBean
     private UserDAO userDAO;
 
     @MockBean
     private UserMapper userMapper;
-
-    @InjectMocks
-    private UserController userController;
 
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})

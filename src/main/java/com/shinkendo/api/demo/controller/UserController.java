@@ -45,8 +45,13 @@ public class UserController {
     @GetMapping(path = {"/{id}"})
     @ResponseBody
     public ApiResponse<UserResponseDTO> getUserById(@PathVariable UUID id) {
-        UserResponseDTO res = userMapper.fromEntity(userDAO.findById(id).orElseThrow());
-        return new ApiResponse<>(res);
+        if(userDAO.findById(id).isEmpty()) {
+            return new ApiResponse<>("User not found", HttpStatus.NOT_FOUND);
+        }
+        else {
+            UserResponseDTO res = userMapper.fromEntity(userDAO.findById(id).orElseThrow());
+            return new ApiResponse<>(res);
+        }
     }
 
 
