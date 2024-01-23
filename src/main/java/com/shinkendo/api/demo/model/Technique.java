@@ -30,4 +30,12 @@ public class Technique {
     private String category;
     private String description;
     private int orderId;
+
+    public Technique(String japaneseName, String englishName, String category, String description, Curriculum curriculum) {
+        this.japaneseName = japaneseName;
+        this.englishName = englishName;
+        this.category = category;
+        this.description = description;
+        this.curriculum = curriculum;
+    }
 }
