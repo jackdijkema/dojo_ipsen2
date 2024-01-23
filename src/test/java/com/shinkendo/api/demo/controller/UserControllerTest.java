@@ -60,16 +60,46 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
-    void getUsers() throws Exception {
+    void should_succeed_if_user_is_found_by_id() throws Exception {
         // Arrange
-        when(userDAO.findAll()).thenReturn(Collections.emptyList());
+        UUID userId = UUID.randomUUID();
+        User testUser = User.builder()
+                .id(userId)
+                .username("testUser123")
+                .password("testPassword")
+                .build();
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(userId);
+        userResponseDTO.setUsername("testUser123");
+        userResponseDTO.setRole(Role.STUDENT);
+        userResponseDTO.setRankName("testrank");
+        userResponseDTO.setRankId("testid");
+
+        when(userDAO.findById(userId)).thenReturn(Optional.of(testUser));
+        when(userMapper.fromEntity(any(User.class))).thenReturn(userResponseDTO);
 
         // Act and Assert
-        mockMvc.perform(get("/api/v1/user")
+        mockMvc.perform(get("/api/v1/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.data").isArray());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.payload.username").value("testUser123"));
     }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    void should_succeed_if_user_is_not_found_by_id() throws Exception {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        when(userDAO.findById(userId)).thenReturn(Optional.empty());
+
+        // Act and Assert
+        mockMvc.perform(get("/api/v1/user/{id}", userId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("User not found"));
+    }
+
 
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
@@ -98,6 +128,32 @@ public class UserControllerTest {
                         .content(asJsonString(userCreateDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.payload.token").value("mocked_token"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    void should_succeed_if_user_is_not_created_because_username_is_taken() throws Exception {
+        // Arrange
+        User testUser = User.builder()
+                .id(UUID.randomUUID())
+                .username("testUser123")
+                .password("testPassword")
+                .build();
+
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        userCreateDTO.setUsername("testUser123");
+        userCreateDTO.setPassword("testPassword");
+        userCreateDTO.setRank("testrank");
+        userCreateDTO.setRole("STUDENT");
+
+        when(userDAO.findByUsername(any())).thenReturn(Optional.of(testUser));
+
+        // Act
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(userCreateDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("User already exists"));
     }
 
     @Test
