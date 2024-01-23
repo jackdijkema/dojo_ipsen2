@@ -1,6 +1,8 @@
 package com.shinkendo.api.demo.controller;
 
 import com.shinkendo.api.demo.dao.CurriculumDAO;
+import com.shinkendo.api.demo.dto.CurriculumResponseDTO;
+import com.shinkendo.api.demo.mapper.CurriculumMapper;
 import com.shinkendo.api.demo.model.ApiResponse;
 import com.shinkendo.api.demo.model.Curriculum;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CurriculumController {
     private final CurriculumDAO curriculumDAO;
+    private final CurriculumMapper curriculumMapper;
+
     @GetMapping
     @ResponseBody
-    public ApiResponse<List<Curriculum>> all() {
-        return new ApiResponse<>(curriculumDAO.findAll());
+    public ApiResponse<List<CurriculumResponseDTO>> all() {
+
+        List<CurriculumResponseDTO> curriculumResponseDTOS = curriculumDAO.findAll().stream().map(curriculumMapper::fromEntity).toList();
+        return new ApiResponse<>(curriculumResponseDTOS);
     }
 
     @GetMapping(value = "/{id}")
