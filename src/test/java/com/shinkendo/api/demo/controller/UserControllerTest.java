@@ -43,7 +43,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_found_by_id() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         User testUser = User.builder()
                 .id(userId)
@@ -61,7 +60,6 @@ public class UserControllerTest {
         when(userDAO.findById(userId)).thenReturn(Optional.of(testUser));
         when(userMapper.fromEntity(any(User.class))).thenReturn(userResponseDTO);
 
-        // Act and Assert
         mockMvc.perform(get("/api/v1/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -71,11 +69,9 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_not_found_by_id() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
 
-        // Act and Assert
         mockMvc.perform(get("/api/v1/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
@@ -86,7 +82,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_new_user_is_created() throws Exception {
-        // Arrange
         User testUser = User.builder()
                 .id(UUID.randomUUID())
                 .username("testUser123")
@@ -104,7 +99,6 @@ public class UserControllerTest {
         when(authenticationService.register(anyString(), anyString())).thenReturn(Optional.of("mocked_token"));
         when(userMapper.toEntity(any(UserCreateDTO.class))).thenReturn(testUser);
 
-        // Act
         ResultActions resultActions = mockMvc.perform(post("/api/v1/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userCreateDTO)))
@@ -115,7 +109,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_not_created_because_username_is_taken() throws Exception {
-        // Arrange
         User testUser = User.builder()
                 .id(UUID.randomUUID())
                 .username("testUser123")
@@ -130,7 +123,6 @@ public class UserControllerTest {
 
         when(userDAO.findByUsername(any())).thenReturn(Optional.of(testUser));
 
-        // Act
         ResultActions resultActions = mockMvc.perform(post("/api/v1/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userCreateDTO)))
@@ -141,7 +133,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_not_created_because_username_is_empty() throws Exception {
-        // Arrange
         User testUser = User.builder()
                 .id(UUID.randomUUID())
                 .password("testPassword")
@@ -156,7 +147,6 @@ public class UserControllerTest {
         when(userDAO.findByUsername(any())).thenReturn(Optional.empty());
         when(userMapper.toEntity(any(UserCreateDTO.class))).thenReturn(testUser);
 
-        // Act
         ResultActions resultActions = mockMvc.perform(post("/api/v1/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userCreateDTO)))
@@ -167,11 +157,9 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_deleted_successfully() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
 
-        // Act and Assert
         mockMvc.perform(delete("/api/v1/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -181,11 +169,9 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_not_deleted_because_user_does_not_exist() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
 
-        // Act and Assert
         mockMvc.perform(delete("/api/v1/user/{id}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -195,7 +181,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_edited_successfully() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
 
@@ -220,7 +205,6 @@ public class UserControllerTest {
         when(userDAO.save(any(User.class))).thenReturn(updatedUser);
         when(userMapper.fromEntity(any(User.class))).thenReturn(userResponseDTO);
 
-        // Act
         mockMvc.perform(put("/api/v1/user/{id}", userId)
                         .content(asJsonString(userCreateDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -231,7 +215,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_is_not_edited_because_user_does_not_exist() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
 
@@ -239,7 +222,6 @@ public class UserControllerTest {
         userCreateDTO.setUsername("updatedUser");
         userCreateDTO.setPassword("updatedPassword");
 
-        // Act
         mockMvc.perform(put("/api/v1/user/{id}", userId)
                         .content(asJsonString(userCreateDTO))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -250,7 +232,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
     void should_succeed_if_user_without_password_is_edited_successfully() throws Exception {
-        // Arrange
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
 
@@ -274,7 +255,6 @@ public class UserControllerTest {
         when(userDAO.save(any(User.class))).thenReturn(updatedUser);
         when(userMapper.fromEntity(any(User.class))).thenReturn(userResponseDTO);
 
-        // Act
         mockMvc.perform(put("/api/v1/user/{id}", userId)
                         .content(asJsonString(userCreateDTO))
                         .contentType(MediaType.APPLICATION_JSON))

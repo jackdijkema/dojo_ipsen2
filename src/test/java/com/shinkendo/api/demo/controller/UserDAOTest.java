@@ -25,65 +25,49 @@ public class UserDAOTest {
 
     @Test
     public void shoud_succeed_if_user_is_deleted_and_user_exists() {
-        // Arrange
         UUID id = UUID.randomUUID();
         User expectedUser = new User();
         expectedUser.setId(id);
-
         when(userRepository.findById(id)).thenReturn(Optional.of(expectedUser));
 
-        // Act
         userDAO.delete(id);
 
-        // Assert
         verify(userRepository, times(1)).delete(expectedUser);
     }
 
     @Test
     public void shoud_succeed_if_user_is_not_deleted_if_it_doesnt_exists() {
-        // Arrange
         UUID id = UUID.randomUUID();
         User expectedUser = new User();
         expectedUser.setId(id);
-
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
         userDAO.delete(id);
 
-        // Assert
         verify(userRepository, times(0)).delete(expectedUser);
     }
 
     @Test
     public void should_succeed_if_user_is_found() {
-        // Arrange
         String username = "testuser";
         User expectedUser = new User();
         expectedUser.setUsername(username);
-
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(expectedUser));
 
-        // Act
         userDAO.findByUsername(username);
 
-        // Assert
         verify(userRepository, times(1)).findByUsername(username);
     }
 
     @Test
     public void shoud_succeed_if_user_was_not_found() {
-        // Arrange
         String username = "testuser";
         User expectedUser = new User();
         expectedUser.setUsername(username);
-
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        // Act
         userDAO.findByUsername(username);
 
-        // Assert
         verify(userRepository, times(1)).findByUsername(username);
     }
 
