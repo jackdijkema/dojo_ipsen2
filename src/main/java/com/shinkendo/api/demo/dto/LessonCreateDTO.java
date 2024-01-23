@@ -16,8 +16,8 @@ import java.util.UUID;
 public class LessonCreateDTO {
     private List<UUID> students;
     private List<UUID> techniques;
-    private LocalDate lessonDate;
+    private String lessonDate;
     private String note;
     private UUID teacherId;
-    private LocalDate endOfRecurring;
+    private String endOfRecurring;
 }
