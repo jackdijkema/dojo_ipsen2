@@ -26,11 +26,11 @@ public class RecurringService {
     }
 
     public void createRecurringLesson(LessonCreateDTO lessonDTO) throws NotFoundException {
-        LocalDate endOfRecurring = lessonDTO.getEndOfRecurring();
+        LocalDate endOfRecurring = LocalDate.parse(lessonDTO.getEndOfRecurring());
         long weeksUntil = calculateWeeksUntil(endOfRecurring);
 
         final int oneWeek = 7;
-        LocalDate lessonDate = lessonDTO.getLessonDate();
+        LocalDate lessonDate = LocalDate.parse(lessonDTO.getLessonDate());
         HashSet<Technique> techniques = lessonMapper.getTechniques(lessonDTO);
 
         for (int i = 0; i < weeksUntil; i++) {
