@@ -47,20 +47,17 @@ public class UserSeeder {
         Map<Integer, List<User>> userMap = new HashMap<>();
 
         for (String gebruikernaam : nederlandseGebruikersnamen) {
-            String username = gebruikernaam;
-            String password = username;
 
             Random generator = new Random();
             int randomIndex = generator.nextInt(ranks.size());
             Rank rank = ranks.get(randomIndex);
+            User user = seed(gebruikernaam, gebruikernaam, rank);
 
-            User user = seed(username, password, rank);
             try {
                 this.userDAO.save(user);
             } catch (Exception e) {
                 System.out.println("couldn't create user account: " + e.getMessage());
             }
-
             if (userMap.containsKey(randomIndex)) {
                 List<User> oude = userMap.get(randomIndex);
                 oude.add(user);
@@ -70,14 +67,10 @@ public class UserSeeder {
                 seededUser.add(user);
                 userMap.put(randomIndex, seededUser);
             }
-
-//            this.rankDao.save(rank);
         }
-
         for (Map.Entry<Integer, List<User>> entry : userMap.entrySet()) {
             ranks.get(entry.getKey()).setUsers(entry.getValue());
         }
-
         for (Rank rank : ranks) {
             try {
                 this.rankDao.save(rank);
@@ -89,12 +82,11 @@ public class UserSeeder {
     }
 
     private User seed(String username, String password, Rank rank) {
-        var user = User.builder()
+        return User.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .role(Role.STUDENT)
                 .rank(rank)
                 .build();
-        return user;
     }
 }
