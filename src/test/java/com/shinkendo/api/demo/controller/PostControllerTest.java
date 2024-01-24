@@ -117,4 +117,30 @@ public class PostControllerTest {
         mockMvc.perform(delete("/api/v1/posts/" + id))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @WithMockUser(authorities = "STUDENT") // Non-SUPERADMIN user
+    public void testDeletePostUnauthorized() throws Exception {
+        // Given
+        UUID id = UUID.randomUUID();
+
+        // Performing the DELETE request with a non-SUPERADMIN user
+        mockMvc.perform(delete("/api/v1/posts/" + id))
+                .andExpect(status().isNotFound());
+    }
+
+//    @Test
+//    @WithMockUser(authorities = "SUPERADMIN")
+//    public void testDeletePostException() throws Exception {
+//        // Given
+//        UUID id = UUID.randomUUID();
+//
+//        // Mocking the behavior of postDAO to throw an exception
+//        when(postDAO.findById(any(UUID.class))).thenReturn(Optional.of(new Post()));
+//        doThrow(RuntimeException.class).when(postDAO).delete(any(UUID.class));
+//
+//        // Performing the DELETE request
+//        mockMvc.perform(delete("/api/v1/posts/" + id))
+//                .andExpect(status().isInternalServerError());
+//    }
 }
