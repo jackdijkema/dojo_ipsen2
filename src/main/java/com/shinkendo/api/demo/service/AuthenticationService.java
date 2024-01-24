@@ -17,7 +17,7 @@ import java.util.Optional;
 public class AuthenticationService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService = new JwtService();
+    private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -33,7 +33,6 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        user.setId(userDAO.save(user).getId()); // Dit is nodig voor de mock
         String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId());
         return Optional.of(token);
     }
