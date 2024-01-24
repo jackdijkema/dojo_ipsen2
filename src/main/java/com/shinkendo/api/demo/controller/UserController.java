@@ -28,7 +28,7 @@ public class UserController {
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @GetMapping
     @ResponseBody
     public ApiResponse<List<UserResponseDTO>> getUsers() {
@@ -41,7 +41,7 @@ public class UserController {
         return new ApiResponse<>(res);
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @GetMapping(path = {"/{id}"})
     @ResponseBody
     public ApiResponse<UserResponseDTO> getUserById(@PathVariable UUID id) {
@@ -55,7 +55,7 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     public ApiResponse<AuthResponseDTO> register(@RequestBody UserCreateDTO userCreateDTO) {
         Optional<User> foundUser = userDAO.findByUsername(userCreateDTO.getUsername());
@@ -91,7 +91,7 @@ public class UserController {
         return new ApiResponse<>(new AuthResponseDTO(token));
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping(path = {"/{id}"})
     public ApiResponse<String> deleteUser(@PathVariable UUID id) {
         try {
@@ -103,7 +103,7 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PutMapping(path = {"/{id}"})
     public ApiResponse<UserResponseDTO> editUser(@PathVariable("id") UUID id, @RequestBody UserCreateDTO userCreateDTO) {
         Optional<User> foundUser = userDAO.findById(id);

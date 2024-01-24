@@ -47,7 +47,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     public ApiResponse<LessonResponseDTO> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
@@ -66,7 +66,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping("/{id}/user/{userid}")
     public ApiResponse<String> removeUseFromLesson(@PathVariable UUID id, @PathVariable UUID userid) {
         try {
@@ -77,7 +77,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping("/{id}/user")
     public ApiResponse<String> addUserToLesson(@PathVariable UUID id, @RequestBody LessonAddUserDTO lessonAddUserDTO) {
         try {
@@ -88,7 +88,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PutMapping("/{id}")
     public ApiResponse<LessonResponseDTO> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
         try {
@@ -103,7 +103,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteLesson(@PathVariable UUID id) {
         try {

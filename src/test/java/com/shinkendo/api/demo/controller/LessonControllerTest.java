@@ -48,7 +48,7 @@ public class LessonControllerTest {
 
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     public void should_create_lesson() throws Exception {
         LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
@@ -71,7 +71,7 @@ public class LessonControllerTest {
     }
 
     @Test
-@WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+@WithMockUser(username = "sensei", authorities = {"SENSEI"})
 public void should_retrieve_lesson_successfully() throws Exception {
     Lesson lesson = new Lesson();
     UUID lessonId = UUID.randomUUID();
@@ -84,7 +84,7 @@ public void should_retrieve_lesson_successfully() throws Exception {
 }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     public void should_edit_lesson() throws Exception {
         LessonCreateDTO initialLessonCreateDTO = new LessonCreateDTO();
         initialLessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
@@ -119,7 +119,7 @@ public void should_retrieve_lesson_successfully() throws Exception {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     public void should_fail_with_incorrect_inputs() throws Exception{
 
         LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
@@ -139,7 +139,7 @@ public void should_retrieve_lesson_successfully() throws Exception {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     public void should_fail_if_lesson_is_not_found() throws Exception{
         UUID nonExistentId = UUID.randomUUID();
 
@@ -151,7 +151,7 @@ public void should_retrieve_lesson_successfully() throws Exception {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     public void should_fail_when_deleting_non_existent_lesson() throws Exception {
         UUID nonExistentId = UUID.randomUUID();
 

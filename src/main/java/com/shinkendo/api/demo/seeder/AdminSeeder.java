@@ -26,7 +26,7 @@ public class AdminSeeder {
         var admin = User.builder()
                 .username(superAdminName)
                 .password(passwordEncoder.encode(superAdminPassword))
-                .role(Role.SUPERADMIN)
+                .role(Role.SENSEI)
                 .build();
         try {
             this.userDAO.save(admin);

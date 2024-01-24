@@ -41,7 +41,7 @@ public class UserControllerTest {
     private UserMapper userMapper;
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_found_by_id() throws Exception {
         UUID userId = UUID.randomUUID();
         User testUser = User.builder()
@@ -67,7 +67,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_found_by_id() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -80,7 +80,7 @@ public class UserControllerTest {
 
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_new_user_is_created() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -107,7 +107,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_created_because_username_is_taken() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -131,7 +131,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_created_because_username_is_empty() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -155,7 +155,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_deleted_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
@@ -167,7 +167,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_deleted_because_user_does_not_exist() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -179,7 +179,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_edited_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
@@ -213,7 +213,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_edited_because_user_does_not_exist() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -230,7 +230,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "sensei", authorities = {"SENSEI"})
     void should_succeed_if_user_without_password_is_edited_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
