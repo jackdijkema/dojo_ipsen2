@@ -41,6 +41,19 @@ public class UserController {
         return new ApiResponse<>(res);
     }
 
+    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @GetMapping(path = {"/{id}"})
+    @ResponseBody
+    public ApiResponse<UserResponseDTO> getUserById(@PathVariable UUID id) {
+        if(userDAO.findById(id).isEmpty()) {
+            return new ApiResponse<>("User not found", HttpStatus.NOT_FOUND);
+        }
+        else {
+            UserResponseDTO res = userMapper.fromEntity(userDAO.findById(id).orElseThrow());
+            return new ApiResponse<>(res);
+        }
+    }
+
 
     @PreAuthorize("hasAuthority('SUPERADMIN')")
     @PostMapping

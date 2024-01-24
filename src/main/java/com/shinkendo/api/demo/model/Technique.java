@@ -1,14 +1,12 @@
 package com.shinkendo.api.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,13 +20,23 @@ public class Technique {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @JsonBackReference
     @ManyToOne
-    private Curriculum curriculumId;
+    @JoinColumn(name = "curriculum_id")
+    @JsonIgnore
+    private Curriculum curriculum;
 
     private String japaneseName;
     private String englishName;
     private String category;
     private String description;
     private int orderId;
+
+    public Technique(String japaneseName, String englishName, String category, String description, int orderId, Curriculum curriculum) {
+        this.japaneseName = japaneseName;
+        this.englishName = englishName;
+        this.category = category;
+        this.description = description;
+        this.orderId = orderId;
+        this.curriculum = curriculum;
+    }
 }

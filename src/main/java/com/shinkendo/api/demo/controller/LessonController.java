@@ -33,7 +33,6 @@ public class LessonController {
         return new ApiResponse<>(lessons, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
     @GetMapping("/{id}")
     public ApiResponse<LessonResponseDTO> getLessonById(@PathVariable UUID id) {
         try {
@@ -52,10 +51,10 @@ public class LessonController {
     @PostMapping
     public ApiResponse<LessonResponseDTO> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
-
-            LocalDate endOfRecurring = lessonCreateDTO.getEndOfRecurring();
-
-            if (endOfRecurring != null) {
+            if( lessonCreateDTO.getTeacherId() == null || lessonCreateDTO.getLessonDate() == null){
+                return new ApiResponse<>("Incorrect inputs", HttpStatus.BAD_REQUEST);
+            }
+            if (lessonCreateDTO.getEndOfRecurring() != null) {
                 lessonService.createRecurringLesson(lessonCreateDTO);
                 return new ApiResponse<>("Created recurring lesson succesfully...", HttpStatus.OK);
             }

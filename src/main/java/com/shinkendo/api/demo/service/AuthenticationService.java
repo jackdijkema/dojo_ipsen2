@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService = new JwtService(); // Dit is nodig voor de mock
-//    private final JwtService jwtService;
+    private final JwtService jwtService = new JwtService();
 
     private final AuthenticationManager authenticationManager;
 

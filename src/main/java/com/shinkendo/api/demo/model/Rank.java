@@ -29,6 +29,7 @@ public class Rank {
     private String rankName;
 
     @OneToMany(mappedBy = "rank")
+    @JsonIgnoreProperties("rank")
     private Collection<User> users;
 
     @Override
@@ -36,4 +37,12 @@ public class Rank {
         return id.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Rank{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", rankName='" + rankName + '\'' +
+                '}';
+    }
 }

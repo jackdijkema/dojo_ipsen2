@@ -9,13 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -25,55 +21,282 @@ public class TechniqueSeeder {
     private final Logger logger;
 
     public void seed() {
-        List<Technique> techniques = new ArrayList<>();
+
         List<Curriculum> curriculumList = this.curriculumDAO.findAll();
 
+        System.out.println(techniqueDAO.findAll());
         if (!techniqueDAO.findAll().isEmpty()) {
             logger.info("Techniques have already been seeded");
             return;
         }
 
-        boolean shouldSkip = true;
-        BufferedReader reader;
-        try {
-            URL resource = getClass().getClassLoader().getResource("techniques.csv");
+        Map<Integer, Curriculum> curriculumMap = new HashMap<>();
 
-            assert resource != null;
-            reader = new BufferedReader(new FileReader(resource.getFile()));
-            String line = reader.readLine();
-
-            while (line != null) {
-                if (shouldSkip) {
-                    shouldSkip = false;
-                    line = reader.readLine();
-                    continue;
-                }
-
-                String[] lineArray = line.split(",");
-
-                Technique technique = new Technique();
-                technique.setJapaneseName(lineArray[0]);
-                technique.setEnglishName(lineArray[1]);
-                technique.setCategory(lineArray[2]);
-                technique.setDescription(lineArray[3].strip());
-                technique.setOrderId(Integer.parseInt(lineArray[4].strip()));
-
-                for (Curriculum i : curriculumList) {
-                    if (i.getRank().getOrderId() == technique.getOrderId()) {
-                        technique.setCurriculumId(i);
-                        break;
-                    }
-                }
-
-
-                techniques.add(technique);
-                line = reader.readLine();
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            logger.error(Arrays.toString(e.getStackTrace()));
+        for (Curriculum curriculum : curriculumList) {
+            curriculumMap.put(curriculum.getRank().getOrderId(), curriculum);
         }
+
+        List<Technique> techniques = List.of(
+                new Technique(" 真武道館", "Shinbudoukan", "Kyougi - Riron", "school of divine valor true spiritual/martial power", 1, curriculumMap.get(1)),
+                new Technique(" 道場", "Doujou", "Kyougi - Riron", "hall (temple) for martial arts training - place of enlightenment", 1, curriculumMap.get(1)),
+                new Technique(" 技", "Waza", "Kyougi - Riron", "technique", 1, curriculumMap.get(1)),
+                new Technique(" 稽古", "Keiko", "Kyougi - Riron", "practice training study", 1, curriculumMap.get(1)),
+                new Technique(" 武道 - 武術", "Budou - bujutsu", "Kyougi - Riron", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Musubidachi", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Shizentai", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Jigotai", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Hanmi migi/hidari", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Tagai no kamae ai/gyaku hanmi", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Hanmi handachi (kneeling)", "Kamae", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Taiso ichi", "Taiso - ashisabaki - taisabaki", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Taisabaki ichi", "Taiso - ashisabaki - taisabaki", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Mae mawari ichi ni san", "Taiso - ashisabaki - taisabaki", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Mae / ushiro mawari kaiten", "Taiso - ashisabaki - taisabaki", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Ichinotachi migi/hidari", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Ichinotachi kesa migi/hidari", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Ichimonji suburi", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Ichimonji suburi kesa", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Shiho suburi", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Shiho kesa", "Suburi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Gohou no kamae", "Tanrengata", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Happogiri", "Tanrengata", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Happo ura", "Tanrengata", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Gohou battohou kihon ichi", "Battohou", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Gohou battohou kihon ni", "Battohou", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Tsukigaeshi", "Tachiuchi", null, 1, curriculumMap.get(1)),
+                new Technique(null, "Kirigaeshi 90°", "Tachiuchi", null, 1, curriculumMap.get(1)),
+                new Technique(" 見蕩稽古", "Mitorigeiko", "Kyougi - Riron", "training through observation (to watch in fascination)", 2, curriculumMap.get(2)),
+                new Technique(" 五輪五法五行", "Gorin gohou gogyo", "Kyougi - Riron", "five rings five methods / laws five lines", 2, curriculumMap.get(2)),
+                new Technique(" 打ち太刀 - 仕太刀", "Uchidachi – shidachi", "Kyougi - Riron", "initiator of a technique – receiver and retaliator of a technique", 2, curriculumMap.get(2)),
+                new Technique(" 打ち手 - 受け手", "Uchite – Ukete", "Kyougi - Riron", "striker – receiver", 2, curriculumMap.get(2)),
+                new Technique(" 武士道", "Bushido", "Kyougi - Riron", null, 2, curriculumMap.get(2)),
+                new Technique(" 侍", "Samurai", "Kyougi - Riron", null, 2, curriculumMap.get(2)),
+                new Technique(" 禅", "Zen", "Kyougi - Riron", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Taiso ichi ni", "Ashisabaki-Taisabaki", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Taisabaki ichi", "Ashisabaki-Taisabaki", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Ushiro mawari ichi ni san", "Ashisabaki-Taisabaki", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Mae / ushiro mawari kaiten tobi", "Ashisabaki-Taisabaki", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Ichinotachi zengo", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Ichinotachi zengo kesa", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Ichinotachi zengo kesa makuri", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Kesa-kaeshi", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Kirikaeshi zengo", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Kirikaeshi zengo kesa", "Suburi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Happo no kamae", "Tanrengata", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Happogiri ura", "Tanrengata", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Shoden no kata", "Tanrengata", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Gohou battohou santen", "Battohou", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Gohou battohou santen ura", "Battohou", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Rokudo tachiuchi", "Tachiuchi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Uchikomi ichi", "Tachiuchi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Tsukikomi ichi", "Tachiuchi", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Shizan kihon ichi", "Tameshigiri", null, 2, curriculumMap.get(2)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 2, curriculumMap.get(2)),
+                new Technique(" 残心", "Zanshin", "Kyougi – Riron", "lingering awareness", 3, curriculumMap.get(3)),
+                new Technique(" 柔よく剛を制す", "Ju yoku go o seishi", "Kyougi – Riron", "soft controls hard", 3, curriculumMap.get(3)),
+                new Technique(" 剛よく柔を断つ", "Go yoku ju o tatsu", "Kyougi – Riron", "hard cuts soft", 3, curriculumMap.get(3)),
+                new Technique(" 引けば押せ", "Hike ba ose", "Kyougi – Riron", "when pulled push", 3, curriculumMap.get(3)),
+                new Technique(" 押せば回れ", "Ose ba maware", "Kyougi – Riron", "when pushed turn", 3, curriculumMap.get(3)),
+                new Technique(null, "Taisabaki ni", "Ashisabaki-Taisabaki", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Fumikae – juushin no ido", "Ashisabaki-Taisabaki", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Fumikae – uchikomi ichi ni san", "Ashisabaki-Taisabaki", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Kihon dosa", "Suburi", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Rokudo", "Suburi", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Happogiri ura", "Tanrengata", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Shoden no kata", "Tanrengata", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Juni ni kamae", "Tanrengata", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Kagamiishi usen", "Tanrengata", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Kagamiishi sasen", "Tanrengata", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Gohou battohou shiho", "Battohou", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Ippondachi", "Tachiuchi", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Santen dachi", "Tachiuchi", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Battohou soutai", "Tachiuchi", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Shizan shi", "Tameshigiri", null, 3, curriculumMap.get(3)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 3, curriculumMap.get(3)),
+                new Technique(" 刀の礼法", "Katana no reiho", "Kyougi – Riron", "sword examination", 4, curriculumMap.get(4)),
+                new Technique(" 初心", "Sho shin", "Kyougi – Riron", "beginners mind (original intention initial resolution)", 4, curriculumMap.get(4)),
+                new Technique(" 力", "Chikara (riki)", "Kyougi – Riron", "power strength", 4, curriculumMap.get(4)),
+                new Technique(" 拍子", "Hyoushi", "Kyougi – Riron", "rhythm", 4, curriculumMap.get(4)),
+                new Technique(" 速度", "Sokudo", "Kyougi – Riron", "speed", 4, curriculumMap.get(4)),
+                new Technique(" 胆力", "Tanryoku", "Kyougi – Riron", "courage/nerve", 4, curriculumMap.get(4)),
+                new Technique(null, "Mae hineri ichi ni san", "Ashisabaki", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Ushiro hineri ichi ni", "Ashisabaki", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Makiuchi zengo", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Makiuchi sayu", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Makiuchi kaeshiuchi", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Makiuchi migi mawari", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kaeshiuchi hidari mawari", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kirikaeshi 1", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kirikaeshi 2", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kirikaeshi 3", "Suburi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kagamiishi usen", "Tanrengata", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kagamiishi sasen", "Tanrengata", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Chuden sei", "Tanrengata", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Gohou battohou shiho ura", "Battohou", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Gohou battohou makiuchi ichi/ni", "Battohou", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Uchikomi ni", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Tsukikomi ni", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Uchitsuki ichi-ni", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Kirigaeshi 180° + 90°", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Battohou sanbondachi", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Makiuchi basic", "Tachiuchi", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Shizan kihon san", "Tameshigiri", null, 4, curriculumMap.get(4)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 4, curriculumMap.get(4)),
+                new Technique(" 刀の手入れ", "Katana no teire", "Kyougi – Riron", "sword cleaning care and maintenance", 5, curriculumMap.get(5)),
+                new Technique(" 真剣道九曜紋", "Shinkendo kuyomon", "Kyougi – Riron", null, 5, curriculumMap.get(5)),
+                new Technique(" 無心", "Mushin", "Kyougi – Riron", "no (empty) mind", 5, curriculumMap.get(5)),
+                new Technique(" 不動心", "Fudoushin", "Kyougi – Riron", "immovable mind", 5, curriculumMap.get(5)),
+                new Technique(" 見切り", "Mikiri", "Kyougi – Riron", "exactly evading an attack by the smallest amount possible", 5, curriculumMap.get(5)),
+                new Technique(" 目線", "Mesen", "Kyougi – Riron", "gaze (enzan no me -遠山 – distant mountain gaze)", 5, curriculumMap.get(5)),
+                new Technique(" 目附", "Metsuke", "Kyougi – Riron", "reference of view", 5, curriculumMap.get(5)),
+                new Technique(null, "Tsuriashi – tsugiashi – sashiashi", "Ashisabaki", null, 5, curriculumMap.get(5)),
+                new Technique(null, "a. Kagigata", "Ashisabaki", null, 5, curriculumMap.get(5)),
+                new Technique(null, "b. Jujigata", "Ashisabaki", null, 5, curriculumMap.get(5)),
+                new Technique(null, "c. Masugata", "Ashisabaki", null, 5, curriculumMap.get(5)),
+                new Technique(null, "d. Sotai tsuriashi – tsugiashi – sashiashi", "Ashisabaki", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Shizan suburi 1", "Suburi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Shizan suburi 2", "Suburi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Nami ichi ni san", "Suburi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Namigaeshi ichi ni san", "Suburi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Chuden sei", "Tanrengata", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Chuden do", "Tanrengata", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Hangetsu ura", "Battohou", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Mangetsu", "Battohou", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Kasumi kirigaeshi", "Tachiuchi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Juppondachi", "Tachiuchi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Ryusui", "Tachiuchi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Isonami", "Tachiuchi", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Shizan go", "Tameshigiri", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Toyama ryu gunto soho", "Gaiden", null, 5, curriculumMap.get(5)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 5, curriculumMap.get(5)),
+                new Technique(" 基本四根", "Kihon Shikon", "Kyougi – Riron", "basic four fundamentals", 6, curriculumMap.get(6)),
+                new Technique(" 自他共栄", "Ji ta kyo ei", "Kyougi – Riron", "co-prosperity mutual welfare and benefit (Judo)", 6, curriculumMap.get(6)),
+                new Technique(" 精力善用", "Sei ryoku zenyo", "Kyougi – Riron", "maximum-efficient use of power (Judo)", 6, curriculumMap.get(6)),
+                new Technique(null, "Taisabaki san", "Taiso-Ashisabaki-Taisabaki", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Shiho kesa kiriage", "Suburi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Ichimonji kesa kiriage", "Suburi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Ichimonji santen", "Suburi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Ichimonji goten", "Suburi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Chuden sei", "Tanrengata", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Chuden do", "Tanrengata", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Hangetsu gaeshi", "Battohou", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Mangetsu gaeshi", "Battohou", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Kasumi kirigaeshi", "Tachiuchi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Juppondachi", "Tachiuchi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Ryusui", "Tachiuchi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Isonami", "Tachiuchi", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Shizan roku", "Tameshigiri", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Gohou battohou santen giri mayoko", "Tameshigiri", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Toyama ryu gunto soho", "Gaiden", null, 6, curriculumMap.get(6)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 6, curriculumMap.get(6)),
+                new Technique(" 九曜十二訓", "Kuyojunikun", "Kyougi – Riron", null, 7, curriculumMap.get(7)),
+                new Technique(" 兵法", "Heihou", "Kyougi – Riron", "art of war / strategy", 7, curriculumMap.get(7)),
+                new Technique(" 軍法", "Gunpou", "Kyougi – Riron", "tactics", 7, curriculumMap.get(7)),
+                new Technique(" 剣禅一如", "Kenzenichi", "Kyougi – Riron", "meaning of the ken and Zen is one (in battle / sitting without thought)", 7, curriculumMap.get(7)),
+                new Technique(null, "Hishigata", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "a. Tatebishi", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "b. Yokobishi", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "c. Sotobishi", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "d. Tatebishi henka", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "e. Sotai hishigata", "Ashisabaki", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Oogi (happo kirigaeshi)", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Oogi hyakusanjugo", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Oogi gaeshi (juroppo kirigaeshi)", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Oogi gaeshi hyakusanjugo", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Kasumi gaeshi", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Kasumi-gaeshi sotai", "Suburi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Jugo", "Tanrengata", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Jugo Shiho", "Tanrengata", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Goshiki", "Battohou", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Goshiki santen giri", "Battohou", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Goshiki santen", "Battohou", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Santen ura", "Battohou", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Kasumi kirigaeshi", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Juppondachi", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Ryusui", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Isonami", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Makiuchi advanced", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Ichimonji", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Tomoe ichi-ni", "Tachiuchi", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Shizan Shichi", "Tameshigiri", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Toyama ryu battojutsu", "Gaiden", null, 7, curriculumMap.get(7)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 7, curriculumMap.get(7)),
+                new Technique(" 八道", "Hachido", "Kyougi – Riron", "eight fold path", 8, curriculumMap.get(8)),
+                new Technique(" 武産", "Takemusu", "Kyougi – Riron", "martial movement spontaneously created without active thought resulting in pure technique", 8, curriculumMap.get(8)),
+                new Technique(null, "Shido ho", "Shido ho", "Ability to teach classes and respond well to students questions", 8, curriculumMap.get(8)),
+                new Technique(null, "Ronbun", "Ronbun", "“What is Shinkendo?”", 8, curriculumMap.get(8)),
+                new Technique(null, "Shitsumon", "Shitsumon", "Open questions from examiners", 8, curriculumMap.get(8)),
+                new Technique(null, "Kensabaki", "Suburi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Tombo", "Suburi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Tombo gaeshi", "Suburi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Rokuten giri", "Suburi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Tanrengata", "Tanrengata", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Battohou", "Battohou", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Ichimonji", "Tachiuchi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Tomoe ichi-ni", "Tachiuchi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Tomoe henka", "Tachiuchi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Juppondachi jyuichi", "Tachiuchi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Ippondachi henka", "Tachiuchi", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Shizan hachi", "Tameshigiri", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Shizan kyu", "Tameshigiri", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Toyama ryu battojutsu", "Gaiden", null, 8, curriculumMap.get(8)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 8, curriculumMap.get(8)),
+                new Technique(" 五育", "Goiku", "Kyougi – Riron", "five basis points of education", 9, curriculumMap.get(9)),
+                new Technique(" 身心の鍛錬", "Shin-shin no Tanren", "Kyougi – Riron", "training body mind and spirit", 9, curriculumMap.get(9)),
+                new Technique(" 自力 他力 自然力 神通力", "Jiriki tariki shizen ryoku jintsuuriki", "Kyougi – Riron", "self power other power power of nature supernatural/divine power", 9, curriculumMap.get(9)),
+                new Technique(null, "Shido ho", "Shido ho", "Ability to lead class (plan curriculum run classes and respond well to students questions)", 9, curriculumMap.get(9)),
+                new Technique(null, "Ronbun", "Ronbun", "“What are the requirements for an instructor?”", 9, curriculumMap.get(9)),
+                new Technique(null, "Shitsumon", "Shitsumon", "Open questions from examiners", 9, curriculumMap.get(9)),
+                new Technique(null, "TEN", "Suburi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "CHI", "Suburi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "JIN", "Suburi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "TEN", "Tanrengata", null, 9, curriculumMap.get(9)),
+                new Technique(null, "CHI", "Tanrengata", null, 9, curriculumMap.get(9)),
+                new Technique(null, "JIN", "Tanrengata", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Goshiki santen ura", "Battohou", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Gohou battohou gotengiri", "Battohou", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Shiho", "Tachiuchi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Juppon omote", "Tachiuchi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Ichimonji santen", "Tachiuchi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Uchitsuki random", "Tachiuchi", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Shizan jyu", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Shizan sotai", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Dotangiri", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Karatakewari", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "lnazumagiri", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Thrown target", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Henka / Jyu-Waza", "Tameshigiri", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Toyama ryu battodo-iaido", "Gaiden", null, 9, curriculumMap.get(9)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 9, curriculumMap.get(9)),
+                new Technique(" 力愛不二", "Riki Ai Funi", "Kyougi – Riron", "strength and love stand together (Shorinji Kempo)", 10, curriculumMap.get(10)),
+                new Technique(" 陰陽", "In-you", "Kyougi – Riron", "cosmic dual forces yin and yang sun and moon (shade negative female secret dark VS. sunshine positive male light)", 10, curriculumMap.get(10)),
+                new Technique(" 気剣体一致", "Ki-ken-tai-ichi", "Kyougi – Riron", "spirit sword & body as one (all three elements as unite in perfect movement; the ideal which all practice should strive for as a goal)", 10, curriculumMap.get(10)),
+                new Technique(null, "Shido ho", "Shido ho", "Ability to lead own classes teach any technique plan curriculum and respond well to student’s questions and input", 10, curriculumMap.get(10)),
+                new Technique(null, "Ronbun", "Ronbun", "“The relationship between teacher and student in budo.”", 10, curriculumMap.get(10)),
+                new Technique(null, "Shitsumon", "Shitsumon", "Open questions from examiners", 10, curriculumMap.get(10)),
+                new Technique(null, "TEN", "Suburi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "CHI", "Suburi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "JIN", "Suburi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "TEN", "Tanrengata", null, 10, curriculumMap.get(10)),
+                new Technique(null, "CHI", "Tanrengata", null, 10, curriculumMap.get(10)),
+                new Technique(null, "JIN", "Tanrengata", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Jiyuu waza", "Tanrengata", null, 10, curriculumMap.get(10)),
+                new Technique(null, "TEN", "Battohou", null, 10, curriculumMap.get(10)),
+                new Technique(null, "CHI", "Battohou", null, 10, curriculumMap.get(10)),
+                new Technique(null, "JIN", "Battohou", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Hiki ashi noto", "Battohou", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Jiyuu waza", "Battohou", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Shin Gyo So", "Tachiuchi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Chushinken", "Tachiuchi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Toyama ryu Kumitachi", "Tachiuchi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Gashiuchi", "Tachiuchi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Jiyuu waza", "Tachiuchi", null, 10, curriculumMap.get(10)),
+                new Technique(null, "lnazumagiri", "Tameshigiri", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Katategiri", "Tameshigiri", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Jiyuu waza", "Tameshigiri", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Toyama ryu battodo-iaido", "Gaiden", null, 10, curriculumMap.get(10)),
+                new Technique(null, "Techniques selected by examiners", "Shite waza", null, 10, curriculumMap.get(10))
+        );
 
         for (Technique i : techniques) {
             try {
