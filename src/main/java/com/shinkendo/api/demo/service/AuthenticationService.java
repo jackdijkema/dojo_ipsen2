@@ -18,6 +18,7 @@ public class AuthenticationService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
 
     public Optional<String> register(String username, String password) {
@@ -32,8 +33,7 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        userDAO.save(user);
-        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId() );
+        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId());
         return Optional.of(token);
     }
 
