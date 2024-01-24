@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -25,6 +26,9 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {
+        "cors.allowed-origins=http://localhost:4200/"
+})
 public class LessonControllerTest {
 
     @Autowired
@@ -118,4 +122,15 @@ public class LessonControllerTest {
                         .content(new ObjectMapper().writeValueAsString(lessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    public void should_fail_if_lesson_is_not_found() throws Exception{
+        UUID nonExistentId = UUID.randomUUID();
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lesson/" + nonExistentId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
 }
