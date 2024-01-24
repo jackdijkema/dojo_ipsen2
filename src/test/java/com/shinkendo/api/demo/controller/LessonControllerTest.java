@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
@@ -67,6 +69,19 @@ public class LessonControllerTest {
                         .content(new ObjectMapper().writeValueAsString(lessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+@WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+public void should_retrieve_lesson_successfully() throws Exception {
+    Lesson lesson = new Lesson();
+    UUID lessonId = UUID.randomUUID();
+    lesson.setId(lessonId);
+
+    Mockito.when(lessonDao.findById(lessonId)).thenReturn(Optional.of(lesson));
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lesson/" + lessonId))
+            .andExpect(MockMvcResultMatchers.status().isOk());
+}
 
     @Test
     @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
@@ -128,9 +143,21 @@ public class LessonControllerTest {
     public void should_fail_if_lesson_is_not_found() throws Exception{
         UUID nonExistentId = UUID.randomUUID();
 
+        Mockito.when(lessonDao.findById(nonExistentId)).thenReturn(Optional.empty());
+
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lesson/" + nonExistentId))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    @Test
+    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    public void should_fail_when_deleting_non_existent_lesson() throws Exception {
+        UUID nonExistentId = UUID.randomUUID();
+
+        Mockito.when(lessonDao.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/lesson/" + nonExistentId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
