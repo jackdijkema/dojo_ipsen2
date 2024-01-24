@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,11 +19,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.is;
 
 
 public class PostControllerTest {
@@ -86,4 +85,36 @@ public class PostControllerTest {
 
     }
 
+    @Test
+    @WithMockUser(authorities = "SUPERADMIN")
+    public void testDeletePost() throws Exception {
+        // Given
+        UUID id = UUID.randomUUID();
+        Post post = new Post();
+        post.setId(id);
+
+        // Mocking the behavior of postDAO
+        when(postDAO.findById(any(UUID.class))).thenReturn(Optional.of(post));
+
+        // Performing the DELETE request
+        mockMvc.perform(delete("/api/v1/posts/" + id))
+                .andExpect(status().isOk());
+
+        // Verifying that postDAO.delete() was called with the correct ID
+        verify(postDAO, times(1)).delete(id);
+    }
+
+    @Test
+    @WithMockUser(authorities = "SUPERADMIN")
+    public void testDeletePostNotFound() throws Exception {
+        // Given
+        UUID id = UUID.randomUUID();
+
+        // Mocking the behavior of postDAO when post is not found
+        when(postDAO.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        // Performing the DELETE request
+        mockMvc.perform(delete("/api/v1/posts/" + id))
+                .andExpect(status().isNotFound());
+    }
 }
