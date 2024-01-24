@@ -1,66 +1,83 @@
-package com.shinkendo.api.demo.services;
+package com.shinkendo.api.demo.service;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 @SpringBootTest
 public class RecurringServiceTest {
 
-    // 1 Week difference
+    @InjectMocks
+    public RecurringService recurringService;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
+    @DisplayName("1 Week difference")
     public void testCalculateWeeksBetweenDates_basicCase() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate oneWeekFromNow = currentDate.plusWeeks(1);
+        LocalDate oneWeekFromNow = LocalDate.now().plusWeeks(1);
 
-        long result = ChronoUnit.WEEKS.between(currentDate, oneWeekFromNow);
+        long result = recurringService.calculateWeeksUntil(oneWeekFromNow);
 
-        assertEquals(1, result);
+        long expected = ChronoUnit.WEEKS.between(LocalDate.now(), oneWeekFromNow);
+
+        assertEquals(expected, result);
     }
 
-    //0 Weeks in-between
     @Test
+    @DisplayName("0 Weeks in-between")
     public void testCalculateWeeksBetweenDates_zeroWeeksCase() {
-        LocalDate currentDate = LocalDate.now();
+        long result = recurringService.calculateWeeksUntil(LocalDate.now());
 
-        long result = ChronoUnit.WEEKS.between(currentDate, currentDate);
-
-        assertEquals(0, result);
+        assertEquals(0, recurringService.calculateWeeksUntil(LocalDate.now()));
     }
-    // Negative weeks
+
     @Test
+    @DisplayName("Negative weeks value")
     public void testCalculateWeeksBetweenDates_negativeWeeksCase() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate twoWeeksAgo = currentDate.minusWeeks(2);
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
 
-        long result = ChronoUnit.WEEKS.between(currentDate, twoWeeksAgo);
+        long result = recurringService.calculateWeeksUntil(twoWeeksAgo);
 
-        assertEquals(-2, result);
+        assertEquals(-2, recurringService.calculateWeeksUntil(twoWeeksAgo));
     }
 
-    // > 50 Weeks difference
     @Test
+    @DisplayName("> 50 Weeks difference")
     public void testCalculateWeeksBetweenDates_differentYearsCase() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate endOfNextYear = currentDate.plusYears(1);
+        LocalDate endOfNextYear = LocalDate.now().plusYears(1);
 
-        long result = ChronoUnit.WEEKS.between(currentDate, endOfNextYear);
+        long result = recurringService.calculateWeeksUntil(endOfNextYear);
 
-        assertTrue(result > 50);
+        assertTrue(recurringService.calculateWeeksUntil(endOfNextYear) > 50);
     }
-    // A lot of weeks in-between
+
     @Test
+    @DisplayName("A ton of weeks ~3000")
     public void testCalculateWeeksBetweenDates_edgeCases() {
-        LocalDate currentDate = LocalDate.now();
         LocalDate farFutureDate = LocalDate.of(2100, 1, 1);
 
-        long result = ChronoUnit.WEEKS.between(currentDate, farFutureDate);
+        long result = recurringService.calculateWeeksUntil(farFutureDate);
 
-        assertTrue(result > 1000);
+        assertTrue(recurringService.calculateWeeksUntil(farFutureDate) > 1000);
     }
 }
