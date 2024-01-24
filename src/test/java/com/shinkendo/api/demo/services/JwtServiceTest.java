@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @SpringBootConfiguration
 public class JwtServiceTest {
-
     private JwtService jwtService;
 
     @BeforeEach

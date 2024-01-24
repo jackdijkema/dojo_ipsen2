@@ -18,10 +18,9 @@ import java.util.function.Function;
 public class JwtService {
     private final String secretKey;
 
-    public JwtService(@Value("${jwt.secret}") String secretKey) {
+    public JwtService(@Value("${jwt.secret-key}") String secretKey) {
         this.secretKey = secretKey;
     }
-
 
     public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
