@@ -17,16 +17,17 @@ public class AdminSeeder {
     private final Logger logger;
 
     @Value("${super-admin.name}")
-    private String superAdminName;
+    private String SENSEIName;
 
     @Value("${super-admin.password}")
-    private String superAdminPassword;
+    private String SENSEIPassword;
 
     public void seed() {
         var admin = User.builder()
-                .username(superAdminName)
-                .password(passwordEncoder.encode(superAdminPassword))
-                .role(Role.SUPERADMIN)
+                .username(SENSEIName)
+                .password(passwordEncoder.encode(SENSEIPassword))
+                .role(Role.SENSEI)
+                .editable(false)
                 .build();
         try {
             this.userDAO.save(admin);

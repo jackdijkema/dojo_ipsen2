@@ -18,4 +18,5 @@ public class UserResponseDTO {
     private Role role;
     private String rankName;
     private String rankId;
+    private Boolean editable;
 }

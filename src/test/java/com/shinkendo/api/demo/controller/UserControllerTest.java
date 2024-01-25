@@ -17,13 +17,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import java.util.Optional;
 import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -40,8 +44,16 @@ public class UserControllerTest {
     @MockBean
     private UserMapper userMapper;
 
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_found_by_id() throws Exception {
         UUID userId = UUID.randomUUID();
         User testUser = User.builder()
@@ -67,7 +79,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_found_by_id() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -78,9 +90,8 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.message").value("User not found"));
     }
 
-
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_new_user_is_created() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -96,18 +107,17 @@ public class UserControllerTest {
 
         when(userDAO.findByUsername(any())).thenReturn(Optional.empty())
                 .thenReturn(Optional.of(testUser)); //Return empty for first call, return testUser for second call when user is created
-        when(authenticationService.register(anyString(), anyString())).thenReturn(Optional.of("mocked_token"));
+        when(authenticationService.register(anyString(), anyString())).thenReturn(Optional.of(testUser));
         when(userMapper.toEntity(any(UserCreateDTO.class))).thenReturn(testUser);
 
         ResultActions resultActions = mockMvc.perform(post("/api/v1/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(userCreateDTO)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.payload.token").value("mocked_token"));
+                .andExpect(status().isOk());
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_created_because_username_is_taken() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -131,7 +141,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_created_because_username_is_empty() throws Exception {
         User testUser = User.builder()
                 .id(UUID.randomUUID())
@@ -155,7 +165,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_deleted_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
@@ -167,7 +177,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_deleted_because_user_does_not_exist() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -179,7 +189,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_edited_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
@@ -213,7 +223,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_is_not_edited_because_user_does_not_exist() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.empty());
@@ -230,7 +240,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     void should_succeed_if_user_without_password_is_edited_successfully() throws Exception {
         UUID userId = UUID.randomUUID();
         when(userDAO.findById(userId)).thenReturn(Optional.of(new User()));
@@ -260,14 +270,6 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.payload.username").value("updatedUser"));
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
 

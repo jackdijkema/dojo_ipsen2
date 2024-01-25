@@ -21,7 +21,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    public Optional<String> register(String username, String password) {
+    public Optional<User> register(String username, String password) {
         Optional<User> foundUser = userDAO.findByUsername(username);
         if (foundUser.isPresent()) {
             return Optional.empty();
@@ -33,8 +33,7 @@ public class AuthenticationService {
                 .role(Role.STUDENT)
                 .build();
 
-        String token = jwtService.generateToken(Map.of("role", user.getRole()), user.getId());
-        return Optional.of(token);
+        return Optional.of(userDAO.save(user));
     }
 
     public String login(String username, String password) {

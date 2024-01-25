@@ -20,7 +20,8 @@ public class UserMapper {
 
     public User toEntity(UserCreateDTO userCreateDTO) {
         User.UserBuilder newUser = User.builder()
-                .username(userCreateDTO.getUsername());
+                .username(userCreateDTO.getUsername())
+                .editable(true);
 
         if (userCreateDTO.getPassword() != null && !userCreateDTO.getPassword().isEmpty()) {
             newUser.password(passwordEncoder.encode(userCreateDTO.getPassword()));
@@ -52,7 +53,8 @@ public class UserMapper {
                 .id(user.getId())
                 .role(user.getRole())
                 .rankId("")
-                .rankName("No Rank");
+                .rankName("No Rank")
+                .editable(user.isEditable());
 
 
         if (rank != null) {
