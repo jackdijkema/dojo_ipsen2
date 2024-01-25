@@ -87,6 +87,7 @@ public class UserSeeder {
                 .password(passwordEncoder.encode(password))
                 .role(Role.STUDENT)
                 .rank(rank)
+                .editable(true)
                 .build();
     }
 }

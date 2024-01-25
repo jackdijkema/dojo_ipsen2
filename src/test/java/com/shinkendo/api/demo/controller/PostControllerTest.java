@@ -86,7 +86,7 @@ public class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "SUPERADMIN")
+    @WithMockUser(authorities = "SENSEI")
     public void testDeletePost() throws Exception {
         // Given
         UUID id = UUID.randomUUID();
@@ -105,7 +105,7 @@ public class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "SUPERADMIN")
+    @WithMockUser(authorities = "SENSEI")
     public void testDeletePostNotFound() throws Exception {
         // Given
         UUID id = UUID.randomUUID();
@@ -119,18 +119,18 @@ public class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "STUDENT") // Non-SUPERADMIN user
+    @WithMockUser(authorities = "STUDENT") // Non-SENSEI user
     public void testDeletePostUnauthorized() throws Exception {
         // Given
         UUID id = UUID.randomUUID();
 
-        // Performing the DELETE request with a non-SUPERADMIN user
+        // Performing the DELETE request with a non-SENSEI user
         mockMvc.perform(delete("/api/v1/posts/" + id))
                 .andExpect(status().isNotFound());
     }
 
 //    @Test
-//    @WithMockUser(authorities = "SUPERADMIN")
+//    @WithMockUser(authorities = "SENSEI")
 //    public void testDeletePostException() throws Exception {
 //        // Given
 //        UUID id = UUID.randomUUID();

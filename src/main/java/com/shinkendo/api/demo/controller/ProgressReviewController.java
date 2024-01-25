@@ -23,7 +23,7 @@ public class ProgressReviewController {
 
     @GetMapping(value = "{id}")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('SENSEI', 'SUPERADMIN')")
+    @PreAuthorize("hasAnyAuthority('SENSEI', 'SENSEI')")
     public ApiResponse<ProgressResponseDTO> findById(@PathVariable UUID id) {
         Optional<User> user = userDAO.findById(id);
         //noinspection OptionalIsPresent

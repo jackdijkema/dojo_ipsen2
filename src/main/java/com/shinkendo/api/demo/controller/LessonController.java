@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,11 +46,11 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     public ApiResponse<LessonResponseDTO> lessonController(@RequestBody LessonCreateDTO lessonCreateDTO) {
         try {
-            if( lessonCreateDTO.getTeacherId() == null || lessonCreateDTO.getLessonDate() == null){
+            if (lessonCreateDTO.getTeacherId() == null || lessonCreateDTO.getLessonDate() == null) {
                 return new ApiResponse<>("Incorrect inputs", HttpStatus.BAD_REQUEST);
             }
             if (lessonCreateDTO.getEndOfRecurring() != null) {
@@ -66,7 +65,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping("/{id}/user/{userid}")
     public ApiResponse<String> removeUseFromLesson(@PathVariable UUID id, @PathVariable UUID userid) {
         try {
@@ -77,7 +76,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping("/{id}/user")
     public ApiResponse<String> addUserToLesson(@PathVariable UUID id, @RequestBody LessonAddUserDTO lessonAddUserDTO) {
         try {
@@ -88,7 +87,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PutMapping("/{id}")
     public ApiResponse<LessonResponseDTO> updateLesson(@RequestBody LessonCreateDTO lessonCreateDTO, @PathVariable UUID id) {
         try {
@@ -103,7 +102,7 @@ public class LessonController {
         }
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteLesson(@PathVariable UUID id) {
         try {

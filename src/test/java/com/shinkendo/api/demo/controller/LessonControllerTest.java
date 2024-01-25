@@ -1,12 +1,12 @@
 package com.shinkendo.api.demo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shinkendo.api.demo.dao.LessonDAO;
 import com.shinkendo.api.demo.dao.TechniqueDAO;
 import com.shinkendo.api.demo.dto.LessonCreateDTO;
 import com.shinkendo.api.demo.mapper.LessonMapper;
 import com.shinkendo.api.demo.model.Lesson;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,13 +18,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,9 +43,8 @@ public class LessonControllerTest {
     private TechniqueDAO techniqueDAO;
 
 
-
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     public void should_create_lesson() throws Exception {
         LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
@@ -71,20 +67,20 @@ public class LessonControllerTest {
     }
 
     @Test
-@WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
-public void should_retrieve_lesson_successfully() throws Exception {
-    Lesson lesson = new Lesson();
-    UUID lessonId = UUID.randomUUID();
-    lesson.setId(lessonId);
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
+    public void should_retrieve_lesson_successfully() throws Exception {
+        Lesson lesson = new Lesson();
+        UUID lessonId = UUID.randomUUID();
+        lesson.setId(lessonId);
 
-    Mockito.when(lessonDao.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.when(lessonDao.findById(lessonId)).thenReturn(Optional.of(lesson));
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lesson/" + lessonId))
-            .andExpect(MockMvcResultMatchers.status().isOk());
-}
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lesson/" + lessonId))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     public void should_edit_lesson() throws Exception {
         LessonCreateDTO initialLessonCreateDTO = new LessonCreateDTO();
         initialLessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
@@ -118,9 +114,10 @@ public void should_retrieve_lesson_successfully() throws Exception {
                         .content(new ObjectMapper().writeValueAsString(updatedLessonCreateDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
-    public void should_fail_with_incorrect_inputs() throws Exception{
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
+    public void should_fail_with_incorrect_inputs() throws Exception {
 
         LessonCreateDTO lessonCreateDTO = new LessonCreateDTO();
         lessonCreateDTO.setTechniques(List.of(UUID.randomUUID()));
@@ -139,8 +136,8 @@ public void should_retrieve_lesson_successfully() throws Exception {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
-    public void should_fail_if_lesson_is_not_found() throws Exception{
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
+    public void should_fail_if_lesson_is_not_found() throws Exception {
         UUID nonExistentId = UUID.randomUUID();
 
         Mockito.when(lessonDao.findById(nonExistentId)).thenReturn(Optional.empty());
@@ -151,7 +148,7 @@ public void should_retrieve_lesson_successfully() throws Exception {
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"SUPERADMIN"})
+    @WithMockUser(username = "admin", authorities = {"SENSEI"})
     public void should_fail_when_deleting_non_existent_lesson() throws Exception {
         UUID nonExistentId = UUID.randomUUID();
 

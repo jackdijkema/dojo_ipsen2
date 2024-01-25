@@ -38,7 +38,7 @@ public class PostController {
                 );
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PatchMapping(value = "/{id}")
     @ResponseBody
     public ApiResponse<Post> update(@PathVariable UUID id, @RequestBody PostCreateDTO post) {
@@ -56,7 +56,7 @@ public class PostController {
         return new ApiResponse<>(postDAO.save(postToUpdate));
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @PostMapping
     @ResponseBody
     public ApiResponse<Post> insert(@RequestBody PostCreateDTO newPost) {
@@ -64,7 +64,7 @@ public class PostController {
         return new ApiResponse<>(postDAO.save(post), HttpStatus.ACCEPTED);
     }
 
-    @PreAuthorize("hasAuthority('SUPERADMIN')")
+    @PreAuthorize("hasAuthority('SENSEI')")
     @DeleteMapping(value = "/{id}")
     public ApiResponse<String> deletePost(@PathVariable UUID id) {
         try {
